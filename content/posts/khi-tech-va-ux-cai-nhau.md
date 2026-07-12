@@ -2,7 +2,7 @@
 title: "Khi Tech và UX cãi nhau"
 description: "Một tính năng kỹ thuật hoàn hảo vẫn có thể là một trải nghiệm tồi. Vài ghi chú sau khi va vào chuyện này."
 date: "2026-07-05"
-category: "tram-va-loi"
+category: "product"
 lang: "vi"
 tags: ["ux", "product"]
 ---

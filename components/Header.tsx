@@ -7,34 +7,34 @@ export default function Header() {
       <div className="mx-auto max-w-4xl px-5 py-4">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <Link href="/" className="group">
-            <p className="text-lg font-extrabold text-forest-deep leading-tight">
-              🕰️ Cỗ Máy Thời Gian
+            <p className="text-lg font-extrabold text-forest-deep leading-tight tracking-tight">
+              Cỗ Máy Thời Gian
             </p>
             <p className="text-xs text-forest/70 -mt-0.5">
-              Mira Journey · by Han Kim Thuy
+              Mira Journey · Han Kim Thuy
             </p>
           </Link>
           <nav className="flex items-center gap-1 flex-wrap text-sm">
             <Link
               href="/blog"
-              className="px-3 py-1.5 rounded-full text-forest-deep hover:bg-ochre-light/40 transition-colors"
+              className="px-3 py-1.5 rounded-md text-forest-deep hover:bg-paper transition-colors"
             >
-              Tất cả bài viết
+              All posts
             </Link>
             {categories.map((c) => (
               <Link
                 key={c.slug}
                 href={`/category/${c.slug}`}
-                className="px-3 py-1.5 rounded-full text-forest-deep hover:bg-ochre-light/40 transition-colors whitespace-nowrap"
+                className="px-3 py-1.5 rounded-md text-forest-deep hover:bg-paper transition-colors"
               >
-                {c.emoji} {c.name}
+                {c.name}
               </Link>
             ))}
             <Link
               href="/about"
-              className="px-3 py-1.5 rounded-full text-forest-deep hover:bg-ochre-light/40 transition-colors"
+              className="px-3 py-1.5 rounded-md text-forest-deep hover:bg-paper transition-colors"
             >
-              Về Mira
+              About
             </Link>
           </nav>
         </div>

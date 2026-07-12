@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <p className="text-5xl mb-4">🕰️</p>
+      <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-3">
+        About
+      </p>
       <h1 className="text-3xl font-extrabold text-forest-deep mb-4">
         Về Cỗ Máy Thời Gian
       </h1>
@@ -22,16 +24,13 @@ export default function AboutPage() {
         </p>
         <p>
           Mình không cố định một chủ đề duy nhất, vì bản thân sự tò mò cũng
-          không đi theo một đường thẳng. Mình đang khám phá xoay quanh 5 trạm
-          dừng chân:
+          không đi theo một đường thẳng. Mình đang khám phá xoay quanh 5 chủ
+          đề chính:
         </p>
         <ul className="space-y-2">
           {categories.map((c) => (
             <li key={c.slug}>
-              <strong>
-                {c.emoji} {c.name}
-              </strong>{" "}
-              — {c.tagline}
+              <strong>{c.name}</strong> — {c.tagline}
             </li>
           ))}
         </ul>
@@ -42,7 +41,7 @@ export default function AboutPage() {
         </p>
         <p>
           Nếu bạn tình cờ ghé qua, cảm ơn bạn đã cùng ngồi lên cỗ máy thời
-          gian này một chút. 🌿
+          gian này một chút.
         </p>
       </div>
     </div>

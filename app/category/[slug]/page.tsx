@@ -31,7 +31,9 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-12">
-      <p className="text-4xl mb-2">{category.emoji}</p>
+      <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
+        Category
+      </p>
       <h1 className="text-3xl font-extrabold text-forest-deep mb-2">
         {category.name}
       </h1>

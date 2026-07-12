@@ -21,7 +21,7 @@ Mở [http://localhost:3000](http://localhost:3000).
 title: "Tiêu đề bài viết"
 description: "Một câu mô tả ngắn, hiện ở trang danh sách."
 date: "2026-07-15"
-category: "nhat-ky-du-hanh"
+category: "life"
 lang: "vi"
 tags: ["tag1", "tag2"]
 ---
@@ -33,11 +33,11 @@ Nội dung bài viết viết bằng Markdown ở đây.
 
    | slug | Tên hiển thị |
    |---|---|
-   | `nhat-ky-du-hanh` | Nhật Ký Du Hành |
-   | `tram-va-loi` | Trạm Vá Lỗi |
-   | `xuong-nao-bo` | Xưởng Não Bộ |
-   | `phong-may` | Phòng Máy |
-   | `nhat-vun-vu-tru` | Nhặt Vụn Vũ Trụ |
+   | `life` | Life |
+   | `product` | Product |
+   | `mind` | Mind |
+   | `system` | System |
+   | `radar` | Radar |
 
 4. `lang` là `vi` hoặc `en` — dùng để lọc bài theo ngôn ngữ ở trang danh sách.
 5. Muốn viết nháp mà chưa public, thêm `draft: true` vào frontmatter — bài sẽ không hiện ở bất kỳ trang danh sách nào cho tới khi bỏ dòng đó (hoặc set `draft: false`).
@@ -45,7 +45,7 @@ Nội dung bài viết viết bằng Markdown ở đây.
 
 ## Thêm category mới
 
-Sửa `lib/categories.ts`, thêm object mới vào mảng `categories` (cần `slug`, `name`, `emoji`, `tagline`). Trang chủ, header và trang `/category/[slug]` sẽ tự động nhận category mới.
+Sửa `lib/categories.ts`, thêm object mới vào mảng `categories` (cần `slug`, `name`, `tagline`). Trang chủ, header và trang `/category/[slug]` sẽ tự động nhận category mới.
 
 ## Cấu trúc chính
 

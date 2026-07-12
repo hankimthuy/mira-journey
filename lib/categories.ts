@@ -1,40 +1,35 @@
 export type Category = {
   slug: string;
   name: string;
-  emoji: string;
   tagline: string;
 };
 
 export const categories: Category[] = [
   {
-    slug: "nhat-ky-du-hanh",
-    name: "Nhật Ký Du Hành",
-    emoji: "🧳",
-    tagline: "Đời sống, cảm xúc và những chặng đường đã đi qua",
+    slug: "life",
+    name: "Life",
+    tagline: "Đời sống, quan sát cá nhân và những gì đúc kết được",
   },
   {
-    slug: "tram-va-loi",
-    name: "Trạm Vá Lỗi",
-    emoji: "🛠️",
-    tagline: "Công nghệ đối đầu trải nghiệm người dùng",
+    slug: "product",
+    name: "Product",
+    tagline: "Sản phẩm, thiết kế và trải nghiệm người dùng",
   },
   {
-    slug: "xuong-nao-bo",
-    name: "Xưởng Não Bộ",
-    emoji: "🧠",
-    tagline: "Tâm lý học và cách đầu óc con người vận hành",
+    slug: "mind",
+    name: "Mind",
+    tagline:
+      "Ứng dụng các hệ quy chiếu và tâm lý học thực hành để bóc tách bản thân, các mối quan hệ, và cách mình định hình trong xã hội — self-awareness là trọng tâm",
   },
   {
-    slug: "phong-may",
-    name: "Phòng Máy",
-    emoji: "⚙️",
-    tagline: "Hệ thống, quy trình, những thứ chạy ngầm bên dưới",
+    slug: "system",
+    name: "System",
+    tagline: "Hệ thống, quy trình và hạ tầng vận hành phía sau",
   },
   {
-    slug: "nhat-vun-vu-tru",
-    name: "Nhặt Vụn Vũ Trụ",
-    emoji: "✨",
-    tagline: "Khám phá lặt vặt, thú vị, chẳng theo chủ đề nào cả",
+    slug: "radar",
+    name: "Radar",
+    tagline: "Những phát hiện nhỏ, đáng chú ý, không theo chủ đề cố định",
   },
 ];
 

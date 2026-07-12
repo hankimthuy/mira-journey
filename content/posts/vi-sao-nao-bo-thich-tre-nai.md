@@ -2,7 +2,7 @@
 title: "Vì sao não bộ thích trì hoãn (và cách sống chung với nó)"
 description: "Trì hoãn không phải là lười — nó là một cơ chế bảo vệ cảm xúc. Ghi chú sau khi đọc vài nghiên cứu về procrastination."
 date: "2026-07-08"
-category: "xuong-nao-bo"
+category: "mind"
 lang: "vi"
 tags: ["tâm lý học", "thói quen"]
 ---

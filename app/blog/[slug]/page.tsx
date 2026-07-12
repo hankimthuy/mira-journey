@@ -32,20 +32,23 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
 
   return (
     <article className="mx-auto max-w-3xl px-5 py-12">
-      <div className="flex items-center gap-2 text-xs text-forest/70 mb-4 flex-wrap">
+      <div className="flex items-center gap-2.5 text-xs text-forest/70 mb-4 flex-wrap">
         {category && (
           <Link
             href={`/category/${category.slug}`}
-            className="inline-flex items-center gap-1 rounded-full bg-forest/10 px-2.5 py-1 font-medium text-forest-deep hover:bg-ochre-light/50"
+            className="font-semibold uppercase tracking-wide text-forest-deep hover:text-terracotta"
           >
-            {category.emoji} {category.name}
+            {category.name}
           </Link>
         )}
-        <span className="uppercase tracking-wide rounded-full border border-ochre/50 px-2 py-0.5 text-[10px] text-ochre">
+        <span className="text-forest/30">·</span>
+        <span className="uppercase tracking-wide text-[10px] text-ochre font-medium">
           {post.lang}
         </span>
+        <span className="text-forest/30">·</span>
         <span>{formatDate(post.date)}</span>
-        <span>· {post.readingMinutes} phút đọc</span>
+        <span className="text-forest/30">·</span>
+        <span>{post.readingMinutes} phút đọc</span>
       </div>
 
       <h1 className="text-4xl font-extrabold text-forest-deep leading-tight mb-3">

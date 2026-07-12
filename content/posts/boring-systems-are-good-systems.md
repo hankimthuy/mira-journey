@@ -2,7 +2,7 @@
 title: "Boring systems are good systems"
 description: "Notes on why the most reliable parts of any system are usually the least exciting ones."
 date: "2026-07-10"
-category: "phong-may"
+category: "system"
 lang: "en"
 tags: ["systems", "engineering"]
 ---

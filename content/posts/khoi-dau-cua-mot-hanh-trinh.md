@@ -2,7 +2,7 @@
 title: "Khởi đầu của một hành trình"
 description: "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, và mình mong đợi gì từ nó."
 date: "2026-07-01"
-category: "nhat-ky-du-hanh"
+category: "life"
 lang: "vi"
 tags: ["mở đầu", "cá nhân"]
 ---

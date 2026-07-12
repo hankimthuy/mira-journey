@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s — Mira Journey",
   },
   description:
-    "Hành trình ngược xuôi qua công nghệ, tâm lý và những mảnh vụn vũ trụ, kể lại bởi Han Kim Thuy.",
+    "Blog cá nhân của Han Kim Thuy về sản phẩm, tâm lý học, hệ thống và đời sống.",
 };
 
 export default function RootLayout({

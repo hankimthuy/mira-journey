@@ -7,21 +7,24 @@ export default function PostCard({ post }: { post: PostMeta }) {
   const category = getCategoryBySlug(post.category);
 
   return (
-    <article className="group rounded-2xl border border-forest/10 bg-paper/60 p-5 transition-colors hover:border-ochre">
-      <div className="flex items-center gap-2 text-xs text-forest/70 mb-2 flex-wrap">
+    <article className="group rounded-lg border border-forest/10 bg-paper/60 p-5 transition-colors hover:border-ochre">
+      <div className="flex items-center gap-2.5 text-xs text-forest/70 mb-2 flex-wrap">
         {category && (
           <Link
             href={`/category/${category.slug}`}
-            className="inline-flex items-center gap-1 rounded-full bg-forest/10 px-2.5 py-1 font-medium text-forest-deep hover:bg-ochre-light/50"
+            className="font-semibold uppercase tracking-wide text-forest-deep hover:text-terracotta"
           >
-            {category.emoji} {category.name}
+            {category.name}
           </Link>
         )}
-        <span className="uppercase tracking-wide rounded-full border border-ochre/50 px-2 py-0.5 text-[10px] text-ochre">
+        <span className="text-forest/30">·</span>
+        <span className="uppercase tracking-wide text-[10px] text-ochre font-medium">
           {post.lang}
         </span>
+        <span className="text-forest/30">·</span>
         <span>{formatDate(post.date)}</span>
-        <span>· {post.readingMinutes} phút đọc</span>
+        <span className="text-forest/30">·</span>
+        <span>{post.readingMinutes} phút đọc</span>
       </div>
 
       <h3 className="text-xl font-bold text-forest-deep">

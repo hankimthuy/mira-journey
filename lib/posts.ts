@@ -45,7 +45,7 @@ function toMeta(slug: string, data: Record<string, unknown>, content: string): P
     title: (data.title as string) ?? slug,
     description: (data.description as string) ?? "",
     date: (data.date as string) ?? "1970-01-01",
-    category: (data.category as string) ?? "nhat-vun-vu-tru",
+    category: (data.category as string) ?? "radar",
     lang: (data.lang as Lang) ?? "vi",
     tags: (data.tags as string[]) ?? [],
     draft: Boolean(data.draft) ?? false,
