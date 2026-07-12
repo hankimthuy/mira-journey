@@ -30,7 +30,7 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
   const posts = getPostsByCategory(category.slug);
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12">
+    <div className="mx-auto max-w-5xl px-5 py-12">
       <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
         Category
       </p>

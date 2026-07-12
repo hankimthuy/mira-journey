@@ -11,7 +11,7 @@ export default function BlogIndexPage() {
   const posts = getAllPosts();
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12">
+    <div className="mx-auto max-w-5xl px-5 py-12">
       <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
         Tất cả bài viết · cũng dùng cho từng Category
       </p>

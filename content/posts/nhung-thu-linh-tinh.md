@@ -1,5 +1,5 @@
 ---
-title: "Những thứ linh tinh mình đang thích tuần này"
+title: "Những thứ linh tinh"
 description: "Một danh sách ngẫu nhiên, không liên quan gì đến nhau, nhưng đều khiến mình dừng lại một chút."
 date: "2026-07-12"
 category: "radar"
