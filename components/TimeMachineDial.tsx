@@ -19,11 +19,18 @@ export default function TimeMachineDial({ className }: { className?: string }) {
         aria-label="Minh họa bảng điều khiển cỗ máy thời gian, có Mimo ngồi lái"
       >
         <defs>
+          <radialGradient id="haloGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="var(--color-ochre-light)" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="var(--color-ochre-light)" stopOpacity="0" />
+          </radialGradient>
           <radialGradient id="groundShadow" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="var(--color-forest-deep)" stopOpacity="0.28" />
             <stop offset="100%" stopColor="var(--color-forest-deep)" stopOpacity="0" />
           </radialGradient>
         </defs>
+
+        {/* glow */}
+        <ellipse cx="230" cy="150" rx="180" ry="170" fill="url(#haloGlow)" />
 
         {/* orbiting particles */}
         <circle cx="380" cy="90" r="5" fill="var(--color-terracotta)" opacity="0.8" />
@@ -38,22 +45,6 @@ export default function TimeMachineDial({ className }: { className?: string }) {
             fill={s.color}
             opacity="0.85"
             transform={`translate(${s.x} ${s.y}) scale(${s.scale})`}
-          />
-        ))}
-
-        {/* radiating ticks */}
-        {Array.from({ length: 16 }, (_, i) => i * 22.5).map((angle) => (
-          <line
-            key={angle}
-            x1="230"
-            y1="30"
-            x2="230"
-            y2="44"
-            stroke="var(--color-forest)"
-            strokeWidth="3"
-            strokeLinecap="round"
-            opacity="0.35"
-            transform={`rotate(${angle} 230 150)`}
           />
         ))}
 
