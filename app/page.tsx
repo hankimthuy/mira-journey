@@ -1,65 +1,79 @@
-import Image from "next/image";
+import Link from "next/link";
+import { getAllPosts } from "@/lib/posts";
+import { categories } from "@/lib/categories";
+import PostCard from "@/components/PostCard";
 
-export default function Home() {
+export default function HomePage() {
+  const latestPosts = getAllPosts().slice(0, 5);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="mx-auto max-w-4xl px-5 py-12">
+      <section className="mb-14">
+        <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-3">
+          Xin chào, mình là Han Kim Thuy
+        </p>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-forest-deep leading-tight mb-4">
+          Cỗ Máy Thời Gian — Mira Journey 🕰️
+        </h1>
+        <p className="text-lg text-ink/85 leading-relaxed max-w-2xl">
+          Đây là nơi mình tua đi tua lại giữa những chủ đề mình đang tò mò:
+          công nghệ, trải nghiệm người dùng, tâm lý học, hệ thống vận hành, và
+          vô số mảnh vụn thú vị nhặt được dọc đường. Không có lịch đăng bài cố
+          định — mình viết khi có điều gì đó đáng để dừng lại ghi chép.
+        </p>
+        <div className="mt-6 flex gap-3 flex-wrap">
+          <Link
+            href="/blog"
+            className="rounded-full bg-forest text-cream px-5 py-2.5 text-sm font-semibold hover:bg-forest-deep transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Đọc tất cả bài viết
+          </Link>
+          <Link
+            href="/about"
+            className="rounded-full border border-forest/30 text-forest-deep px-5 py-2.5 text-sm font-semibold hover:bg-paper transition-colors"
           >
-            Documentation
-          </a>
+            Về Mira
+          </Link>
         </div>
-      </main>
+      </section>
+
+      <section className="mb-14">
+        <h2 className="text-xl font-bold text-forest-deep mb-4">
+          Các trạm dừng chân
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-3">
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/category/${c.slug}`}
+              className="rounded-2xl border border-forest/10 bg-paper/60 p-4 hover:border-ochre transition-colors"
+            >
+              <p className="text-lg font-bold text-forest-deep">
+                {c.emoji} {c.name}
+              </p>
+              <p className="text-sm text-ink/75 mt-1">{c.tagline}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-forest-deep">Mới viết gần đây</h2>
+          <Link href="/blog" className="text-sm text-terracotta font-semibold hover:underline">
+            Xem tất cả →
+          </Link>
+        </div>
+        {latestPosts.length === 0 ? (
+          <p className="text-forest/70">Chưa có bài viết nào. Sắp có rồi!</p>
+        ) : (
+          <div className="grid gap-4">
+            {latestPosts.map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

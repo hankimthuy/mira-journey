@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cỗ Máy Thời Gian — Mira Journey
 
-## Getting Started
+Blog cá nhân của Han Kim Thuy. Next.js (App Router) + Tailwind CSS v4, nội dung là file Markdown trong `content/posts`. Không có CMS/đăng nhập — mỗi bài viết mới là một lần sửa code.
 
-First, run the development server:
+## Chạy thử local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Viết bài mới
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Tạo file `.md` mới trong `content/posts/`, tên file chính là slug (URL) của bài viết. Ví dụ: `content/posts/hom-nay-minh-hoc-duoc-gi.md` → `/blog/hom-nay-minh-hoc-duoc-gi`.
+2. Thêm frontmatter ở đầu file:
 
-## Learn More
+```markdown
+---
+title: "Tiêu đề bài viết"
+description: "Một câu mô tả ngắn, hiện ở trang danh sách."
+date: "2026-07-15"
+category: "nhat-ky-du-hanh"
+lang: "vi"
+tags: ["tag1", "tag2"]
+---
 
-To learn more about Next.js, take a look at the following resources:
+Nội dung bài viết viết bằng Markdown ở đây.
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. `category` phải là một trong các slug định nghĩa ở [`lib/categories.ts`](lib/categories.ts):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   | slug | Tên hiển thị |
+   |---|---|
+   | `nhat-ky-du-hanh` | Nhật Ký Du Hành |
+   | `tram-va-loi` | Trạm Vá Lỗi |
+   | `xuong-nao-bo` | Xưởng Não Bộ |
+   | `phong-may` | Phòng Máy |
+   | `nhat-vun-vu-tru` | Nhặt Vụn Vũ Trụ |
 
-## Deploy on Vercel
+4. `lang` là `vi` hoặc `en` — dùng để lọc bài theo ngôn ngữ ở trang danh sách.
+5. Muốn viết nháp mà chưa public, thêm `draft: true` vào frontmatter — bài sẽ không hiện ở bất kỳ trang danh sách nào cho tới khi bỏ dòng đó (hoặc set `draft: false`).
+6. Lưu file, `npm run dev` sẽ tự nhận bài mới. Commit và push khi ưng ý — Vercel sẽ tự build lại.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Thêm category mới
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Sửa `lib/categories.ts`, thêm object mới vào mảng `categories` (cần `slug`, `name`, `emoji`, `tagline`). Trang chủ, header và trang `/category/[slug]` sẽ tự động nhận category mới.
+
+## Cấu trúc chính
+
+```
+app/                  route pages (home, /blog, /blog/[slug], /category/[slug], /about)
+components/           Header, Footer, PostCard, PostList
+content/posts/        bài viết dạng Markdown
+lib/                  đọc & parse markdown, danh sách category, format ngày
+```
+
+## Deploy
+
+Push code lên GitHub rồi import repo vào [Vercel](https://vercel.com/new) — không cần cấu hình gì thêm, Vercel tự nhận diện Next.js.
