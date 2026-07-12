@@ -43,6 +43,18 @@ Nội dung bài viết viết bằng Markdown ở đây.
 5. Muốn viết nháp mà chưa public, thêm `draft: true` vào frontmatter — bài sẽ không hiện ở bất kỳ trang danh sách nào cho tới khi bỏ dòng đó (hoặc set `draft: false`).
 6. Lưu file, `npm run dev` sẽ tự nhận bài mới. Commit và push khi ưng ý — Vercel sẽ tự build lại.
 
+## Chèn ảnh vào bài viết
+
+1. Mỗi bài có sẵn một folder ảnh riêng tại `public/images/posts/<slug-của-bài>/` (trùng tên file `.md`, không có đuôi). Nếu bài mới chưa có folder, tự tạo thêm (không bắt buộc, chỉ là quy ước cho gọn).
+2. Bỏ ảnh vào đúng folder đó, ví dụ `public/images/posts/khoi-dau-cua-mot-hanh-trinh/01.jpg`.
+3. Chèn vào nội dung bằng cú pháp Markdown ảnh, đường dẫn bắt đầu từ `/images/posts/...`:
+
+```markdown
+![Mô tả ảnh](/images/posts/khoi-dau-cua-mot-hanh-trinh/01.jpg)
+```
+
+Ảnh sẽ tự động full-width, bo góc theo style chung của bài viết.
+
 ## Thêm category mới
 
 Sửa `lib/categories.ts`, thêm object mới vào mảng `categories` (cần `slug`, `name`, `tagline`). Trang chủ, header và trang `/category/[slug]` sẽ tự động nhận category mới.

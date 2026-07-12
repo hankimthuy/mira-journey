@@ -64,3 +64,9 @@ a {
   color: var(--color-forest);
   font-style: italic;
 }
+
+.prose-post :where(img) {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 12%, transparent);
+}
