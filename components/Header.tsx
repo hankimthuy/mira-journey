@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { categories } from "@/lib/categories";
 
 function NavLink({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
   return (
@@ -24,7 +23,7 @@ export default function Header() {
 
   return (
     <header className="border-b border-forest/15 bg-paper/95 backdrop-blur sticky top-0 z-20">
-      <div className="px-6 py-5">
+      <div className="mx-auto max-w-5xl px-5 py-5">
         <div className="flex items-center justify-between gap-6 flex-wrap">
           <Link href="/">
             <p className="font-serif italic font-bold text-[19px] text-forest-deep leading-tight">
@@ -37,17 +36,8 @@ export default function Header() {
               Trang chủ
             </NavLink>
             <NavLink href="/blog" active={pathname === "/blog"}>
-              Tất cả bài viết
+              Bài viết
             </NavLink>
-            {categories.map((c) => (
-              <NavLink
-                key={c.slug}
-                href={`/category/${c.slug}`}
-                active={pathname === `/category/${c.slug}`}
-              >
-                {c.name}
-              </NavLink>
-            ))}
             <NavLink href="/about" active={pathname === "/about"}>
               About
             </NavLink>

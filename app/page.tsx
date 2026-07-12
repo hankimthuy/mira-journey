@@ -18,25 +18,11 @@ export default function HomePage() {
             Cỗ Máy Thời Gian
           </h1>
           <p className="text-lg text-ink/85 leading-relaxed max-w-xl">
-            Đây là nơi mình ghi lại quá trình tìm hiểu về sản phẩm, tâm lý
-            học, hệ thống — và cả những quan sát đời thường len lỏi vào giữa
-            đó. Không theo lịch cố định, bài chỉ xuất hiện khi có điều gì đó
-            mình thấy đáng để dừng lại và viết ra.
+            Nơi dòng thời gian đi qua được ghi chép lại.
           </p>
-          <div className="mt-6 flex gap-3 flex-wrap">
-            <Link
-              href="/blog"
-              className="rounded-[2px] bg-terracotta text-cream px-5 py-3 text-sm font-bold hover:bg-forest-deep transition-colors"
-            >
-              Đọc tất cả bài viết
-            </Link>
-            <Link
-              href="/about"
-              className="rounded-[2px] border border-forest/30 text-forest-deep px-5 py-3 text-sm font-bold hover:bg-paper transition-colors"
-            >
-              Giới thiệu
-            </Link>
-          </div>
+          <p className="text-lg text-ink/85 leading-relaxed max-w-xl mt-3">
+            Trên cỗ máy luôn chuyển động này, thỉnh thoảng mình lại chọn một dấu mốc để dừng chân — lưu lại một sự tò mò, một cuộc gặp gỡ hữu duyên, rồi lại tiếp tục hành trình.
+          </p>
         </div>
         <TimeMachineDial className="w-full max-w-xs mx-auto md:max-w-none" />
       </section>
@@ -45,17 +31,20 @@ export default function HomePage() {
         <h2 className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
           Chủ đề
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {categories.map((c) => (
             <Link
               key={c.slug}
               href={`/category/${c.slug}`}
-              className="rounded-[3px] border border-forest/15 bg-cream text-center px-3.5 py-4"
+              className="group rounded-[3px] border border-forest/15 bg-cream px-4 py-5 text-left transition-all hover:border-terracotta/50 hover:shadow-sm hover:-translate-y-0.5"
             >
-              <p className="font-serif italic font-semibold text-base text-forest-deep mb-1.5">
+              <p className="font-serif italic font-semibold text-lg text-forest-deep mb-1.5 flex items-center gap-1.5">
                 {c.name}
+                <span className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
+                  →
+                </span>
               </p>
-              <p className="text-[11px] leading-snug text-ink/70">{c.tagline}</p>
+              <p className="text-[12px] leading-relaxed text-ink/70">{c.tagline}</p>
             </Link>
           ))}
         </div>
