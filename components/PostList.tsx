@@ -22,15 +22,17 @@ export default function PostList({ posts }: { posts: PostMeta[] }) {
 
   return (
     <div>
-      <div className="flex gap-2 mb-6">
-        {FILTERS.map((f) => (
+      <div className="flex mb-8 border border-forest/25 rounded-[2px] w-fit">
+        {FILTERS.map((f, i) => (
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`px-5 py-2 text-[13px] font-semibold transition-colors ${
+              i > 0 ? "border-l border-forest/25" : ""
+            } ${
               filter === f.key
                 ? "bg-forest text-cream"
-                : "bg-paper text-forest-deep hover:bg-ochre-light/50"
+                : "bg-transparent text-forest-deep hover:bg-paper"
             }`}
           >
             {f.label}
@@ -41,7 +43,7 @@ export default function PostList({ posts }: { posts: PostMeta[] }) {
       {filtered.length === 0 ? (
         <p className="text-forest/70">Chưa có bài viết nào ở đây. Ghé lại sau nhé!</p>
       ) : (
-        <div className="grid gap-4">
+        <div>
           {filtered.map((post) => (
             <PostCard key={post.slug} post={post} />
           ))}

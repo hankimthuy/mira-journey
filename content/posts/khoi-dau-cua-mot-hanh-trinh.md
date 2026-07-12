@@ -21,4 +21,4 @@ Trang blog này vì thế cũng sẽ không chạy theo một lịch đăng bài
 
 Mọi thứ ở đây bắt đầu thật nhỏ, gọn gàng và nguyên bản nhất có thể. Không cầu kỳ, không bóng bẩy, bởi vì điều quan trọng nhất là chủ động bắt tay vào làm, thay vì chờ đợi một sự hoàn hảo không tồn tại.
 
-Cỗ máy đã nổ máy, trạm dừng đầu tiên đã được cắm mốc. Hẹn gặp bạn ở những chặng đường hữu duyên.
+> Cỗ máy đã nổ máy, trạm dừng đầu tiên đã được cắm mốc. Hẹn gặp bạn ở những chặng đường hữu duyên.

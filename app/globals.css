@@ -26,6 +26,7 @@
   --color-ochre-light: var(--color-ochre-light);
   --color-terracotta: var(--color-terracotta);
   --font-sans: var(--font-be-vietnam);
+  --font-serif: var(--font-lora);
 }
 
 body {
@@ -43,8 +44,24 @@ a {
   text-underline-offset: 3px;
 }
 
+.prose-post {
+  font-family: var(--font-serif), serif;
+}
+
 .prose-post :where(h2, h3) {
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-weight: 600;
   color: var(--color-forest-deep);
+  scroll-margin-top: 96px;
+}
+
+.prose-post :where(h2) {
+  font-size: 24px;
+}
+
+.prose-post :where(h3) {
+  font-size: 19px;
 }
 
 .prose-post :where(a) {

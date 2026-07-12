@@ -21,8 +21,15 @@ export type PostMeta = {
   readingMinutes: number;
 };
 
+export type Heading = {
+  id: string;
+  text: string;
+  level: 2 | 3;
+};
+
 export type Post = PostMeta & {
   contentHtml: string;
+  headings: Heading[];
 };
 
 function readSlugs(): string[] {
@@ -53,6 +60,44 @@ function toMeta(slug: string, data: Record<string, unknown>, content: string): P
   };
 }
 
+function slugifyHeading(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(new RegExp("[\\u0300-\\u036f]", "g"), "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "d")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-+|-+$)/g, "");
+}
+
+function stripTags(html: string): string {
+  return html.replace(/<[^>]+>/g, "");
+}
+
+function addHeadingIds(html: string): { html: string; headings: Heading[] } {
+  const headings: Heading[] = [];
+  const usedIds = new Set<string>();
+
+  const withIds = html.replace(
+    /<h([23])>([\s\S]*?)<\/h\1>/g,
+    (_match, level: string, inner: string) => {
+      const text = stripTags(inner).trim();
+      const base = slugifyHeading(text) || `section-${headings.length + 1}`;
+      let id = base;
+      let counter = 2;
+      while (usedIds.has(id)) {
+        id = `${base}-${counter++}`;
+      }
+      usedIds.add(id);
+      headings.push({ id, text, level: Number(level) as 2 | 3 });
+      return `<h${level} id="${id}">${inner}</h${level}>`;
+    }
+  );
+
+  return { html: withIds, headings };
+}
+
 export function getAllPosts(): PostMeta[] {
   const slugs = readSlugs();
   const posts = slugs.map((slug) => {
@@ -77,9 +122,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const meta = toMeta(slug, data, content);
 
   const processed = await remark().use(remarkHtml).process(content);
-  const contentHtml = processed.toString();
+  const { html: contentHtml, headings } = addHeadingIds(processed.toString());
 
-  return { ...meta, contentHtml };
+  return { ...meta, contentHtml, headings };
 }
 
 export function getAllPostSlugs(): string[] {
