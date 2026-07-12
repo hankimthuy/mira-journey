@@ -1,5 +1,5 @@
 ---
-title: "Khi Tech và UX cãi nhau"
+title: "Khi Tech và UX xảy ra mâu thuẫn"
 description: "Một tính năng kỹ thuật hoàn hảo vẫn có thể là một trải nghiệm tồi. Vài ghi chú sau khi va vào chuyện này."
 date: "2026-07-05"
 category: "product"

@@ -13,10 +13,10 @@ export default function BlogIndexPage() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
-        Tất cả bài viết · cũng dùng cho từng Category
+        Tất cả bài viết
       </p>
       <h1 className="font-serif italic text-3xl sm:text-[34px] font-semibold text-forest-deep mb-8">
-        Nhật ký hành trình
+        Những chặng đã đi qua
       </h1>
       <PostList posts={posts} />
     </div>
