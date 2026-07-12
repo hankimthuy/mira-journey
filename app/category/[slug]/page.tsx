@@ -34,7 +34,7 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
       <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
         Category
       </p>
-      <h1 className="text-3xl font-extrabold text-forest-deep mb-2">
+      <h1 className="font-serif italic text-3xl sm:text-[34px] font-semibold text-forest-deep mb-2">
         {category.name}
       </h1>
       <p className="text-ink/75 mb-8">{category.tagline}</p>

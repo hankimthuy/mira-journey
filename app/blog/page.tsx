@@ -12,12 +12,12 @@ export default function BlogIndexPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-12">
-      <h1 className="text-3xl font-extrabold text-forest-deep mb-2">
-        Tất cả bài viết
-      </h1>
-      <p className="text-ink/75 mb-8">
-        {posts.length} bài viết và còn tiếp tục.
+      <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
+        Tất cả bài viết · cũng dùng cho từng Category
       </p>
+      <h1 className="font-serif italic text-3xl sm:text-[34px] font-semibold text-forest-deep mb-8">
+        Nhật ký hành trình
+      </h1>
       <PostList posts={posts} />
     </div>
   );
