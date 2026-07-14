@@ -42,3 +42,9 @@ next-env.d.ts
 
 # claude code local settings
 .claude/settings.local.json
+
+# obsidian vault - machine-specific/cache, not shared
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/plugins/*/data.json

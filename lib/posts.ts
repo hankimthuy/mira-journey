@@ -9,6 +9,8 @@ const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 
 export type Lang = "vi" | "en";
 
+export type Visibility = "public" | "private";
+
 export type PostMeta = {
   slug: string;
   title: string;
@@ -18,6 +20,7 @@ export type PostMeta = {
   lang: Lang;
   tags: string[];
   draft: boolean;
+  visibility: Visibility;
   readingMinutes: number;
 };
 
@@ -56,6 +59,7 @@ function toMeta(slug: string, data: Record<string, unknown>, content: string): P
     lang: (data.lang as Lang) ?? "vi",
     tags: (data.tags as string[]) ?? [],
     draft: Boolean(data.draft) ?? false,
+    visibility: data.visibility === "private" ? "private" : "public",
     readingMinutes: Math.max(1, Math.ceil(readingTime(content).minutes)),
   };
 }
@@ -106,7 +110,7 @@ export function getAllPosts(): PostMeta[] {
   });
 
   return posts
-    .filter((post) => !post.draft)
+    .filter((post) => !post.draft && post.visibility !== "private")
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
