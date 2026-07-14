@@ -39,7 +39,7 @@ export default function Header() {
               Bài viết
             </NavLink>
             <NavLink href="/about" active={pathname === "/about"}>
-              About
+              Khởi đầu
             </NavLink>
           </nav>
         </div>
