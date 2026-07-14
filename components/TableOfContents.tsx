@@ -5,6 +5,7 @@ import type { Heading } from "@/lib/posts";
 
 export default function TableOfContents({ headings }: { headings: Heading[] }) {
   const [activeId, setActiveId] = useState<string | null>(headings[0]?.id ?? null);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (headings.length === 0) return;
@@ -32,6 +33,28 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
     return () => observer.disconnect();
   }, [headings]);
 
+  useEffect(() => {
+    let ticking = false;
+
+    function updateProgress() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
+      setProgress(Math.min(1, Math.max(0, ratio)));
+      ticking = false;
+    }
+
+    function handleScroll() {
+      if (!ticking) {
+        requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    }
+
+    updateProgress();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   if (headings.length === 0) return null;
 
   function handleClick(id: string) {
@@ -40,35 +63,35 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
   }
 
   return (
-    <div className="w-[180px] rounded-[14px] bg-paper border border-forest/20 shadow-[0_12px_28px_rgba(36,56,42,0.14)] px-4 py-4">
-      <p className="text-[8.5px] font-bold uppercase tracking-widest text-ochre mb-3 pb-2.5 border-b border-forest/15">
+    <div>
+      <p className="text-[11px] font-semibold uppercase tracking-widest text-ochre mb-4">
         La bàn
       </p>
-      <div className="flex flex-col gap-3">
-        {headings.map((h) => {
-          const active = activeId === h.id;
-          return (
-            <button
-              key={h.id}
-              type="button"
-              onClick={() => handleClick(h.id)}
-              className="flex items-start gap-2 text-left cursor-pointer"
-            >
-              <span
-                className={`mt-[3px] h-[6px] w-[6px] shrink-0 rounded-full transition-colors ${
-                  active ? "bg-terracotta" : "bg-forest/30"
-                }`}
-              />
-              <span
-                className={`text-[11px] leading-snug transition-colors ${
-                  active ? "font-bold text-terracotta" : "font-medium text-forest/60"
+      <div className="relative pl-4">
+        <div className="absolute left-0 top-0 bottom-0 w-px bg-forest/15" />
+        <div
+          className="absolute left-0 top-0 w-px bg-terracotta transition-[height] duration-150 ease-out"
+          style={{ height: `${progress * 100}%` }}
+        />
+        <div className="flex flex-col gap-4">
+          {headings.map((h) => {
+            const active = activeId === h.id;
+            return (
+              <button
+                key={h.id}
+                type="button"
+                onClick={() => handleClick(h.id)}
+                className={`text-left origin-left transition-all duration-200 cursor-pointer ${
+                  active
+                    ? "text-[15px] font-semibold text-terracotta scale-[1.02]"
+                    : "text-[14px] font-normal text-forest/40 hover:text-forest/70"
                 }`}
               >
                 {h.text}
-              </span>
-            </button>
-          );
-        })}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
