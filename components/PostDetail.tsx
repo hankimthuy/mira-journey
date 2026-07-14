@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Post } from "@/lib/posts";
 import type { Category } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
-import TableOfContents from "@/components/TableOfContents";
+import PostSidebar from "@/components/PostSidebar";
 
 export default function PostDetail({
   post,
@@ -55,35 +55,13 @@ export default function PostDetail({
           dangerouslySetInnerHTML={{ __html: post.contentHtml }}
         />
 
-        <div className="hidden md:flex md:flex-col md:gap-5 md:sticky md:top-8 md:self-start">
-          <TableOfContents headings={post.headings} />
-
-          <div className="w-[180px] bg-cream border border-forest/20 rounded-[10px] px-4 py-4">
-            <label className="block text-[10px] text-forest mb-1">
-              Cỡ chữ — {fontSize}px
-            </label>
-            <input
-              type="range"
-              min={16}
-              max={24}
-              value={fontSize}
-              onChange={(e) => setFontSize(Number(e.target.value))}
-              className="w-full accent-terracotta mb-3"
-            />
-            <label className="block text-[10px] text-forest mb-1">
-              Giãn dòng — {lineHeight}
-            </label>
-            <input
-              type="range"
-              min={1.4}
-              max={2.2}
-              step={0.1}
-              value={lineHeight}
-              onChange={(e) => setLineHeight(Number(e.target.value))}
-              className="w-full accent-terracotta"
-            />
-          </div>
-        </div>
+        <PostSidebar
+          post={post}
+          fontSize={fontSize}
+          lineHeight={lineHeight}
+          onFontSizeChange={setFontSize}
+          onLineHeightChange={setLineHeight}
+        />
       </div>
 
       <div className="max-w-[720px] mt-12 pt-6 border-t border-forest/15">
