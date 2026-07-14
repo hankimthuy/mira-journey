@@ -1,0 +1,14 @@
+/* Hide dependency/build clutter from the file explorer sidebar.
+   Dotfolders (.git, .next, .obsidian, .vercel) are already hidden by Obsidian by default. */
+
+.nav-folder:has(> .nav-folder-title[data-path="node_modules"]),
+.nav-folder:has(> .nav-folder-title[data-path="out"]),
+.nav-folder:has(> .nav-folder-title[data-path="build"]),
+.nav-folder:has(> .nav-folder-title[data-path="coverage"]) {
+  display: none;
+}
+
+.nav-file:has(> .nav-file-title[data-path="package-lock.json"]),
+.nav-file:has(> .nav-file-title[data-path="tsconfig.tsbuildinfo"]) {
+  display: none;
+}

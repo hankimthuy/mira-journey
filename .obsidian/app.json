@@ -1,0 +1,15 @@
+{
+  "userIgnoreFilters": [
+    "node_modules/",
+    ".next/",
+    ".git/",
+    ".vercel/",
+    "out/",
+    "build/",
+    "package-lock.json",
+    "tsconfig.tsbuildinfo"
+  ],
+  "newFileLocation": "folder",
+  "newFileFolderPath": "content/posts",
+  "attachmentFolderPath": "public/images/posts"
+}
