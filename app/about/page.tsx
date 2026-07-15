@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { categories } from "@/lib/categories";
-import TimeMachineDial from "@/components/TimeMachineDial";
 
 export const metadata: Metadata = {
   title: "Khởi đầu",
@@ -24,7 +23,12 @@ export default function AboutPage() {
             của một hành trình không tuyến tính
           </p>
         </div>
-        <TimeMachineDial className="w-full max-w-[180px] mx-auto animate-fade-in-up" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/machine-2.png"
+          alt="Minh họa cỗ máy thời gian"
+          className="w-full max-w-[180px] mx-auto animate-fade-in-up"
+        />
       </section>
 
       <div
