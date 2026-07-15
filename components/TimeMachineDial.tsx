@@ -93,7 +93,7 @@ export default function TimeMachineDial({ className }: { className?: string }) {
         src="/mimo.gif"
         alt="Mimo, mascot đồng hành của blog, ngồi lái cỗ máy thời gian"
         className="absolute drop-shadow-lg"
-        style={{ left: "41%", width: "26%", bottom: "36%" }}
+        style={{ left: "37%", width: "36%", bottom: "34%" }}
       />
     </div>
   );
