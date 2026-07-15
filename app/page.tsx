@@ -3,6 +3,7 @@ import { getAllPosts } from "@/lib/posts";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineDial from "@/components/TimeMachineDial";
+import TimeRail from "@/components/TimeRail";
 
 export default function HomePage() {
   const latestPosts = getAllPosts().slice(0, 5);
@@ -31,6 +32,7 @@ export default function HomePage() {
         <h2 className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
           Chủ đề
         </h2>
+        <TimeRail />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {categories.map((c) => (
             <Link

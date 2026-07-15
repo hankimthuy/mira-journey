@@ -78,12 +78,59 @@ a {
 
 .prose-post :where(blockquote) {
   border-left: 3px solid var(--color-ochre);
+  margin-block: 1.5rem;
+  padding-left: 1.1rem;
   color: var(--color-forest);
   font-style: italic;
+}
+
+.prose-post :where(blockquote p) {
+  margin-bottom: 0;
 }
 
 .prose-post :where(img) {
   width: 100%;
   border-radius: 0.75rem;
   border: 1px solid color-mix(in srgb, var(--color-forest) 12%, transparent);
+}
+
+@keyframes ride-along {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: calc(100% - var(--mimo-w, 44px));
+  }
+}
+
+.animate-ride-along {
+  animation: ride-along 18s ease-in-out infinite alternate;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ride-along {
+    animation: none;
+    left: calc(50% - var(--mimo-w, 44px) / 2);
+  }
+
+  .animate-fade-in-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
