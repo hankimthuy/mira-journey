@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
-import TimeMachineDial from "@/components/TimeMachineDial";
+import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 
 export default function HomePage() {
@@ -25,7 +25,7 @@ export default function HomePage() {
             Trên cỗ máy luôn chuyển động này, thỉnh thoảng mình lại chọn một dấu mốc để dừng chân — lưu lại một sự tò mò, một cuộc gặp gỡ hữu duyên, rồi lại tiếp tục hành trình.
           </p>
         </div>
-        <TimeMachineDial className="w-full max-w-xs mx-auto md:max-w-none" />
+        <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
       </section>
 
       <section className="mb-16">

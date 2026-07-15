@@ -122,6 +122,22 @@ a {
   animation: fade-in-up 0.7s ease-out both;
 }
 
+@keyframes twinkle-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+}
+
+.animate-twinkle-soft {
+  animation: twinkle-soft 2.8s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ride-along {
     animation: none;
@@ -132,5 +148,10 @@ a {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .animate-twinkle-soft {
+    animation: none;
+    opacity: 0.7;
   }
 }
