@@ -3,14 +3,9 @@ title: "Reflectly: Ranh giới của sự gắn kết và khao khát tự do"
 date: "2026-07-19"
 category: "mind"
 lang: "vi"
-tags: ["reflectly", "tâm lý học", "ranh giới bản thân", "tự sự"]
----
-
-Dưới đây là bản viết lại được cân chỉnh để giữ nguyên chiều sâu phản tư và trọng tâm về "điểm mù khi rời đi" của bản đầu tiên, nhưng sử dụng văn phong tự nhiên, giàu cảm xúc và mang tính con người hơn từ bản thứ hai. Những từ ngữ mang tính "hệ thống máy móc" đã được gọt giũa để trở thành ngôn ngữ nội tâm mềm mại nhưng vẫn rành mạch.
+tags: ["reflectly", "tâm lý học", "ranh giới bản thân", "tự 
 
 ---
-
-**MimoSe: Ranh giới của sự gắn kết và khao khát tự do**
 
 Khi tập lùi lại một bước để quan sát mọi thứ khách quan hơn, tôi nhận ra một pattern cứ lặp đi lặp lại trong các mối quan hệ của mình.
 
