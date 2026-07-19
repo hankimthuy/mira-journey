@@ -100,18 +100,6 @@ export default function AboutPage() {
           </Link>
         </div>
       </div>
-
-      <section className="mt-16 rounded-[3px] border border-forest/15 bg-paper px-8 py-10 text-center">
-        <p className="font-serif italic text-2xl sm:text-[28px] font-semibold text-forest-deep mb-4">
-          Bạn đã sẵn sàng lên cỗ máy chưa?
-        </p>
-        <Link
-          href="/blog"
-          className="inline-block text-sm text-terracotta font-bold hover:underline"
-        >
-          Xem tất cả bài viết →
-        </Link>
-      </section>
     </div>
   );
 }
