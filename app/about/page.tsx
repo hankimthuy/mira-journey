@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { categories } from "@/lib/categories";
 
 export const metadata: Metadata = {
-  title: "Khởi đầu",
+  title: "Trạm xuất phát",
   description:
     "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, và cách mình nhìn việc học như một hành trình không tuyến tính.",
 };
@@ -14,14 +14,11 @@ export default function AboutPage() {
       <section className="mb-12 grid sm:grid-cols-[1fr_180px] gap-6 items-center">
         <div className="animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
           <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-3">
-            Khởi đầu
+            Lời mở đầu
           </p>
           <h1 className="font-serif italic text-3xl sm:text-[38px] font-semibold text-forest-deep leading-[1.15] mb-2">
-            Khởi đầu
+            Trạm xuất phát
           </h1>
-          <p className="font-serif italic text-lg text-forest/70">
-            của một hành trình không tuyến tính
-          </p>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -36,16 +33,14 @@ export default function AboutPage() {
         style={{ animationDelay: "0.2s" }}
       >
         <p className="text-lg text-ink/85 leading-relaxed">
-          Có những ý tưởng hay góc nhìn mới, nếu chỉ để chúng nằm yên trong đầu, theo
-          thời gian chúng sẽ tự mờ nét và mất đi hình dạng ban đầu. Không phải do thời
-          gian vô tình làm biến chất, mà đơn giản vì mình chưa chủ động bắt tay vào
-          định hình và gọi tên chúng ra.
+          Có những ý tưởng hay góc nhìn mới, nếu chỉ để yên trong đầu, theo thời gian
+          sẽ dần mòn cạnh và lệch khỏi hình dạng ban đầu — không phải vì thời gian cố
+          tình bào mòn, mà vì mình chưa từng dừng lại để định hình và gọi tên chúng.
         </p>
         <p className="text-lg text-ink/85 leading-relaxed">
-          Đó là lý do mình dựng lên cỗ máy thời gian nhỏ này. Viết ra, với mình, là
-          một lựa chọn chủ động — một sự cam kết với những gì mình đã và đang học, để
-          lưu giữ trọn vẹn độ sắc nét của kiến thức ngay tại thời điểm mình chạm vào
-          nó.
+          Đó là lý do cỗ máy thời gian nhỏ này ra đời. Viết, với mình, là một lựa
+          chọn chủ động — một lời cam kết với những gì mình đã và đang học, để giữ
+          nguyên độ sắc nét của kiến thức ngay tại khoảnh khắc mình chạm vào nó.
         </p>
       </div>
 
@@ -54,9 +49,9 @@ export default function AboutPage() {
           <h2>Vì sao lại là một &ldquo;cỗ máy thời gian&rdquo;?</h2>
           <p>
             Bởi vì mình thích hình dung việc học như một hành trình không tuyến
-            tính. Nó không đi theo một đường thẳng tắp từ đầu đến cuối. Có những
+            tính — không đi theo một đường thẳng tắp từ đầu đến cuối. Có những
             chặng mình chủ động tua nhanh qua các chủ đề đã quen thuộc, có những ga
-            mình chấp nhận dừng lại rất lâu trước một khái niệm hóc búa, và thỉnh
+            mình chấp nhận dừng lại thật lâu trước một khái niệm hóc búa, và thỉnh
             thoảng, mình sẵn sàng tua ngược bánh xe để đào sâu lại một điều từng
             lướt qua dưới một lăng kính mới.
           </p>
@@ -68,11 +63,11 @@ export default function AboutPage() {
           <p>
             Mọi thứ ở đây bắt đầu thật nhỏ, gọn gàng và nguyên bản nhất có thể.
             Không cầu kỳ, không bóng bẩy — bởi điều quan trọng nhất là chủ động bắt
-            tay vào làm, thay vì chờ đợi một sự hoàn hảo không tồn tại.
+            tay vào làm, thay vì chờ đợi một sự hoàn hảo vốn dĩ không tồn tại.
           </p>
           <blockquote>
             <p>
-              Cỗ máy đã nổ máy, trạm dừng đầu tiên đã được cắm mốc. Hẹn gặp bạn ở
+              Cỗ máy đã nổ máy, trạm dừng đầu tiên đã lên bản đồ. Hẹn gặp bạn ở
               những chặng đường hữu duyên.
             </p>
           </blockquote>
