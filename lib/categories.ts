@@ -12,8 +12,8 @@ export const categories: Category[] = [
   },
   {
     slug: "product",
-    name: "Product",
-    tagline: "Tư duy về sản phẩm, thiết kế và trải nghiệm người dùng",
+    name: "Product & Work",
+    tagline: "Tư duy về sản phẩm, công việc và những đúc kết từ ngày làm việc thực tế",
   },
   {
     slug: "mind",
