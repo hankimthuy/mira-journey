@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { categories, getCategoryBySlug } from "@/lib/categories";
-import { getPostsByCategory } from "@/lib/posts";
+import { getAllPosts, getPostsByCategory } from "@/lib/posts";
 import PostList from "@/components/PostList";
 
 export function generateStaticParams() {
@@ -28,17 +28,26 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
   if (!category) notFound();
 
   const posts = getPostsByCategory(category.slug);
+  const allPosts = getAllPosts();
+  const categoryCounts = Object.fromEntries(
+    categories.map((c) => [c.slug, allPosts.filter((p) => p.category === c.slug).length])
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-2">
-        Category
+        Danh mục
       </p>
       <h1 className="font-serif italic text-3xl sm:text-[34px] font-semibold text-forest-deep mb-2">
         {category.name}
       </h1>
       <p className="text-ink/75 mb-8">{category.tagline}</p>
-      <PostList posts={posts} />
+      <PostList
+        posts={posts}
+        activeCategory={category.slug}
+        categoryCounts={categoryCounts}
+        totalCount={allPosts.length}
+      />
     </div>
   );
 }
