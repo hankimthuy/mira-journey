@@ -1,43 +1,87 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
+import { categories } from "@/lib/categories";
 import PostCard from "@/components/PostCard";
 
-type FilterLang = "all" | "vi" | "en";
+type LangFilter = "all" | "vi" | "en";
 
-const FILTERS: { key: FilterLang; label: string }[] = [
+const LANG_FILTERS: { key: LangFilter; label: string }[] = [
   { key: "all", label: "Tất cả" },
-  { key: "vi", label: "Tiếng Việt" },
-  { key: "en", label: "English" },
+  { key: "vi", label: "VI" },
+  { key: "en", label: "EN" },
 ];
 
-export default function PostList({ posts }: { posts: PostMeta[] }) {
-  const [filter, setFilter] = useState<FilterLang>("all");
+function cardClass(active: boolean) {
+  return `rounded-[3px] border px-3.5 py-2.5 text-left transition-all duration-150 active:scale-[0.96] ${
+    active
+      ? "animate-card-pop border-terracotta bg-paper shadow-sm"
+      : "border-forest/15 bg-cream hover:border-terracotta/50 hover:shadow-sm hover:-translate-y-0.5"
+  }`;
+}
+
+export default function PostList({
+  posts,
+  activeCategory = "all",
+  categoryCounts,
+  totalCount,
+}: {
+  posts: PostMeta[];
+  activeCategory?: string;
+  categoryCounts?: Record<string, number>;
+  totalCount?: number;
+}) {
+  const [lang, setLang] = useState<LangFilter>("all");
 
   const filtered = useMemo(() => {
-    if (filter === "all") return posts;
-    return posts.filter((p) => p.lang === filter);
-  }, [posts, filter]);
+    if (lang === "all") return posts;
+    return posts.filter((p) => p.lang === lang);
+  }, [posts, lang]);
 
   return (
     <div>
-      <div className="flex mb-8 border border-forest/25 rounded-[2px] w-fit">
-        {FILTERS.map((f, i) => (
-          <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            className={`px-5 py-2 text-[13px] font-semibold transition-colors ${
-              i > 0 ? "border-l border-forest/25" : ""
-            } ${
-              filter === f.key
-                ? "bg-forest text-cream"
-                : "bg-transparent text-forest-deep hover:bg-paper"
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap gap-2.5">
+          <Link href="/blog" className={cardClass(activeCategory === "all")}>
+            <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+              Theo dòng thời gian
+            </p>
+            {typeof totalCount === "number" && (
+              <p className="mt-0.5 text-[11px] text-ink/50">{totalCount} bài viết</p>
+            )}
+          </Link>
+          {categories.map((c) => {
+            const active = activeCategory === c.slug;
+            return (
+              <Link key={c.slug} href={`/category/${c.slug}`} className={cardClass(active)}>
+                <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+                  {c.name}
+                </p>
+                {categoryCounts && (
+                  <p className="mt-0.5 text-[11px] text-ink/50">
+                    {categoryCounts[c.slug] ?? 0} bài viết
+                  </p>
+                )}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center gap-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink/45">
+          {LANG_FILTERS.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setLang(f.key)}
+              className={`rounded-[3px] px-2 py-1 transition-colors ${
+                lang === f.key ? "bg-paper text-forest-deep" : "hover:text-forest-deep"
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {filtered.length === 0 ? (

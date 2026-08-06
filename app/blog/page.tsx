@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
+import { categories } from "@/lib/categories";
 import PostList from "@/components/PostList";
 
 export const metadata: Metadata = {
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
 
 export default function BlogIndexPage() {
   const posts = getAllPosts();
+  const categoryCounts = Object.fromEntries(
+    categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
@@ -18,7 +22,12 @@ export default function BlogIndexPage() {
       <h1 className="font-serif italic text-3xl sm:text-[34px] font-semibold text-forest-deep mb-8">
         Những chặng đã đi qua
       </h1>
-      <PostList posts={posts} />
+      <PostList
+        posts={posts}
+        activeCategory="all"
+        categoryCounts={categoryCounts}
+        totalCount={posts.length}
+      />
     </div>
   );
 }
