@@ -15,7 +15,7 @@ const LANG_FILTERS: { key: LangFilter; label: string }[] = [
 ];
 
 function cardClass(active: boolean) {
-  return `shrink-0 rounded-[3px] border px-3.5 py-2.5 text-left transition-all duration-150 active:scale-[0.96] ${
+  return `shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-left text-[13px] transition-all duration-150 active:scale-[0.96] sm:whitespace-normal sm:rounded-[3px] sm:px-3.5 sm:py-2.5 sm:text-[15px] ${
     active
       ? "animate-card-pop border-terracotta bg-paper shadow-sm"
       : "border-forest/15 bg-cream hover:border-terracotta/50 hover:shadow-sm hover:-translate-y-0.5"
@@ -46,22 +46,24 @@ export default function PostList({
         <div className="relative min-w-0 w-full sm:w-auto">
           <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
             <Link href="/blog" className={cardClass(activeCategory === "all")}>
-              <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+              <p className="font-semibold text-forest-deep sm:font-serif sm:italic">
                 Theo dòng thời gian
               </p>
               {typeof totalCount === "number" && (
-                <p className="mt-0.5 text-[11px] text-ink/50">{totalCount} bài viết</p>
+                <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
+                  {totalCount} bài viết
+                </p>
               )}
             </Link>
             {categories.map((c) => {
               const active = activeCategory === c.slug;
               return (
                 <Link key={c.slug} href={`/category/${c.slug}`} className={cardClass(active)}>
-                  <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+                  <p className="font-semibold text-forest-deep sm:font-serif sm:italic">
                     {c.name}
                   </p>
                   {categoryCounts && (
-                    <p className="mt-0.5 text-[11px] text-ink/50">
+                    <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
                       {categoryCounts[c.slug] ?? 0} bài viết
                     </p>
                   )}
