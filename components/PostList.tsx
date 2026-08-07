@@ -15,7 +15,7 @@ const LANG_FILTERS: { key: LangFilter; label: string }[] = [
 ];
 
 function cardClass(active: boolean) {
-  return `rounded-[3px] border px-3.5 py-2.5 text-left transition-all duration-150 active:scale-[0.96] ${
+  return `shrink-0 rounded-[3px] border px-3.5 py-2.5 text-left transition-all duration-150 active:scale-[0.96] ${
     active
       ? "animate-card-pop border-terracotta bg-paper shadow-sm"
       : "border-forest/15 bg-cream hover:border-terracotta/50 hover:shadow-sm hover:-translate-y-0.5"
@@ -43,30 +43,33 @@ export default function PostList({
   return (
     <div>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div className="flex flex-wrap gap-2.5">
-          <Link href="/blog" className={cardClass(activeCategory === "all")}>
-            <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
-              Theo dòng thời gian
-            </p>
-            {typeof totalCount === "number" && (
-              <p className="mt-0.5 text-[11px] text-ink/50">{totalCount} bài viết</p>
-            )}
-          </Link>
-          {categories.map((c) => {
-            const active = activeCategory === c.slug;
-            return (
-              <Link key={c.slug} href={`/category/${c.slug}`} className={cardClass(active)}>
-                <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
-                  {c.name}
-                </p>
-                {categoryCounts && (
-                  <p className="mt-0.5 text-[11px] text-ink/50">
-                    {categoryCounts[c.slug] ?? 0} bài viết
+        <div className="relative min-w-0 w-full sm:w-auto">
+          <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
+            <Link href="/blog" className={cardClass(activeCategory === "all")}>
+              <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+                Theo dòng thời gian
+              </p>
+              {typeof totalCount === "number" && (
+                <p className="mt-0.5 text-[11px] text-ink/50">{totalCount} bài viết</p>
+              )}
+            </Link>
+            {categories.map((c) => {
+              const active = activeCategory === c.slug;
+              return (
+                <Link key={c.slug} href={`/category/${c.slug}`} className={cardClass(active)}>
+                  <p className="font-serif italic font-semibold text-[15px] text-forest-deep">
+                    {c.name}
                   </p>
-                )}
-              </Link>
-            );
-          })}
+                  {categoryCounts && (
+                    <p className="mt-0.5 text-[11px] text-ink/50">
+                      {categoryCounts[c.slug] ?? 0} bài viết
+                    </p>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-cream to-transparent sm:hidden" />
         </div>
 
         <div className="flex items-center gap-0.5 text-[11px] font-semibold uppercase tracking-wide text-ink/45">
