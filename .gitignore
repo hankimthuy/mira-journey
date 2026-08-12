@@ -48,3 +48,6 @@ next-env.d.ts
 .obsidian/workspace-mobile.json
 .obsidian/cache
 .obsidian/plugins/*/data.json
+
+# keep the template committed
+!.env.example
