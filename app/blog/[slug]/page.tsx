@@ -5,8 +5,10 @@ import { getCategoryBySlug } from "@/lib/categories";
 import PostDetail from "@/components/PostDetail";
 import { AUTHOR_PERSON, SITE_NAME, SITE_URL } from "@/lib/seo";
 
-export function generateStaticParams() {
-  return getAllPostSlugs().map((slug) => ({ slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  return (await getAllPostSlugs()).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(

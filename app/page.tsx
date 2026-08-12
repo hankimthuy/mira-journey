@@ -5,8 +5,10 @@ import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 
-export default function HomePage() {
-  const latestPosts = getAllPosts().slice(0, 5);
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const latestPosts = (await getAllPosts()).slice(0, 5);
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">

@@ -3,7 +3,9 @@ import { SITE_URL } from "@/lib/seo";
 import { getAllPosts } from "@/lib/posts";
 import { categories } from "@/lib/categories";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 60;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -34,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const postRoutes: MetadataRoute.Sitemap = getAllPosts().map((post) => ({
+  const postRoutes: MetadataRoute.Sitemap = (await getAllPosts()).map((post) => ({
     url: `${SITE_URL}/blog/${post.slug}`,
     lastModified: new Date(post.date),
     changeFrequency: "monthly",

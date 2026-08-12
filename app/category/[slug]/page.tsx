@@ -4,6 +4,8 @@ import { categories, getCategoryBySlug } from "@/lib/categories";
 import { getAllPosts, getPostsByCategory } from "@/lib/posts";
 import PostList from "@/components/PostList";
 
+export const revalidate = 60;
+
 export function generateStaticParams() {
   return categories.map((c) => ({ slug: c.slug }));
 }
@@ -30,8 +32,8 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
 
   if (!category) notFound();
 
-  const posts = getPostsByCategory(category.slug);
-  const allPosts = getAllPosts();
+  const posts = await getPostsByCategory(category.slug);
+  const allPosts = await getAllPosts();
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, allPosts.filter((p) => p.category === c.slug).length])
   );
