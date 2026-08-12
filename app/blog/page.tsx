@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
 import { categories } from "@/lib/categories";
 import PostList from "@/components/PostList";
+import { SITE_NAME } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Tất cả bài viết",
-  description: "Toàn bộ bài viết trên Cỗ Máy Thời Gian — Mira Journey.",
+  description: `Toàn bộ bài viết trên ${SITE_NAME} — blog của Han Kim Thuy.`,
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 export default function BlogIndexPage() {
