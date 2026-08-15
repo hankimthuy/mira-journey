@@ -13,7 +13,7 @@ export default async function HomePage() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
-        <div className="animate-fade-in-up">
+        <div className="animate-reveal-focus">
           <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
             Chào mừng đến với
           </p>
@@ -26,7 +26,7 @@ export default async function HomePage() {
             rồi lại <span className="font-semibold text-terracotta">tiếp tục</span> hành trình.
           </p>
         </div>
-        <div className="brass-glow animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+        <div className="brass-glow animate-reveal-focus" style={{ animationDelay: "0.15s" }}>
           <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
           <p className="mt-3 text-right font-serif italic text-sm text-forest/45">
             Cùng tôi, Hàn Kim Thủy
@@ -44,7 +44,7 @@ export default async function HomePage() {
             <Link
               key={c.slug}
               href={`/category/${c.slug}`}
-              className={`ticket-accent-${i % 3} group animate-fade-in-up flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream text-left transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
+              className={`ticket-accent-${i % 3} group animate-reveal-settle flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream text-left transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
               style={{ animationDelay: `${0.05 * i}s` }}
             >
               <span className="ticket-stub" aria-hidden="true" />
@@ -84,7 +84,7 @@ export default async function HomePage() {
               return (
                 <div
                   key={post.slug}
-                  className="animate-fade-in-up grid grid-cols-[120px_1fr] gap-5 py-[18px] border-b border-forest/15 items-center transition-colors hover:bg-paper/60"
+                  className="animate-reveal-focus grid grid-cols-[120px_1fr] gap-5 py-[18px] border-b border-forest/15 items-center transition-colors hover:bg-paper/60"
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
                   <p className="text-xs font-bold text-forest-deep m-0">
