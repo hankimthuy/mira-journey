@@ -13,21 +13,25 @@ export default async function HomePage() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-widest text-ochre mb-3">
-            Han Kim Thuy
+        <div className="animate-fade-in-up">
+          <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
+            Chào mừng đến với
           </p>
           <h1 className="font-serif italic font-semibold text-4xl sm:text-[50px] text-forest-deep leading-[1.12] mb-4">
             Cỗ Máy Thời Gian
           </h1>
           <p className="text-lg text-ink/85 leading-relaxed max-w-xl">
-            Nơi dòng thời gian đi qua được ghi chép lại.
-          </p>
-          <p className="text-lg text-ink/85 leading-relaxed max-w-xl mt-3">
-            Trên cỗ máy luôn chuyển động này, thỉnh thoảng mình lại chọn một dấu mốc để dừng chân — lưu lại một sự tò mò, một cuộc gặp gỡ hữu duyên, rồi lại tiếp tục hành trình.
+            Trên hành trình học không tuyến tính, có đoạn tua nhanh, có lúc dừng lại thật lâu, có chặng quay đầu để <span className="font-semibold text-terracotta">đúc kết</span>.<br />
+            Đơn giản hơn, đây là cỗ máy giúp mình chủ động phanh lại từng khoảnh khắc đáng giá, ghi lại những sự <span className="font-semibold text-terracotta">tò mò</span>, một cuộc gặp gỡ <span className="font-semibold text-terracotta">hữu duyên</span>,<br />
+            rồi lại <span className="font-semibold text-terracotta">tiếp tục</span> hành trình.
           </p>
         </div>
-        <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
+        <div className="brass-glow animate-fade-in-up" style={{ animationDelay: "0.15s" }}>
+          <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
+          <p className="mt-3 text-right font-serif italic text-sm text-forest/45">
+            Cùng tôi, Hàn Kim Thủy
+          </p>
+        </div>
       </section>
 
       <section className="mb-16">
@@ -36,19 +40,27 @@ export default async function HomePage() {
         </h2>
         <TimeRail />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-          {categories.map((c) => (
+          {categories.map((c, i) => (
             <Link
               key={c.slug}
               href={`/category/${c.slug}`}
-              className="group rounded-[3px] border border-forest/15 bg-cream px-4 py-5 text-left transition-all hover:border-terracotta/50 hover:shadow-sm hover:-translate-y-0.5"
+              className={`ticket-accent-${i % 3} group animate-fade-in-up flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream text-left transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
+              style={{ animationDelay: `${0.05 * i}s` }}
             >
-              <p className="font-serif italic font-semibold text-lg text-forest-deep mb-1.5 flex items-center gap-1.5">
-                {c.name}
-                <span className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
-                  →
-                </span>
-              </p>
-              <p className="text-[12px] leading-relaxed text-ink/70">{c.tagline}</p>
+              <span className="ticket-stub" aria-hidden="true" />
+              <span className="ticket-divider" aria-hidden="true">
+                <span className="ticket-notch ticket-notch-top" />
+                <span className="ticket-notch ticket-notch-bottom" />
+              </span>
+              <span className="min-w-0 flex-1 px-3 py-4">
+                <p className="mb-1 flex items-center gap-1.5 font-serif italic font-semibold text-[15px] text-forest-deep">
+                  {c.name}
+                  <span className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
+                    →
+                  </span>
+                </p>
+                <p className="text-[11px] leading-relaxed text-ink/70">{c.tagline}</p>
+              </span>
             </Link>
           ))}
         </div>
@@ -67,12 +79,13 @@ export default async function HomePage() {
           <p className="text-forest/70">Chưa có bài viết nào. Sắp có rồi.</p>
         ) : (
           <div>
-            {latestPosts.map((post) => {
+            {latestPosts.map((post, i) => {
               const category = getCategoryBySlug(post.category);
               return (
                 <div
                   key={post.slug}
-                  className="grid grid-cols-[120px_1fr] gap-5 py-[18px] border-b border-forest/15 items-center"
+                  className="animate-fade-in-up grid grid-cols-[120px_1fr] gap-5 py-[18px] border-b border-forest/15 items-center transition-colors hover:bg-paper/60"
+                  style={{ animationDelay: `${0.05 * i}s` }}
                 >
                   <p className="text-xs font-bold text-forest-deep m-0">
                     {formatDate(post.date)}

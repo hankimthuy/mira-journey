@@ -24,7 +24,11 @@ function normalize(text: string) {
 }
 
 function cardClass(active: boolean) {
-  return `shrink-0 whitespace-nowrap rounded-xl border px-3.5 py-1.5 text-left text-[13px] transition-all duration-150 active:scale-[0.96] sm:whitespace-normal sm:rounded-[3px] sm:px-3.5 sm:py-2.5 sm:text-[15px] sm:text-forest-deep ${
+  // Padding lives on the inner content span (not here) from sm: up, so the
+  // ticket-stub can sit flush against the card's own border — same
+  // structure as the homepage category cards. Below sm:, this pill still
+  // carries its own padding since it has no stub.
+  return `shrink-0 whitespace-nowrap rounded-xl border px-3.5 py-1.5 text-left text-[13px] transition-all duration-150 active:scale-[0.96] sm:flex sm:items-stretch sm:overflow-hidden sm:whitespace-normal sm:rounded-[3px] sm:px-0 sm:py-0 sm:text-[15px] sm:text-forest-deep ${
     active
       ? "animate-card-pop border-forest-deep bg-forest-deep text-cream sm:border-terracotta sm:bg-paper sm:shadow-sm"
       : "border-paper bg-paper text-forest-deep sm:border-forest/15 sm:bg-cream sm:hover:border-terracotta/50 sm:hover:shadow-sm sm:hover:-translate-y-0.5"
@@ -165,30 +169,64 @@ export default function PostList({
           <Link
             href="/blog"
             ref={activeCategory === "all" ? activeChipRef : undefined}
-            className={cardClass(activeCategory === "all")}
+            className={`${cardClass(activeCategory === "all")} ticket-accent-0 group`}
           >
-            <p className="font-semibold sm:font-serif sm:italic">Theo dòng thời gian</p>
-            {typeof totalCount === "number" && (
-              <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
-                {totalCount} bài viết
+            <span className="hidden shrink-0 sm:flex" aria-hidden="true">
+              <span className="ticket-stub" />
+              <span className="ticket-divider">
+                <span className="ticket-notch ticket-notch-top" />
+                <span className="ticket-notch ticket-notch-bottom" />
+              </span>
+            </span>
+            <span className="min-w-0 sm:px-3.5 sm:py-2.5">
+              <p className="flex items-center gap-1.5 font-semibold sm:font-serif sm:italic">
+                Theo dòng thời gian
+                <span
+                  className="hidden text-terracotta opacity-0 -translate-x-1 transition-all sm:inline-block group-hover:opacity-100 group-hover:translate-x-0"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
               </p>
-            )}
+              {typeof totalCount === "number" && (
+                <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
+                  {totalCount} bài viết
+                </p>
+              )}
+            </span>
           </Link>
-          {categories.map((c) => {
+          {categories.map((c, i) => {
             const active = activeCategory === c.slug;
             return (
               <Link
                 key={c.slug}
                 href={`/category/${c.slug}`}
                 ref={active ? activeChipRef : undefined}
-                className={cardClass(active)}
+                className={`${cardClass(active)} ticket-accent-${(i + 1) % 3} group`}
               >
-                <p className="font-semibold sm:font-serif sm:italic">{c.name}</p>
-                {categoryCounts && (
-                  <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
-                    {categoryCounts[c.slug] ?? 0} bài viết
+                <span className="hidden shrink-0 sm:flex" aria-hidden="true">
+                  <span className="ticket-stub" />
+                  <span className="ticket-divider">
+                    <span className="ticket-notch ticket-notch-top" />
+                    <span className="ticket-notch ticket-notch-bottom" />
+                  </span>
+                </span>
+                <span className="min-w-0 sm:px-3.5 sm:py-2.5">
+                  <p className="flex items-center gap-1.5 font-semibold sm:font-serif sm:italic">
+                    {c.name}
+                    <span
+                      className="hidden text-terracotta opacity-0 -translate-x-1 transition-all sm:inline-block group-hover:opacity-100 group-hover:translate-x-0"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
                   </p>
-                )}
+                  {categoryCounts && (
+                    <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
+                      {categoryCounts[c.slug] ?? 0} bài viết
+                    </p>
+                  )}
+                </span>
               </Link>
             );
           })}

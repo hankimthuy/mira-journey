@@ -33,6 +33,20 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
+  position: relative;
+}
+
+/* Subtle paper-grain texture over the whole site — reinforces the
+   "old journal / travel log" feel without darkening the palette. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection {
@@ -154,6 +168,260 @@ a {
   animation: card-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
+/* --- New: mechanical / time-machine flourishes ------------------------- */
+
+/* Slow-spinning gear mark next to the wordmark in the header. Speeds up
+   on hover via .group-hover in the component. */
+@keyframes gear-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-gear-spin {
+  animation: gear-spin 14s linear infinite;
+}
+
+.group:hover .animate-gear-spin {
+  animation-duration: 2.2s;
+}
+
+/* Dashed "rail" under the topic timeline now drifts sideways, like a
+   signal/telegram line rather than a static divider. */
+@keyframes rail-flow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
+  }
+}
+
+.time-rail-line {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-forest) 0px,
+    var(--color-forest) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 32px 2px;
+  opacity: 0.32;
+  animation: rail-flow 2.6s linear infinite;
+}
+
+/* Gentle radar-style pulse on each timeline "station" dot. */
+@keyframes station-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-terracotta) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-terracotta) 0%, transparent);
+  }
+}
+
+.station-dot {
+  animation: station-pulse 2.6s ease-in-out infinite;
+}
+
+/* Soft brass/amber glow used behind hero art. Apply on a `relative`
+   parent; the glow sits behind the content at -z-10. */
+.brass-glow {
+  position: relative;
+}
+
+.brass-glow::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-ochre-light) 55%, transparent),
+    transparent 72%
+  );
+  filter: blur(28px);
+}
+
+/* --- Header nav: split-flap departure board ----------------------------
+   Real station departure boards list "trạm dừng tiếp theo" on physical
+   flap tiles. The nav borrows that object directly instead of echoing
+   TimeRail's dotted-rail motif. */
+
+.flap-tile {
+  display: inline-block;
+  padding: 5px 9px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-cream) 55%, transparent);
+  background: var(--color-forest-deep);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+  transition: color 0.25s ease, background-color 0.25s ease, transform 0.15s ease;
+  transform-origin: top center;
+}
+
+.group\/flap:hover .flap-tile:not(.flap-tile-active) {
+  transform: perspective(200px) rotateX(14deg);
+  color: color-mix(in srgb, var(--color-cream) 82%, transparent);
+}
+
+.flap-tile-active {
+  color: var(--color-ochre-light);
+  background: color-mix(in srgb, var(--color-forest-deep) 88%, var(--color-ochre) 12%);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--color-ochre-light) 55%, transparent);
+}
+
+/* Dashed perforation between tiles, like the tear-line on a ticket stub —
+   separates stations without cutting across any of their labels. Two
+   round "punch" notches bite into the seam top and bottom, like the
+   torn perforation edge of a paper ticket stub. */
+.flap-divider {
+  position: relative;
+  align-self: stretch;
+  width: 12px;
+  flex: none;
+}
+
+.flap-divider::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-forest-deep) 0px,
+    var(--color-forest-deep) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  opacity: 0.3;
+}
+
+.flap-notch {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-paper);
+  transform: translate(-50%, -50%);
+}
+
+.flap-notch-top {
+  top: 0;
+}
+
+.flap-notch-bottom {
+  top: 100%;
+}
+
+/* --- Ticket-stub accent: entry points into "trạm dừng" -----------------
+   Same perforation grammar as the header's flap divider (dashed line +
+   round punch notches), reused as a small colored ticket stub beside
+   category cards and the blog filter chips. */
+
+.ticket-accent-0 {
+  --ticket-accent: var(--color-terracotta);
+}
+
+.ticket-accent-1 {
+  --ticket-accent: var(--color-ochre);
+}
+
+.ticket-accent-2 {
+  --ticket-accent: var(--color-forest);
+}
+
+.ticket-stub {
+  position: relative;
+  flex: none;
+  width: 10px;
+  background: var(--ticket-accent, var(--color-terracotta));
+}
+
+.ticket-stub::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: color-mix(in srgb, var(--color-cream) 65%, transparent);
+}
+
+.ticket-divider {
+  position: relative;
+  flex: none;
+  width: 10px;
+}
+
+.ticket-divider::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  transform: translateX(-50%);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-forest-deep) 0px,
+    var(--color-forest-deep) 3px,
+    transparent 3px,
+    transparent 6px
+  );
+  opacity: 0.22;
+}
+
+.ticket-notch {
+  position: absolute;
+  left: 50%;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  transform: translate(-50%, -50%);
+}
+
+.ticket-notch-top {
+  top: 0;
+}
+
+.ticket-notch-bottom {
+  top: 100%;
+}
+
+@keyframes flap-drop {
+  0% {
+    transform: perspective(200px) rotateX(-90deg);
+    opacity: 0.5;
+  }
+  60% {
+    transform: perspective(200px) rotateX(14deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(200px) rotateX(0deg);
+  }
+}
+
+.animate-flap-drop {
+  animation: flap-drop 0.45s cubic-bezier(0.34, 1.15, 0.64, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ride-along {
     animation: none;
@@ -173,5 +441,26 @@ a {
 
   .animate-card-pop {
     animation: none;
+  }
+
+  .animate-gear-spin,
+  .group:hover .animate-gear-spin {
+    animation: none;
+  }
+
+  .time-rail-line {
+    animation: none;
+  }
+
+  .station-dot {
+    animation: none;
+  }
+
+  .animate-flap-drop {
+    animation: none;
+  }
+
+  .group\/flap:hover .flap-tile:not(.flap-tile-active) {
+    transform: none;
   }
 }

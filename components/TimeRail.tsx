@@ -4,14 +4,14 @@ export default function TimeRail() {
   return (
     <div className="relative mb-6 h-16 sm:h-14" aria-hidden="true">
       <div
-        className="absolute left-0 right-0 top-1/2 border-t-2 border-dashed border-forest/25"
+        className="time-rail-line absolute left-0 right-0 top-1/2 h-[2px]"
         style={{ transform: "translateY(-50%)" }}
       />
 
       <div className="absolute inset-x-0 top-1/2 hidden lg:grid grid-cols-5" style={{ transform: "translateY(-50%)" }}>
         {categories.map((c) => (
           <div key={c.slug} className="flex justify-center">
-            <span className="h-3 w-3 rounded-full border-2 border-forest-deep bg-cream" />
+            <span className="station-dot h-3 w-3 rounded-full border-2 border-forest-deep bg-cream" />
           </div>
         ))}
       </div>
