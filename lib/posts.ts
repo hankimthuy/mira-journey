@@ -1,11 +1,6 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
+import { createClient } from "@supabase/supabase-js";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
-import readingTime from "reading-time";
-
-const POSTS_DIR = path.join(process.cwd(), "content", "posts");
 
 export type Lang = "vi" | "en";
 
@@ -35,32 +30,51 @@ export type Post = PostMeta & {
   headings: Heading[];
 };
 
-function readSlugs(): string[] {
-  if (!fs.existsSync(POSTS_DIR)) return [];
-  return fs
-    .readdirSync(POSTS_DIR)
-    .filter((file) => file.endsWith(".md"))
-    .map((file) => file.replace(/\.md$/, ""));
+/** One row of public.posts, as authored through the admin CMS. */
+type PostRow = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  category: string;
+  lang: Lang;
+  tags: string[] | null;
+  draft: boolean;
+  visibility: Visibility;
+  reading_minutes: number;
+  content_md: string;
+};
+
+const META_COLUMNS =
+  "slug, title, description, date, category, lang, tags, draft, visibility, reading_minutes";
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  throw new Error(
+    "Thiếu NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY. " +
+      "Bài viết được đọc từ Supabase — xem .env.example và đặt hai biến này " +
+      "trong .env.local (local) hoặc Environment Variables (Vercel)."
+  );
 }
 
-function readRawPost(slug: string) {
-  const filePath = path.join(POSTS_DIR, `${slug}.md`);
-  const raw = fs.readFileSync(filePath, "utf8");
-  return matter(raw);
-}
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: false },
+});
 
-function toMeta(slug: string, data: Record<string, unknown>, content: string): PostMeta {
+function toMeta(row: Omit<PostRow, "content_md">): PostMeta {
   return {
-    slug,
-    title: (data.title as string) ?? slug,
-    description: (data.description as string) ?? "",
-    date: (data.date as string) ?? "1970-01-01",
-    category: (data.category as string) ?? "radar",
-    lang: (data.lang as Lang) ?? "vi",
-    tags: (data.tags as string[]) ?? [],
-    draft: Boolean(data.draft) ?? false,
-    visibility: data.visibility === "private" ? "private" : "public",
-    readingMinutes: Math.max(1, Math.ceil(readingTime(content).minutes)),
+    slug: row.slug,
+    title: row.title,
+    description: row.description ?? "",
+    date: row.date,
+    category: row.category ?? "radar",
+    lang: row.lang ?? "vi",
+    tags: row.tags ?? [],
+    draft: row.draft,
+    visibility: row.visibility,
+    readingMinutes: Math.max(1, row.reading_minutes),
   };
 }
 
@@ -102,35 +116,60 @@ function addHeadingIds(html: string): { html: string; headings: Heading[] } {
   return { html: withIds, headings };
 }
 
-export function getAllPosts(): PostMeta[] {
-  const slugs = readSlugs();
-  const posts = slugs.map((slug) => {
-    const { data, content } = readRawPost(slug);
-    return toMeta(slug, data, content);
-  });
+export async function getAllPosts(): Promise<PostMeta[]> {
+  const { data, error } = await supabase
+    .from("posts")
+    .select(META_COLUMNS)
+    .eq("draft", false)
+    .eq("visibility", "public")
+    .order("date", { ascending: false });
 
-  return posts
-    .filter((post) => !post.draft && post.visibility !== "private")
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  if (error) {
+    console.error("[posts] getAllPosts failed:", error.message);
+    return [];
+  }
+
+  return (data ?? []).map((row) =>
+    toMeta(row as unknown as Omit<PostRow, "content_md">)
+  );
 }
 
-export function getPostsByCategory(categorySlug: string): PostMeta[] {
-  return getAllPosts().filter((post) => post.category === categorySlug);
+export async function getPostsByCategory(
+  categorySlug: string
+): Promise<PostMeta[]> {
+  const posts = await getAllPosts();
+  return posts.filter((post) => post.category === categorySlug);
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const filePath = path.join(POSTS_DIR, `${slug}.md`);
-  if (!fs.existsSync(filePath)) return null;
+  const { data, error } = await supabase
+    .from("posts")
+    .select(`${META_COLUMNS}, content_md`)
+    .eq("slug", slug)
+    .maybeSingle();
 
-  const { data, content } = readRawPost(slug);
-  const meta = toMeta(slug, data, content);
+  if (error || !data) return null;
 
-  const processed = await remark().use(remarkHtml).process(content);
+  const row = data as unknown as PostRow;
+  const meta = toMeta(row);
+
+  const processed = await remark().use(remarkHtml).process(row.content_md);
   const { html: contentHtml, headings } = addHeadingIds(processed.toString());
 
   return { ...meta, contentHtml, headings };
 }
 
-export function getAllPostSlugs(): string[] {
-  return readSlugs();
+export async function getAllPostSlugs(): Promise<string[]> {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("slug")
+    .eq("draft", false)
+    .eq("visibility", "public");
+
+  if (error) {
+    console.error("[posts] getAllPostSlugs failed:", error.message);
+    return [];
+  }
+
+  return (data ?? []).map((row) => row.slug);
 }

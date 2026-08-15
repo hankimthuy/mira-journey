@@ -12,8 +12,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogIndexPage() {
-  const posts = getAllPosts();
+export const revalidate = 60;
+
+export default async function BlogIndexPage() {
+  const posts = await getAllPosts();
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
   );
