@@ -69,14 +69,18 @@ export default function AboutPage() {
             Những trạm dừng
           </p>
           {categories.map((c) => (
-            <div key={c.slug} className="mb-4">
+            <Link
+              key={c.slug}
+              href={`/category/${c.slug}`}
+              className="block rounded-[3px] -mx-2 mb-4 px-2 py-1 transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-2"
+            >
               <p className="font-serif italic font-bold text-[13px] text-forest-deep">
                 {c.name}
               </p>
               <p className="mt-0.5 text-xs leading-snug text-ink/65">
                 {c.tagline}
               </p>
-            </div>
+            </Link>
           ))}
           <Link
             href="/blog"

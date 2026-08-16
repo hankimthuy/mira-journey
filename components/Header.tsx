@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
@@ -10,24 +10,11 @@ const NAV_ITEMS = [
   { href: "/about", label: "Trạm xuất phát" },
 ];
 
-function FlapTile({ href, label, active }: { href: string; label: string; active: boolean }) {
-  return (
-    <Link href={href} className="group/flap block" aria-current={active ? "page" : undefined}>
-      <span
-        key={active ? "lit" : "dim"}
-        className={`flap-tile ${active ? "flap-tile-active animate-flap-drop" : ""}`}
-      >
-        {label}
-      </span>
-    </Link>
-  );
-}
-
 function GearMark() {
   return (
     <svg
       viewBox="0 0 24 24"
-      className="h-4 w-4 shrink-0 text-terracotta animate-gear-spin"
+      className="h-5 w-5 shrink-0 text-terracotta animate-gear-spin"
       fill="none"
       aria-hidden="true"
     >
@@ -39,9 +26,21 @@ function GearMark() {
   );
 }
 
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
+      <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+      </g>
+    </svg>
+  );
+}
+
 export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -50,33 +49,95 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close the mobile menu on route change.
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  // Close on outside click / Escape while open.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    const onPointerDown = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("mousedown", onPointerDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("mousedown", onPointerDown);
+    };
+  }, [menuOpen]);
+
   return (
     <header
-      className={`border-b border-forest/15 bg-paper/95 backdrop-blur sticky top-0 z-20 transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_6px_18px_-10px_rgba(36,56,42,0.4)]" : ""
+      className={`sticky top-0 z-20 transition-colors duration-200 ${
+        scrolled
+          ? "border-b border-forest/10 bg-cream/90 backdrop-blur"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-5xl px-5 py-3">
-        <div className="flex items-center justify-between gap-4 flex-wrap">
-          <Link href="/" className="group flex items-center gap-2">
-            <GearMark />
-            <p className="font-serif italic font-bold text-[16px] text-forest-deep leading-none">
-              Cỗ Máy Thời Gian
-            </p>
-          </Link>
-          <nav className="flex items-center gap-1.5 flex-wrap">
-            {NAV_ITEMS.map((item, i) => (
-              <Fragment key={item.href}>
-                {i > 0 && (
-                  <span className="flap-divider" aria-hidden="true">
-                    <span className="flap-notch flap-notch-top" />
-                    <span className="flap-notch flap-notch-bottom" />
-                  </span>
-                )}
-                <FlapTile href={item.href} label={item.label} active={pathname === item.href} />
-              </Fragment>
-            ))}
-          </nav>
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
+        <Link href="/" aria-label="Cỗ Máy Thời Gian" className="group shrink-0">
+          <GearMark />
+        </Link>
+
+        <nav className="hidden items-center gap-6 sm:flex">
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide text-forest transition-colors hover:text-forest-deep ${
+                  active ? "border-terracotta" : "border-transparent"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="sm:hidden" ref={menuRef}>
+          <button
+            type="button"
+            aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMenuOpen((v) => !v)}
+            className="flex h-8 w-8 items-center justify-center text-forest"
+          >
+            <MenuIcon open={menuOpen} />
+          </button>
+          {menuOpen && (
+            <div
+              id="mobile-nav"
+              className="absolute inset-x-0 top-full border-b border-forest/10 bg-cream/97 px-5 py-3 backdrop-blur"
+            >
+              {NAV_ITEMS.map((item) => {
+                const active = pathname === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setMenuOpen(false)}
+                    className={`block py-2.5 text-[15px] font-semibold ${
+                      active ? "text-terracotta" : "text-forest"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </header>

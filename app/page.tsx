@@ -8,36 +8,68 @@ import TimeRail from "@/components/TimeRail";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const latestPosts = (await getAllPosts()).slice(0, 5);
+  const posts = await getAllPosts();
+  const latestPosts = posts.slice(0, 5);
+  const categoryCounts = Object.fromEntries(
+    categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
+  );
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-12">
+    <div className="mx-auto max-w-5xl px-5 py-8">
       <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div className="animate-reveal-focus">
           <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
             Chào mừng đến với
           </p>
-          <h1 className="font-serif italic font-semibold text-4xl sm:text-[50px] text-forest-deep leading-[1.12] mb-4">
+          <p className="font-serif italic text-2xl sm:text-3xl text-forest-deep mb-3">
             Cỗ Máy Thời Gian
-          </h1>
-          <p className="text-lg text-ink/85 leading-relaxed max-w-xl">
-            Trên hành trình học không tuyến tính, có đoạn tua nhanh, có lúc dừng lại thật lâu, có chặng quay đầu để <span className="font-semibold text-terracotta">đúc kết</span>.<br />
-            Đơn giản hơn, đây là cỗ máy giúp mình chủ động phanh lại từng khoảnh khắc đáng giá, ghi lại những sự <span className="font-semibold text-terracotta">tò mò</span>, một cuộc gặp gỡ <span className="font-semibold text-terracotta">hữu duyên</span>,<br />
-            rồi lại <span className="font-semibold text-terracotta">tiếp tục</span> hành trình.
           </p>
+          <h1 className="font-serif italic font-semibold text-4xl sm:text-[50px] text-forest-deep leading-[1.12] mb-4">
+            Có những điều chỉ hiểu được khi mình nhìn lại.
+          </h1>
+          <p className="text-lg text-ink/85 leading-relaxed max-w-xl mb-6">
+            Những điều mình học, những điều khiến mình{" "}
+            <span className="font-semibold text-terracotta">tò mò</span>, và những cuộc gặp
+            gỡ trên đường đi.
+          </p>
+          <Link
+            href="/blog"
+            className="cta-rewind inline-block font-serif italic text-lg font-medium text-terracotta focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-4"
+          >
+            Ghé lại hay đi tiếp?
+          </Link>
         </div>
-        <div className="brass-glow animate-reveal-focus" style={{ animationDelay: "0.15s" }}>
+        <div className="brass-glow relative animate-reveal-focus" style={{ animationDelay: "0.15s" }}>
+          <svg
+            viewBox="0 0 100 100"
+            aria-hidden="true"
+            className="animate-dial-turn pointer-events-none absolute -right-5 -top-5 h-28 w-28 text-ochre-light opacity-35"
+          >
+            <circle
+              cx="50"
+              cy="50"
+              r="46"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeDasharray="2 10"
+              strokeLinecap="round"
+            />
+          </svg>
           <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
-          <p className="mt-3 text-right font-serif italic text-sm text-forest/45">
-            Cùng tôi, Hàn Kim Thủy
+          <p className="mt-2 text-right font-serif italic text-sm text-[#465B52]">
+            — Hàn Kim Thủy
           </p>
         </div>
       </section>
 
       <section className="mb-16">
-        <h2 className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
-          Chủ đề
+        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
+          Những trạm dừng
         </h2>
+        <p className="text-sm text-ink/70 mb-4">
+          Mỗi trạm dừng, một điều để nhìn lại và hiểu thêm một chút.
+        </p>
         <TimeRail />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
           {categories.map((c, i) => (
@@ -60,6 +92,9 @@ export default async function HomePage() {
                   </span>
                 </p>
                 <p className="text-[11px] leading-relaxed text-ink/70">{c.tagline}</p>
+                <p className="mt-1.5 text-[11px] text-ink/50">
+                  {categoryCounts[c.slug] ?? 0} bài viết
+                </p>
               </span>
             </Link>
           ))}
