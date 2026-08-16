@@ -1,6 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
+import { supabase } from "./supabase";
 
 export type Lang = "vi" | "en";
 
@@ -47,21 +47,6 @@ type PostRow = {
 
 const META_COLUMNS =
   "slug, title, description, date, category, lang, tags, draft, visibility, reading_minutes";
-
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  throw new Error(
-    "Thiếu NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY. " +
-      "Bài viết được đọc từ Supabase — xem .env.example và đặt hai biến này " +
-      "trong .env.local (local) hoặc Environment Variables (Vercel)."
-  );
-}
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: { persistSession: false },
-});
 
 function toMeta(row: Omit<PostRow, "content_md">): PostMeta {
   return {

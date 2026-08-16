@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
+import { getAllPocs, POC_STATUS } from "@/lib/pocs";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
@@ -8,7 +9,7 @@ import TimeRail from "@/components/TimeRail";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const posts = await getAllPosts();
+  const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
   const latestPosts = posts.slice(0, 5);
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
@@ -143,6 +144,56 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {pocs.length > 0 && (
+        <section className="mt-16">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            {/* No `uppercase` here — it would flatten "PoC" into "POC". */}
+            <h2 className="text-xs font-semibold tracking-widest text-forest/70">
+              Trạm PoC
+            </h2>
+            <Link
+              href="/poc"
+              className="text-sm font-bold text-terracotta hover:underline"
+            >
+              Xem tất cả {pocs.length} PoC →
+            </Link>
+          </div>
+          <p className="mb-4 text-sm text-ink/70">
+            Những thứ mình đã dựng thử — cái đang chạy, cái đang treo, cái đã bỏ
+            xó.
+          </p>
+          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
+            {pocs.slice(0, 4).map((poc, i) => {
+              const status = POC_STATUS[poc.status];
+              return (
+                <Link
+                  key={poc.id}
+                  href="/poc"
+                  className={`ticket-accent-${status.accent} animate-reveal-settle group flex items-center gap-2.5 rounded-[3px] border border-forest/15 bg-cream px-3 py-2.5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  style={{ animationDelay: `${0.05 * i}s` }}
+                >
+                  <span className="text-xl" aria-hidden="true">
+                    {poc.emoji || "◍"}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-serif text-[13px] font-semibold italic text-forest-deep">
+                      {poc.name}
+                    </span>
+                    <span className="mt-0.5 flex items-center gap-1.5 text-[10px] text-ink/60">
+                      <span
+                        className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ticket-accent)]"
+                        aria-hidden="true"
+                      />
+                      {status.label}
+                    </span>
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
   { href: "/blog", label: "Trạm dừng" },
+  { href: "/poc", label: "Trạm PoC" },
   { href: "/about", label: "Trạm xuất phát" },
 ];
 
