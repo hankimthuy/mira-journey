@@ -6,6 +6,8 @@ export const SITE_URL =
 /** Main portfolio — cross-linked for author/entity signal (same person, same brand). */
 export const PORTFOLIO_URL = "https://hankimthuy.com";
 
+export const LINKEDIN_URL = "https://www.linkedin.com/in/hankimthuy/";
+
 export const AUTHOR_NAME = "Han Kim Thuy";
 export const AUTHOR_FULL_NAME = "Hàn Kim Thủy";
 
