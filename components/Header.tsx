@@ -75,15 +75,19 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-20 transition-colors duration-200 ${
-        scrolled
+      className={`sticky top-0 z-20 transition-colors duration-200 ${scrolled
           ? "border-b border-forest/10 bg-cream/90 backdrop-blur"
           : "border-b border-transparent bg-transparent"
-      }`}
+        }`}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
-        <Link href="/" aria-label="Cỗ Máy Thời Gian" className="group shrink-0">
+        <Link href="/" aria-label="Cỗ Máy Thời Gian" className="group flex shrink-0 items-center gap-2.5">
           <GearMark />
+          {pathname !== "/" && (
+            <span className="font-serif italic text-[14px] font-semibold text-forest-deep transition-colors group-hover:text-terracotta">
+              Cỗ Máy Thời Gian
+            </span>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-6 sm:flex">
@@ -94,9 +98,8 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide text-forest transition-colors hover:text-forest-deep ${
-                  active ? "border-terracotta" : "border-transparent"
-                }`}
+                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide text-forest transition-colors hover:text-forest-deep ${active ? "border-terracotta" : "border-transparent"
+                  }`}
               >
                 {item.label}
               </Link>
@@ -128,9 +131,8 @@ export default function Header() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMenuOpen(false)}
-                    className={`block py-2.5 text-[15px] font-semibold ${
-                      active ? "text-terracotta" : "text-forest"
-                    }`}
+                    className={`block py-2.5 text-[15px] font-serif italic font-semibold ${active ? "text-terracotta" : "text-forest"
+                      }`}
                   >
                     {item.label}
                   </Link>
