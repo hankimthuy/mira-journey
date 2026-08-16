@@ -18,7 +18,6 @@ export default async function PocPage() {
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="animate-reveal-focus mb-9 flex flex-col-reverse items-start gap-6 sm:flex-row sm:justify-between">
         <div className="max-w-2xl">
-          {/* No eyebrow here — the nav link right above already says "Trạm PoC". */}
           <h1 className="mb-3 font-serif text-3xl font-semibold italic leading-[1.15] text-forest-deep sm:text-[38px]">
             Xưởng chế tác của tôi
           </h1>
@@ -53,8 +52,7 @@ export default async function PocPage() {
         {/* Full container width on purpose — this is one thought, and the old
             max-w-2xl was breaking it into a narrow, choppy column. */}
         <p className="mb-6 font-serif text-lg italic leading-relaxed text-forest-deep">
-          Mỗi thứ bắt đầu từ một câu hỏi, một sự khó chịu, hoặc đơn giản là một
-          ý tưởng tôi muốn xem thử nó có thành hình được không.
+          Mỗi thứ bắt đầu từ một câu hỏi, một sự khó chịu, hoặc đơn giản tôi có rất nhiều ý tưởng trong đầu, tôi muốn xem thử có thể triển khai được không.
         </p>
         <p className="flex flex-wrap items-baseline gap-x-2 leading-relaxed text-ink/80">
           Nếu có project nào khiến bạn tò mò và muốn thảo luận
@@ -64,7 +62,7 @@ export default async function PocPage() {
             rel="noopener noreferrer"
             className="cta-rewind inline-block font-serif text-lg font-medium italic text-terracotta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta/60"
           >
-            Kết nối cùng mình tại LinkedIn →
+            Let's connect →
           </a>
         </p>
       </section>
