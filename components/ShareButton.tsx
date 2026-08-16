@@ -30,14 +30,21 @@ export default function ShareButton({ title }: { title: string }) {
     <button
       type="button"
       onClick={handleShare}
-      className="flex items-center gap-2 rounded-xl border border-forest/20 bg-cream px-4 py-2.5 text-[13px] font-medium text-forest-deep transition-colors hover:border-terracotta/40 hover:text-terracotta cursor-pointer"
+      className="cta-rewind group inline-flex items-center gap-2 text-[13px] text-forest transition-colors hover:text-terracotta cursor-pointer"
     >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="18" cy="5" r="3" />
-        <circle cx="6" cy="12" r="3" />
-        <circle cx="18" cy="19" r="3" />
-        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
-        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="shrink-0 transition-transform duration-200 group-hover:-translate-y-0.5"
+      >
+        <path d="M12 16V4M12 4 7 9M12 4l5 5" />
+        <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4" />
       </svg>
       <span>{copied ? "Đã sao chép" : "Chia sẻ bài viết"}</span>
     </button>
