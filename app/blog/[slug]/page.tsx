@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
+import { getAllPostSlugs, getPostBySlug, getPostsByCategory } from "@/lib/posts";
 import { getCategoryBySlug } from "@/lib/categories";
 import PostDetail from "@/components/PostDetail";
 import { AUTHOR_PERSON, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -48,6 +48,9 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   if (!post) notFound();
 
   const category = getCategoryBySlug(post.category);
+  const relatedPosts = (await getPostsByCategory(post.category))
+    .filter((p) => p.slug !== post.slug)
+    .slice(0, 4);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -76,7 +79,7 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <PostDetail post={post} category={category} />
+      <PostDetail post={post} category={category} relatedPosts={relatedPosts} />
     </>
   );
 }

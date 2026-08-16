@@ -65,7 +65,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
   return (
     <div>
       <p className="text-[11px] font-semibold uppercase tracking-widest text-ochre mb-4">
-        La bàn
+        Mục lục
       </p>
       <div className="relative pl-4">
         <div className="absolute left-0 top-0 bottom-0 w-px bg-forest/15" />
