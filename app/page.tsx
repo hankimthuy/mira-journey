@@ -24,8 +24,8 @@ export default async function HomePage() {
           <p className="font-serif italic text-2xl sm:text-3xl text-forest-deep mb-3">
             Cỗ Máy Thời Gian
           </p>
-          <h1 className="font-serif italic font-semibold text-4xl sm:text-[50px] text-forest-deep leading-[1.12] mb-4">
-            Có những điều chỉ hiểu được khi mình nhìn lại.
+          <h1 className="font-serif italic font-semibold text-3xl sm:text-[40px] lg:text-[44px] text-forest-deep leading-[1.08] mb-4">
+            Nhìn lại những gì đã đi qua, để mang theo điều có ý nghĩa nhất.
           </h1>
           <p className="text-lg text-ink/85 leading-relaxed max-w-xl mb-6">
             Những điều mình học, những điều khiến mình{" "}
@@ -36,7 +36,7 @@ export default async function HomePage() {
             href="/blog"
             className="cta-rewind inline-block font-serif italic text-lg font-medium text-terracotta focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-4"
           >
-            Ghé lại hay đi tiếp?
+            Bạn muốn ghé lại, hay đi tiếp?
           </Link>
         </div>
         <div className="brass-glow relative animate-reveal-focus" style={{ animationDelay: "0.15s" }}>
