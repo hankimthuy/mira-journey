@@ -568,29 +568,6 @@ a {
   filter: saturate(1);
 }
 
-/* Arriving at /poc from the home teaser's "Đọc tiếp" link lands you in the
-   grid with no obvious cue which card you came for — this rings the exact
-   one in a warm glow that blooms in and settles back out, so you don't
-   have to hunt for it. Next.js scrolls the #poc-<id> target into view on
-   its own; this only handles the highlight. Named "arrival", not
-   "spotlight", to stay distinct from the cursor-follow glow above. */
-@keyframes poc-arrival-glow {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ochre-light) 0%, transparent);
-  }
-  25% {
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-ochre-light) 65%, transparent),
-      0 0 28px 6px color-mix(in srgb, var(--color-terracotta) 35%, transparent);
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
-
-.poc-card--highlighted {
-  animation: poc-arrival-glow 2.4s ease-out;
-}
-
 /* Very slow rotating dial ring behind the hero illustration — a faint
    clock-bezel cue that the machine is quietly still running. */
 @keyframes dial-turn {
@@ -660,13 +637,6 @@ a {
 
   .poc-stamp {
     transition: none;
-  }
-
-  /* Still needs *some* cue which card you arrived for — just a steady
-     ring instead of a blooming glow. */
-  .poc-card--highlighted {
-    animation: none;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ochre-light) 70%, transparent);
   }
 
   .open-sign-swing {

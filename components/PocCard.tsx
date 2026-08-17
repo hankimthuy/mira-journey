@@ -14,23 +14,9 @@ import { LINKEDIN_URL } from "@/lib/seo";
 export default function PocCard({ poc }: { poc: Poc }) {
   const [open, setOpen] = useState(false);
   const [truncated, setTruncated] = useState(false);
-  const [highlighted, setHighlighted] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const status = POC_STATUS[poc.status];
   const retired = poc.status === "deprecated";
-  const domId = `poc-${poc.id}`;
-
-  // Only fires when this card is the one the URL hash points at — the home
-  // teaser's "Đọc tiếp" link lands here so the reader can see the untruncated
-  // text; the glow is what tells them which card that was. Next.js already
-  // scrolls #poc-<id> into view on navigation, so this only owns the visual.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (window.location.hash !== `#${domId}`) return;
-    setHighlighted(true);
-    const timer = setTimeout(() => setHighlighted(false), 2400);
-    return () => clearTimeout(timer);
-  }, [domId]);
 
   // Short entries fit inside the 3-line clamp, and offering "Đọc tiếp" on a
   // card where it would visibly do nothing is worse than not offering it.
@@ -63,11 +49,10 @@ export default function PocCard({ poc }: { poc: Poc }) {
 
   return (
     <article
-      id={domId}
       onMouseMove={trackCursor}
       className={`poc-card ticket-accent-${status.accent} group relative flex h-full flex-col overflow-hidden rounded-[3px] border border-forest/15 bg-cream transition-all duration-300 hover:-translate-y-1 hover:rotate-[-0.4deg] hover:border-terracotta/50 hover:shadow-md ${
         retired ? "poc-card--retired" : ""
-      } ${highlighted ? "poc-card--highlighted" : ""}`}
+      }`}
     >
       {/* One wrapper for everything, and the only positioned box between the
           card and the title link. The stretched `after:inset-0` anchors to it,

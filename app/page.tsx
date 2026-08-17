@@ -174,15 +174,9 @@ export default async function HomePage() {
             </h2>
             <Link
               href="/poc"
-              className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-terracotta px-5 py-2 text-sm font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-terracotta/25"
+              className="shrink-0 text-sm font-bold text-terracotta hover:underline"
             >
-              Ghé trạm
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              >
-                →
-              </span>
+              Ghé trạm →
             </Link>
           </div>
           <p className="text-sm text-ink/70 mb-4">
@@ -202,12 +196,10 @@ export default async function HomePage() {
               in the row lands at a different height, a visible stagger as
               your eye moves across.
 
-              The name links to /poc#poc-<id>, not the live product — a
-              2-line clamp always leaves the hook cut off, and the full
+              The name links to /poc, not the live product — a 2-line
+              clamp always leaves the hook cut off, and the full
               pain-point/story only exist on the /poc card, so "read more"
-              has to go there. That card glows on arrival (poc-card--
-              highlighted in PocCard.tsx) so it's obvious which one you
-              came for. */}
+              has to go there. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {featuredPocs.map((poc, i) => {
               const status = POC_STATUS[poc.status];
@@ -221,7 +213,7 @@ export default async function HomePage() {
                   <span className="flex items-baseline justify-between gap-2">
                     <span className="min-w-0 truncate font-serif text-[17px] font-semibold italic text-forest-deep">
                       <Link
-                        href={`/poc#poc-${poc.id}`}
+                        href="/poc"
                         className="after:absolute after:inset-0 hover:text-terracotta"
                       >
                         {poc.name}
