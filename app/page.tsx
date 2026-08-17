@@ -165,11 +165,7 @@ export default async function HomePage() {
               Xem tất cả {pocs.length} PoC →
             </Link>
           </div>
-          <p className="mb-4 text-sm text-ink/70">
-            Những thứ mình đã dựng thử — cái đang chạy, cái đang treo, cái đã
-            ngưng.
-          </p>
-          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
             {pocs.slice(0, 4).map((poc, i) => {
               const status = POC_STATUS[poc.status];
               return (
