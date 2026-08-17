@@ -34,6 +34,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
   position: relative;
+  /* Decorative elements (hero brass-glow, dial ring) intentionally bleed
+     past their own box edges; nothing clips that bleed, so on narrow
+     viewports it was widening the page itself into a horizontal scrollbar.
+     Clip at the body boundary instead of the decorations themselves, so
+     the soft bleed look survives and only the overflow into the scrollbar
+     is cut. */
+  overflow-x: hidden;
 }
 
 /* Subtle paper-grain texture over the whole site — reinforces the

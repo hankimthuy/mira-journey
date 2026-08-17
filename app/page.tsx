@@ -11,9 +11,6 @@ export const revalidate = 60;
 export default async function HomePage() {
   const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
   const latestPosts = posts.slice(0, 5);
-  const categoryCounts = Object.fromEntries(
-    categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
-  );
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8">
@@ -72,7 +69,9 @@ export default async function HomePage() {
           Mỗi trạm dừng, một điều để nhìn lại và hiểu thêm một chút.
         </p>
         <TimeRail />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+        {/* 2 columns from mobile up — 1-per-row on a phone meant a lot of
+            scrolling just to see all 5 categories. */}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
           {categories.map((c, i) => (
             <Link
               key={c.slug}
@@ -93,9 +92,6 @@ export default async function HomePage() {
                   </span>
                 </p>
                 <p className="text-[11px] leading-relaxed text-ink/70">{c.tagline}</p>
-                <p className="mt-1.5 text-[11px] text-ink/50">
-                  {categoryCounts[c.slug] ?? 0} bài viết
-                </p>
               </span>
             </Link>
           ))}
@@ -120,18 +116,27 @@ export default async function HomePage() {
               return (
                 <div
                   key={post.slug}
-                  className="animate-reveal-focus grid grid-cols-[120px_1fr] gap-5 py-[18px] border-b border-forest/15 items-center transition-colors hover:bg-paper/60"
+                  className="animate-reveal-focus flex flex-col py-[18px] border-b border-forest/15 transition-colors hover:bg-paper/60 sm:grid sm:grid-cols-[120px_1fr] sm:items-center sm:gap-5"
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
-                  <p className="text-xs font-bold text-forest-deep m-0">
+                  {/* The date column only exists from sm: up. On mobile it was
+                      eating a fixed third of the width from the title — the
+                      part people actually scan — so it moves inline next to
+                      the category instead, small and de-emphasized. */}
+                  <p className="hidden text-xs font-bold text-forest-deep m-0 sm:block">
                     {formatDate(post.date)}
                   </p>
                   <div>
-                    {category && (
-                      <span className="text-[11px] font-bold uppercase tracking-wide text-ochre">
-                        {category.name}
+                    <div className="flex flex-wrap items-center gap-x-1.5">
+                      {category && (
+                        <span className="text-[11px] font-bold uppercase tracking-wide text-ochre">
+                          {category.name}
+                        </span>
+                      )}
+                      <span className="text-[11px] text-ink/45 sm:hidden">
+                        {category ? `· ${formatDate(post.date)}` : formatDate(post.date)}
                       </span>
-                    )}
+                    </div>
                     <p className="font-serif font-semibold text-xl text-forest-deep mt-1">
                       <Link href={`/blog/${post.slug}`} className="hover:text-terracotta">
                         {post.title}
