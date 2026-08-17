@@ -153,9 +153,11 @@ export default async function HomePage() {
 
       {pocs.length > 0 && (
         <section className="mt-16">
-          <div className="mb-4 flex items-center justify-between gap-4">
-            {/* No `uppercase` here — it would flatten "PoC" into "POC". */}
-            <h2 className="text-xs font-semibold tracking-widest text-forest/70">
+          <div className="mb-1.5 flex items-center justify-between gap-4">
+            {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
+                heading treatment as "Những trạm dừng" above, not the small
+                eyebrow style — the two sections read as peers now. */}
+            <h2 className="font-serif italic text-2xl text-forest-deep">
               Trạm PoC
             </h2>
             <Link
@@ -165,28 +167,47 @@ export default async function HomePage() {
               Xem tất cả {pocs.length} PoC →
             </Link>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
+          <p className="text-sm text-ink/70 mb-4">
+            Nơi những ý tưởng thành sản phẩm.
+          </p>
+          {/* Same ticket-stub shell as the category rows above — a flat
+              emoji-and-label pill didn't carry any of the "shelf of
+              PoC" character the actual /poc cards have. One row on
+              mobile so the tile, name, and stamp all get room to breathe. */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
             {pocs.slice(0, 4).map((poc, i) => {
               const status = POC_STATUS[poc.status];
+              const tagline = poc.tagline.replace(/\*\*/g, "");
               return (
                 <Link
                   key={poc.id}
                   href="/poc"
-                  className={`ticket-accent-${status.accent} animate-reveal-settle group flex items-center gap-2.5 rounded-[3px] border border-forest/15 bg-cream px-3 py-2.5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  className={`poc-card ticket-accent-${status.accent} group animate-reveal-settle relative flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
-                  <span className="text-xl" aria-hidden="true">
-                    {poc.emoji || "◍"}
+                  <span className="ticket-stub" aria-hidden="true" />
+                  <span className="ticket-divider" aria-hidden="true">
+                    <span className="ticket-notch ticket-notch-top" />
+                    <span className="ticket-notch ticket-notch-bottom" />
                   </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-serif text-[13px] font-semibold italic text-forest-deep">
-                      {poc.name}
-                    </span>
-                    <span className="mt-0.5 flex items-center gap-1.5 text-[10px] text-ink/60">
+                  <span className="relative z-[1] min-w-0 flex-1 px-3 py-2.5">
+                    <span className="mb-1 flex items-center gap-2">
                       <span
-                        className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ticket-accent)]"
+                        className="grid size-8 shrink-0 place-items-center rounded-[4px] border border-forest/12 bg-gradient-to-br from-paper to-ochre-light/45 text-base"
                         aria-hidden="true"
-                      />
+                      >
+                        {poc.emoji || "◍"}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate font-serif text-[13px] font-semibold italic text-forest-deep">
+                        {poc.name}
+                      </span>
+                    </span>
+                    {tagline && (
+                      <span className="mb-1.5 block truncate text-[11px] text-ink/60">
+                        {tagline}
+                      </span>
+                    )}
+                    <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
                   </span>
