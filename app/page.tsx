@@ -166,12 +166,26 @@ export default async function HomePage() {
 
       {featuredPocs.length > 0 && (
         <section className="mt-16">
-          {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
-              heading treatment as "Những trạm dừng" above, not the small
-              eyebrow style — the two sections read as peers now. */}
-          <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
-            Trạm PoC
-          </h2>
+          <div className="mb-1.5 flex items-center justify-between gap-4">
+            {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
+                heading treatment as "Những trạm dừng" above, not the small
+                eyebrow style — the two sections read as peers now. */}
+            <h2 className="font-serif italic text-2xl text-forest-deep">
+              Trạm PoC
+            </h2>
+            <Link
+              href="/poc"
+              className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-terracotta px-5 py-2 text-sm font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-terracotta/25"
+            >
+              Ghé trạm
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+          </div>
           <p className="text-sm text-ink/70 mb-4">
             Nơi những ý tưởng thành sản phẩm.
           </p>
@@ -179,11 +193,15 @@ export default async function HomePage() {
               top and a punch-hole at the left edge, like something filed in
               a workshop archive drawer. Deliberately not the ticket-stub
               shell used for blog categories above; PoC needed its own
-              silhouette. Weight carries the hierarchy: the name is the
-              only bold line on the card. The hook stays regular weight —
-              its own **highlight** is what pops, not the whole sentence —
-              and "Specimen №" / the stamp are quiet metadata, not
-              competing headlines.
+              silhouette. No "Specimen № N" label — four repeats of the same
+              word next to a number nobody reads was noise, not information.
+              Weight carries the hierarchy: the name is the only bold line.
+
+              Every card is a flex column with the footer pinned via
+              mt-auto, and the hook clamps to 2 lines — without both, one
+              long hook (AI PT Chat's) stretches its card and every stamp
+              in the row lands at a different height, a visible stagger as
+              your eye moves across.
 
               The card itself is not a link — same reason PocCard.tsx isn't:
               when a PoC has a live product, the *name* is a stretched link
@@ -197,37 +215,34 @@ export default async function HomePage() {
               return (
                 <div
                   key={poc.id}
-                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative flex h-full flex-col rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
                   <span className="specimen-rule" aria-hidden="true" />
                   <span className="specimen-hole" aria-hidden="true" />
                   <span className="flex items-baseline justify-between gap-2">
-                    <span className="text-[10px] font-medium uppercase tracking-wider text-ochre/75">
-                      Specimen № {String(i + 1).padStart(2, "0")}
+                    <span className="min-w-0 truncate font-serif text-[17px] font-semibold italic text-forest-deep">
+                      {poc.link ? (
+                        <a
+                          href={poc.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="after:absolute after:inset-0 hover:text-terracotta"
+                        >
+                          {poc.name}
+                        </a>
+                      ) : (
+                        poc.name
+                      )}
                     </span>
                     {poc.yearLabel && (
-                      <span className="text-[10px] font-medium text-ink/40">
+                      <span className="shrink-0 text-[10px] font-medium text-ink/40">
                         {poc.yearLabel}
                       </span>
                     )}
                   </span>
-                  <span className="mt-1.5 block truncate font-serif text-[17px] font-semibold italic text-forest-deep">
-                    {poc.link ? (
-                      <a
-                        href={poc.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="after:absolute after:inset-0 hover:text-terracotta"
-                      >
-                        {poc.name}
-                      </a>
-                    ) : (
-                      poc.name
-                    )}
-                  </span>
                   {poc.tagline && (
-                    <span className="mt-2 block text-[13.5px] font-normal leading-relaxed text-ink/70">
+                    <span className="mt-2 line-clamp-2 text-[13.5px] font-normal leading-relaxed text-ink/70">
                       {splitTagline(poc.tagline).map((part, j) =>
                         part.mark ? (
                           <span
@@ -242,7 +257,7 @@ export default async function HomePage() {
                       )}
                     </span>
                   )}
-                  <span className="mt-3.5 flex items-center justify-between gap-2 border-t border-dashed border-forest/15 pt-2.5">
+                  <span className="mt-auto flex items-center justify-between gap-2 border-t border-dashed border-forest/15 pt-2.5">
                     <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
@@ -264,21 +279,6 @@ export default async function HomePage() {
                 </div>
               );
             })}
-          </div>
-
-          <div className="mt-7">
-            <Link
-              href="/poc"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-terracotta px-7 py-3.5 text-base font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-terracotta/25"
-            >
-              Ghé Trạm PoC
-              <span
-                aria-hidden="true"
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              >
-                →
-              </span>
-            </Link>
           </div>
         </section>
       )}
