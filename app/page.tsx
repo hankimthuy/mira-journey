@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { getAllPocs, POC_STATUS } from "@/lib/pocs";
+import { getAllPocs, POC_STATUS, splitTagline } from "@/lib/pocs";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
@@ -170,46 +170,53 @@ export default async function HomePage() {
           <p className="text-sm text-ink/70 mb-4">
             Nơi những ý tưởng thành sản phẩm.
           </p>
-          {/* Same ticket-stub shell as the category rows above — a flat
-              emoji-and-label pill didn't carry any of the "shelf of
-              PoC" character the actual /poc cards have. One row on
-              mobile so the tile, name, and stamp all get room to breathe. */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          {/* Specimen index card, not a ticket — a terracotta rule near the
+              top and a punch-hole at the left edge, like something filed in
+              a workshop archive drawer. Deliberately not the ticket-stub
+              shell used for blog categories above; PoC needed its own
+              silhouette. The tagline is the hook (bold + the author's own
+              **highlight**), not a muted caption — an app card sells itself
+              on one bold line, not a footnote. */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {pocs.slice(0, 4).map((poc, i) => {
               const status = POC_STATUS[poc.status];
-              const tagline = poc.tagline.replace(/\*\*/g, "");
               return (
                 <Link
                   key={poc.id}
                   href="/poc"
-                  className={`poc-card ticket-accent-${status.accent} group animate-reveal-settle relative flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
+                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle block rounded-[3px] border border-forest/15 bg-cream py-3 pl-7 pr-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
-                  <span className="ticket-stub" aria-hidden="true" />
-                  <span className="ticket-divider" aria-hidden="true">
-                    <span className="ticket-notch ticket-notch-top" />
-                    <span className="ticket-notch ticket-notch-bottom" />
+                  <span className="specimen-rule" aria-hidden="true" />
+                  <span className="specimen-hole" aria-hidden="true" />
+                  <span className="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-ochre">
+                    Specimen № {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="relative z-[1] min-w-0 flex-1 px-3 py-2.5">
-                    <span className="mb-1 flex items-center gap-2">
-                      <span
-                        className="grid size-8 shrink-0 place-items-center rounded-[4px] border border-forest/12 bg-gradient-to-br from-paper to-ochre-light/45 text-base"
-                        aria-hidden="true"
-                      >
-                        {poc.emoji || "◍"}
-                      </span>
-                      <span className="min-w-0 flex-1 truncate font-serif text-[13px] font-semibold italic text-forest-deep">
-                        {poc.name}
-                      </span>
+                  <span className="mt-1 block truncate font-serif text-[16px] font-semibold italic text-forest-deep">
+                    {poc.name}
+                  </span>
+                  {poc.tagline && (
+                    <span className="mt-1 block text-[13px] font-semibold leading-snug text-forest-deep">
+                      {splitTagline(poc.tagline).map((part, j) =>
+                        part.mark ? (
+                          <span key={j} className="bg-ochre-light/45 px-0.5">
+                            {part.text}
+                          </span>
+                        ) : (
+                          <span key={j}>{part.text}</span>
+                        )
+                      )}
                     </span>
-                    {tagline && (
-                      <span className="mb-1.5 block truncate text-[11px] text-ink/60">
-                        {tagline}
-                      </span>
-                    )}
+                  )}
+                  <span className="mt-2.5 flex items-center justify-between gap-2 border-t border-dashed border-forest/20 pt-2">
                     <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
+                    {poc.yearLabel && (
+                      <span className="text-[10px] font-semibold text-ink/45">
+                        {poc.yearLabel}
+                      </span>
+                    )}
                   </span>
                 </Link>
               );
