@@ -174,9 +174,11 @@ export default async function HomePage() {
               top and a punch-hole at the left edge, like something filed in
               a workshop archive drawer. Deliberately not the ticket-stub
               shell used for blog categories above; PoC needed its own
-              silhouette. The tagline is the hook (bold + the author's own
-              **highlight**), not a muted caption — an app card sells itself
-              on one bold line, not a footnote. */}
+              silhouette. Weight carries the hierarchy: the name is the
+              only bold line on the card. The hook stays regular weight —
+              its own **highlight** is what pops, not the whole sentence —
+              and "Specimen №" / the stamp / the year are quiet metadata,
+              not competing headlines. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {pocs.slice(0, 4).map((poc, i) => {
               const status = POC_STATUS[poc.status];
@@ -184,22 +186,25 @@ export default async function HomePage() {
                 <Link
                   key={poc.id}
                   href="/poc"
-                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle block rounded-[3px] border border-forest/15 bg-cream py-3 pl-7 pr-3.5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle block rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
                   <span className="specimen-rule" aria-hidden="true" />
                   <span className="specimen-hole" aria-hidden="true" />
-                  <span className="mt-1.5 block text-[10px] font-bold uppercase tracking-widest text-ochre">
+                  <span className="block text-[10px] font-medium uppercase tracking-wider text-ochre/75">
                     Specimen № {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="mt-1 block truncate font-serif text-[16px] font-semibold italic text-forest-deep">
+                  <span className="mt-1.5 block truncate font-serif text-[17px] font-semibold italic text-forest-deep">
                     {poc.name}
                   </span>
                   {poc.tagline && (
-                    <span className="mt-1 block text-[13px] font-semibold leading-snug text-forest-deep">
+                    <span className="mt-2 block text-[13.5px] font-normal leading-relaxed text-ink/70">
                       {splitTagline(poc.tagline).map((part, j) =>
                         part.mark ? (
-                          <span key={j} className="bg-ochre-light/45 px-0.5">
+                          <span
+                            key={j}
+                            className="font-semibold text-forest-deep bg-ochre-light/45 px-0.5"
+                          >
                             {part.text}
                           </span>
                         ) : (
@@ -208,12 +213,12 @@ export default async function HomePage() {
                       )}
                     </span>
                   )}
-                  <span className="mt-2.5 flex items-center justify-between gap-2 border-t border-dashed border-forest/20 pt-2">
+                  <span className="mt-3.5 flex items-center justify-between gap-2 border-t border-dashed border-forest/15 pt-2.5">
                     <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
                     {poc.yearLabel && (
-                      <span className="text-[10px] font-semibold text-ink/45">
+                      <span className="text-[10px] font-medium text-ink/40">
                         {poc.yearLabel}
                       </span>
                     )}
