@@ -3,14 +3,27 @@ import { getAllPosts } from "@/lib/posts";
 import { getAllPocs, POC_STATUS, splitTagline } from "@/lib/pocs";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
+import { LINKEDIN_URL } from "@/lib/seo";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 
 export const revalidate = 60;
 
+/**
+ * A hand-picked 4, not "however sorts first" — the home page is a teaser,
+ * and these are the ones worth a stranger's first look. Matched by name
+ * rather than id since nothing else on the home page depends on a specific
+ * PoC's identity; if one gets renamed in the CMS it just quietly drops out
+ * instead of breaking the page.
+ */
+const HOME_FEATURED_POCS = ["Aura Self AI", "Portfolio", "AI PT Chat", "Content Studio"];
+
 export default async function HomePage() {
   const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
   const latestPosts = posts.slice(0, 5);
+  const featuredPocs = HOME_FEATURED_POCS.map((name) =>
+    pocs.find((p) => p.name === name)
+  ).filter((p): p is (typeof pocs)[number] => Boolean(p));
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8">
@@ -151,22 +164,14 @@ export default async function HomePage() {
         )}
       </section>
 
-      {pocs.length > 0 && (
+      {featuredPocs.length > 0 && (
         <section className="mt-16">
-          <div className="mb-1.5 flex items-center justify-between gap-4">
-            {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
-                heading treatment as "Những trạm dừng" above, not the small
-                eyebrow style — the two sections read as peers now. */}
-            <h2 className="font-serif italic text-2xl text-forest-deep">
-              Trạm PoC
-            </h2>
-            <Link
-              href="/poc"
-              className="text-sm font-bold text-terracotta hover:underline"
-            >
-              Xem tất cả {pocs.length} PoC →
-            </Link>
-          </div>
+          {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
+              heading treatment as "Những trạm dừng" above, not the small
+              eyebrow style — the two sections read as peers now. */}
+          <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
+            Trạm PoC
+          </h2>
           <p className="text-sm text-ink/70 mb-4">
             Nơi những ý tưởng thành sản phẩm.
           </p>
@@ -177,25 +182,49 @@ export default async function HomePage() {
               silhouette. Weight carries the hierarchy: the name is the
               only bold line on the card. The hook stays regular weight —
               its own **highlight** is what pops, not the whole sentence —
-              and "Specimen №" / the stamp / the year are quiet metadata,
-              not competing headlines. */}
+              and "Specimen №" / the stamp are quiet metadata, not
+              competing headlines.
+
+              The card itself is not a link — same reason PocCard.tsx isn't:
+              when a PoC has a live product, the *name* is a stretched link
+              straight to it (target _blank), so clicking anywhere lands on
+              the real thing, not a detour through /poc. Cards with nothing
+              to click through to (Content Studio, AI PT Chat) fall back to
+              a small "Liên hệ" link instead of a dead card. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {pocs.slice(0, 4).map((poc, i) => {
+            {featuredPocs.map((poc, i) => {
               const status = POC_STATUS[poc.status];
               return (
-                <Link
+                <div
                   key={poc.id}
-                  href="/poc"
-                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle block rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
                   <span className="specimen-rule" aria-hidden="true" />
                   <span className="specimen-hole" aria-hidden="true" />
-                  <span className="block text-[10px] font-medium uppercase tracking-wider text-ochre/75">
-                    Specimen № {String(i + 1).padStart(2, "0")}
+                  <span className="flex items-baseline justify-between gap-2">
+                    <span className="text-[10px] font-medium uppercase tracking-wider text-ochre/75">
+                      Specimen № {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {poc.yearLabel && (
+                      <span className="text-[10px] font-medium text-ink/40">
+                        {poc.yearLabel}
+                      </span>
+                    )}
                   </span>
                   <span className="mt-1.5 block truncate font-serif text-[17px] font-semibold italic text-forest-deep">
-                    {poc.name}
+                    {poc.link ? (
+                      <a
+                        href={poc.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="after:absolute after:inset-0 hover:text-terracotta"
+                      >
+                        {poc.name}
+                      </a>
+                    ) : (
+                      poc.name
+                    )}
                   </span>
                   {poc.tagline && (
                     <span className="mt-2 block text-[13.5px] font-normal leading-relaxed text-ink/70">
@@ -217,15 +246,39 @@ export default async function HomePage() {
                     <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
-                    {poc.yearLabel && (
-                      <span className="text-[10px] font-medium text-ink/40">
-                        {poc.yearLabel}
+                    {poc.link ? (
+                      <span className="text-[10.5px] font-semibold text-terracotta">
+                        Xem sản phẩm →
                       </span>
+                    ) : (
+                      <a
+                        href={LINKEDIN_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative z-10 text-[10.5px] font-semibold text-terracotta hover:underline"
+                      >
+                        Liên hệ →
+                      </a>
                     )}
                   </span>
-                </Link>
+                </div>
               );
             })}
+          </div>
+
+          <div className="mt-7">
+            <Link
+              href="/poc"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-terracotta px-7 py-3.5 text-base font-semibold text-cream transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-terracotta/25"
+            >
+              Ghé Trạm PoC
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
           </div>
         </section>
       )}
