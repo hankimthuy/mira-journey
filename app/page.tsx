@@ -3,7 +3,6 @@ import { getAllPosts } from "@/lib/posts";
 import { getAllPocs, POC_STATUS, splitTagline } from "@/lib/pocs";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
-import { LINKEDIN_URL } from "@/lib/seo";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 
@@ -189,13 +188,13 @@ export default async function HomePage() {
           <p className="text-sm text-ink/70 mb-4">
             Nơi những ý tưởng thành sản phẩm.
           </p>
-          {/* Specimen index card, not a ticket — a terracotta rule near the
-              top and a punch-hole at the left edge, like something filed in
-              a workshop archive drawer. Deliberately not the ticket-stub
-              shell used for blog categories above; PoC needed its own
-              silhouette. No "Specimen № N" label — four repeats of the same
-              word next to a number nobody reads was noise, not information.
-              Weight carries the hierarchy: the name is the only bold line.
+          {/* Specimen index card, not a ticket — a punch-hole at the left
+              edge, like something filed in a workshop archive drawer.
+              Deliberately not the ticket-stub shell used for blog
+              categories above; PoC needed its own silhouette. No
+              "Specimen № N" label — four repeats of the same word next to
+              a number nobody reads was noise, not information. Weight
+              carries the hierarchy: the name is the only bold line.
 
               Every card is a flex column with the footer pinned via
               mt-auto, and the hook clamps to 2 lines — without both, one
@@ -203,37 +202,30 @@ export default async function HomePage() {
               in the row lands at a different height, a visible stagger as
               your eye moves across.
 
-              The card itself is not a link — same reason PocCard.tsx isn't:
-              when a PoC has a live product, the *name* is a stretched link
-              straight to it (target _blank), so clicking anywhere lands on
-              the real thing, not a detour through /poc. Cards with nothing
-              to click through to (Content Studio, AI PT Chat) fall back to
-              a small "Liên hệ" link instead of a dead card. */}
+              The name links to /poc#poc-<id>, not the live product — a
+              2-line clamp always leaves the hook cut off, and the full
+              pain-point/story only exist on the /poc card, so "read more"
+              has to go there. That card glows on arrival (poc-card--
+              highlighted in PocCard.tsx) so it's obvious which one you
+              came for. */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {featuredPocs.map((poc, i) => {
               const status = POC_STATUS[poc.status];
               return (
                 <div
                   key={poc.id}
-                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative flex h-full flex-col rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-5 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
+                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative flex h-full flex-col rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-4 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
                   style={{ animationDelay: `${0.05 * i}s` }}
                 >
-                  <span className="specimen-rule" aria-hidden="true" />
                   <span className="specimen-hole" aria-hidden="true" />
                   <span className="flex items-baseline justify-between gap-2">
                     <span className="min-w-0 truncate font-serif text-[17px] font-semibold italic text-forest-deep">
-                      {poc.link ? (
-                        <a
-                          href={poc.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="after:absolute after:inset-0 hover:text-terracotta"
-                        >
-                          {poc.name}
-                        </a>
-                      ) : (
-                        poc.name
-                      )}
+                      <Link
+                        href={`/poc#poc-${poc.id}`}
+                        className="after:absolute after:inset-0 hover:text-terracotta"
+                      >
+                        {poc.name}
+                      </Link>
                     </span>
                     {poc.yearLabel && (
                       <span className="shrink-0 text-[10px] font-medium text-ink/40">
@@ -261,20 +253,9 @@ export default async function HomePage() {
                     <span className="poc-stamp inline-block origin-left scale-[0.72]">
                       {status.stamp}
                     </span>
-                    {poc.link ? (
-                      <span className="text-[10.5px] font-semibold text-terracotta">
-                        Xem sản phẩm →
-                      </span>
-                    ) : (
-                      <a
-                        href={LINKEDIN_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="relative z-10 text-[10.5px] font-semibold text-terracotta hover:underline"
-                      >
-                        Liên hệ →
-                      </a>
-                    )}
+                    <span className="text-[10.5px] font-semibold text-terracotta">
+                      Đọc tiếp →
+                    </span>
                   </span>
                 </div>
               );

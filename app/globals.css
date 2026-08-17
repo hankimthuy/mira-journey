@@ -400,32 +400,14 @@ a {
 
 /* --- Trạm PoC: specimen index card (home teaser) -----------------------
    The home page's mini PoC cards read as catalogued specimens in the
-   workshop archive, not boarding tickets: a terracotta rule near the top
-   like a ruled index card, a punch-hole at the left edge as if filed in a
-   card drawer, and a small "Specimen №" code. Distinct silhouette from the
-   ticket-stub cards used for blog categories right above it. */
+   workshop archive, not boarding tickets: a punch-hole at the left edge,
+   as if filed in a card drawer. Distinct silhouette from the ticket-stub
+   cards used for blog categories right above it. (An earlier version also
+   had a colored rule near the top; dropped for taking up too much of a
+   small card.) */
 
 .specimen-card {
   position: relative;
-}
-
-.specimen-card .specimen-rule {
-  position: absolute;
-  left: 18px;
-  right: 16px;
-  top: 13px;
-  height: 0;
-  border-top: 2.5px solid var(--ticket-accent, var(--color-terracotta));
-}
-
-.specimen-card .specimen-rule::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 5px;
-  height: 1px;
-  background: color-mix(in srgb, var(--color-forest) 16%, transparent);
 }
 
 .specimen-card .specimen-hole {
@@ -586,6 +568,29 @@ a {
   filter: saturate(1);
 }
 
+/* Arriving at /poc from the home teaser's "Đọc tiếp" link lands you in the
+   grid with no obvious cue which card you came for — this rings the exact
+   one in a warm glow that blooms in and settles back out, so you don't
+   have to hunt for it. Next.js scrolls the #poc-<id> target into view on
+   its own; this only handles the highlight. Named "arrival", not
+   "spotlight", to stay distinct from the cursor-follow glow above. */
+@keyframes poc-arrival-glow {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ochre-light) 0%, transparent);
+  }
+  25% {
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-ochre-light) 65%, transparent),
+      0 0 28px 6px color-mix(in srgb, var(--color-terracotta) 35%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.poc-card--highlighted {
+  animation: poc-arrival-glow 2.4s ease-out;
+}
+
 /* Very slow rotating dial ring behind the hero illustration — a faint
    clock-bezel cue that the machine is quietly still running. */
 @keyframes dial-turn {
@@ -655,6 +660,13 @@ a {
 
   .poc-stamp {
     transition: none;
+  }
+
+  /* Still needs *some* cue which card you arrived for — just a steady
+     ring instead of a blooming glow. */
+  .poc-card--highlighted {
+    animation: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-ochre-light) 70%, transparent);
   }
 
   .open-sign-swing {
