@@ -69,9 +69,10 @@ export default async function HomePage() {
           Mỗi trạm dừng, một điều để nhìn lại và hiểu thêm một chút.
         </p>
         <TimeRail />
-        {/* 2 columns from mobile up — 1-per-row on a phone meant a lot of
-            scrolling just to see all 5 categories. */}
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        {/* One row per category, not a grid — 2 columns left an orphan card
+            alone on its own row with 5 items. Padding stays tight so each
+            row reads as a long thin ticket instead of a tall block. */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-2.5">
           {categories.map((c, i) => (
             <Link
               key={c.slug}
@@ -84,8 +85,8 @@ export default async function HomePage() {
                 <span className="ticket-notch ticket-notch-top" />
                 <span className="ticket-notch ticket-notch-bottom" />
               </span>
-              <span className="min-w-0 flex-1 px-3 py-4">
-                <p className="mb-1 flex items-center gap-1.5 font-serif italic font-semibold text-[15px] text-forest-deep">
+              <span className="min-w-0 flex-1 px-3 py-2.5">
+                <p className="mb-0.5 flex items-center gap-1.5 font-serif italic font-semibold text-[15px] text-forest-deep">
                   {c.name}
                   <span className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
                     →
@@ -165,8 +166,8 @@ export default async function HomePage() {
             </Link>
           </div>
           <p className="mb-4 text-sm text-ink/70">
-            Những thứ mình đã dựng thử — cái đang chạy, cái đang treo, cái đã bỏ
-            xó.
+            Những thứ mình đã dựng thử — cái đang chạy, cái đang treo, cái đã
+            ngưng.
           </p>
           <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-4">
             {pocs.slice(0, 4).map((poc, i) => {
@@ -190,7 +191,7 @@ export default async function HomePage() {
                         className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ticket-accent)]"
                         aria-hidden="true"
                       />
-                      {status.label}
+                      {status.stamp}
                     </span>
                   </span>
                 </Link>
