@@ -53,7 +53,7 @@ export default async function HomePage() {
           <svg
             viewBox="0 0 100 100"
             aria-hidden="true"
-            className="animate-dial-turn pointer-events-none absolute -right-5 -top-5 h-28 w-28 text-ochre-light opacity-35"
+            className="animate-dial-turn pointer-events-none absolute -right-2 -top-2 h-16 w-16 text-ochre-light opacity-35 sm:-right-5 sm:-top-5 sm:h-28 sm:w-28"
           >
             <circle
               cx="50"
