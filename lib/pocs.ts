@@ -42,20 +42,21 @@ const POC_COLUMNS =
   "id, name, emoji, cover_url, tagline, pain_point, story, status, year_label, former_name, link, stack";
 
 /**
- * How each status reads. `stamp` is the rubber-stamp text on the card art —
- * English, because it reads as a stamped classification rather than prose.
- * `label` stays Vietnamese for the running copy (page summary, home teaser).
+ * How each status reads — one English word everywhere it shows up (card
+ * stamp, home teaser), so the same status never reads two different ways in
+ * two places. English also sidesteps "đã bỏ xó", which reads harsher in
+ * Vietnamese than "deprecated" does as a plain technical label.
  * `accent` picks one of the three ticket accent colors from globals.css.
  */
 export const POC_STATUS: Record<
   PocStatus,
-  { label: string; stamp: string; accent: 0 | 1 | 2 }
+  { stamp: string; accent: 0 | 1 | 2 }
 > = {
-  ongoing: { label: "đang phát triển", stamp: "Ongoing", accent: 2 },
-  completed: { label: "hoàn thiện", stamp: "Completed", accent: 1 },
-  pending: { label: "đang treo", stamp: "On Hold", accent: 1 },
-  deprecated: { label: "đã bỏ xó", stamp: "Deprecated", accent: 0 },
-  private: { label: "riêng tư", stamp: "Private", accent: 2 },
+  ongoing: { stamp: "Ongoing", accent: 2 },
+  completed: { stamp: "Completed", accent: 1 },
+  pending: { stamp: "On Hold", accent: 1 },
+  deprecated: { stamp: "Deprecated", accent: 0 },
+  private: { stamp: "Private", accent: 2 },
 };
 
 function toPoc(row: PocRow): Poc {
