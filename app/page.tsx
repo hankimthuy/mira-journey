@@ -25,7 +25,7 @@ export default async function HomePage() {
   ).filter((p): p is (typeof pocs)[number] => Boolean(p));
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-8">
+    <div className="mx-auto max-w-5xl px-5 py-8 overflow-x-hidden">
       <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div className="animate-reveal-focus">
           <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
