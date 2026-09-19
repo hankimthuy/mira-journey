@@ -1,8 +1,11 @@
 import Link from "next/link";
 import type { Post, PostMeta } from "@/lib/posts";
 import type { Category } from "@/lib/categories";
+import type { PublicComment } from "@/lib/comments";
 import { formatDate } from "@/lib/format";
 import PostSidebar from "@/components/PostSidebar";
+import LikeButton from "@/components/LikeButton";
+import CommentSection from "@/components/CommentSection";
 
 const READING_FONT_SIZE = 16;
 const READING_LINE_HEIGHT = 1.8;
@@ -11,10 +14,14 @@ export default function PostDetail({
   post,
   category,
   relatedPosts,
+  likeCount,
+  comments,
 }: {
   post: Post;
   category: Category | undefined;
   relatedPosts: PostMeta[];
+  likeCount: number;
+  comments: PublicComment[];
 }) {
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
@@ -55,6 +62,14 @@ export default function PostDetail({
         />
 
         <PostSidebar post={post} relatedPosts={relatedPosts} />
+      </div>
+
+      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
+        <LikeButton postSlug={post.slug} initialCount={likeCount} />
+      </div>
+
+      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
+        <CommentSection postSlug={post.slug} initialComments={comments} />
       </div>
 
       <div className="max-w-[720px] mt-12 pt-6 border-t border-forest/15">

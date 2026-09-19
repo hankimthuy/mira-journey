@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllPosts, getAllPostSlugs, getPostBySlug } from "@/lib/posts";
 import { getCategoryBySlug } from "@/lib/categories";
+import { getLikeCount } from "@/lib/likes";
+import { getVisibleComments } from "@/lib/comments";
 import PostDetail from "@/components/PostDetail";
 import { AUTHOR_PERSON, SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -43,7 +45,12 @@ export async function generateMetadata(
 
 export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
-  const [post, allPosts] = await Promise.all([getPostBySlug(slug), getAllPosts()]);
+  const [post, allPosts, likeCount, comments] = await Promise.all([
+    getPostBySlug(slug),
+    getAllPosts(),
+    getLikeCount(slug),
+    getVisibleComments(slug),
+  ]);
 
   if (!post) notFound();
 
@@ -79,7 +86,13 @@ export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <PostDetail post={post} category={category} relatedPosts={relatedPosts} />
+      <PostDetail
+        post={post}
+        category={category}
+        relatedPosts={relatedPosts}
+        likeCount={likeCount}
+        comments={comments}
+      />
     </>
   );
 }

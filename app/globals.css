@@ -448,6 +448,35 @@ a {
   animation: stamp-wobble 0.5s ease-in-out;
 }
 
+/* --- Thả tim: like button, stamped like a rubber postmark --------------- */
+.like-stamp {
+  transform: rotate(-6deg);
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease;
+}
+
+.like-stamp:not(:disabled):hover {
+  transform: rotate(-6deg) scale(1.04);
+}
+
+.like-stamp[data-liked="true"] .like-heart {
+  animation: heart-pop 420ms ease;
+}
+
+@keyframes heart-pop {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.35);
+  }
+  60% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 @keyframes stamp-wobble {
   0%,
   100% {
@@ -655,5 +684,13 @@ a {
 
   .poc-grid > :nth-child(n) .poc-card {
     rotate: none;
+  }
+
+  .like-stamp {
+    transition: none;
+  }
+
+  .like-stamp[data-liked="true"] .like-heart {
+    animation: none;
   }
 }

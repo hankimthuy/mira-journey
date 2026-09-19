@@ -51,6 +51,15 @@ export default function PostDetailSkeleton() {
           </div>
         </aside>
       </div>
+
+      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
+        <Skeleton className="h-8 w-32" />
+      </div>
+
+      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
+        <Skeleton className="h-3.5 w-24 mb-4" />
+        <Skeleton className="h-16 w-full" />
+      </div>
     </div>
   );
 }
