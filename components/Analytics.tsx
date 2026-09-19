@@ -38,6 +38,10 @@ export default function Analytics() {
       headers: { "content-type": TYPE },
       body: JSON.stringify({ path: pathname, referrer: document.referrer }),
       keepalive: true,
+      // Lets the browser attach the admin's cross-subdomain "don't track me"
+      // cookie (set at admin.hankimthuy.com) on this same-site request, so
+      // the collector can recognise and skip the site owner's own visits.
+      credentials: "include",
     })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
