@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { categories, getCategoryBySlug } from "@/lib/categories";
-import { getAllPosts, getPostsByCategory } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 import PostList from "@/components/PostList";
 
 export const revalidate = 60;
@@ -32,8 +32,8 @@ export default async function CategoryPage(props: PageProps<"/category/[slug]">)
 
   if (!category) notFound();
 
-  const posts = await getPostsByCategory(category.slug);
   const allPosts = await getAllPosts();
+  const posts = allPosts.filter((p) => p.category === category.slug);
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, allPosts.filter((p) => p.category === c.slug).length])
   );

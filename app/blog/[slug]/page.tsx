@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllPostSlugs, getPostBySlug, getPostsByCategory } from "@/lib/posts";
+import { getAllPosts, getAllPostSlugs, getPostBySlug } from "@/lib/posts";
 import { getCategoryBySlug } from "@/lib/categories";
 import PostDetail from "@/components/PostDetail";
 import { AUTHOR_PERSON, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -43,13 +43,13 @@ export async function generateMetadata(
 
 export default async function BlogPostPage(props: PageProps<"/blog/[slug]">) {
   const { slug } = await props.params;
-  const post = await getPostBySlug(slug);
+  const [post, allPosts] = await Promise.all([getPostBySlug(slug), getAllPosts()]);
 
   if (!post) notFound();
 
   const category = getCategoryBySlug(post.category);
-  const relatedPosts = (await getPostsByCategory(post.category))
-    .filter((p) => p.slug !== post.slug)
+  const relatedPosts = allPosts
+    .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 4);
 
   const jsonLd = {
