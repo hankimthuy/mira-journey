@@ -1,6 +1,6 @@
 import { NextResponse, after } from "next/server";
 import { getPostBySlug } from "@/lib/posts";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { getClientIp, hashIp, countRecentByIp, COMMENT_RATE_LIMIT } from "@/lib/spam";
 import { checkContent } from "@/lib/moderation/keywords";
 import { notifyNewComment } from "@/lib/notifyComment";
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
 
   const { flagged, reason } = checkContent(content, authorName);
 
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("post_comments")
     .insert({
       post_slug: postSlug,

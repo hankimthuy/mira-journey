@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "crypto";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
 export const LIKE_RATE_LIMIT = { max: 20, windowMinutes: 10 } as const;
 export const COMMENT_RATE_LIMIT = { max: 5, windowMinutes: 60 } as const;
@@ -25,7 +25,7 @@ export async function countRecentByIp(
   windowMinutes: number
 ): Promise<number> {
   const since = new Date(Date.now() - windowMinutes * 60_000).toISOString();
-  const { count, error } = await supabaseAdmin
+  const { count, error } = await getSupabaseAdmin()
     .from(table)
     .select("id", { count: "exact", head: true })
     .eq("ip_hash", ipHash)

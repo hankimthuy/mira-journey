@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPostBySlug } from "@/lib/posts";
-import { supabaseAdmin } from "@/lib/supabase-admin";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import { getClientIp, hashIp, countRecentByIp, LIKE_RATE_LIMIT } from "@/lib/spam";
 
 const POSTGRES_UNIQUE_VIOLATION = "23505";
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const { error } = await supabaseAdmin
+  const { error } = await getSupabaseAdmin()
     .from("post_likes")
     .insert({ post_slug: postSlug, client_id: clientId, ip_hash: ipHash });
 
