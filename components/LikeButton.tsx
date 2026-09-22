@@ -101,9 +101,23 @@ export default function LikeButton({
           : "border-forest/15 text-forest-deep hover:border-terracotta/50"
       }`}
     >
-      <HeartIcon filled={liked} />
+      <span className="relative inline-flex">
+        <HeartIcon filled={liked} />
+        {justLiked && (
+          <span className="heart-burst" aria-hidden="true">
+            <span className="heart-particle" />
+            <span className="heart-particle" />
+            <span className="heart-particle" />
+            <span className="heart-particle" />
+          </span>
+        )}
+      </span>
       {liked ? "Đã thả tim" : "Thả tim"}
-      <span className={liked ? "text-cream/80" : "text-ink/45"}>{count}</span>
+      <span
+        className={`like-count ${liked ? "text-cream/85" : "text-ink/50"}`}
+      >
+        {count}
+      </span>
     </button>
   );
 }

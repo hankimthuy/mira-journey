@@ -449,17 +449,127 @@ a {
 }
 
 /* --- Thả tim: like button, stamped like a rubber postmark --------------- */
+.like-row-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-forest-deep) 0px,
+    var(--color-forest-deep) 3px,
+    transparent 3px,
+    transparent 7px
+  );
+  opacity: 0.22;
+}
+
 .like-stamp {
-  transform: rotate(-6deg);
-  transition: transform 200ms ease, background 200ms ease, color 200ms ease;
+  position: relative;
+  transform: rotate(-5deg);
+  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-cream) 85%, transparent) inset;
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.like-stamp::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 6px;
+  border: 1px dashed var(--color-terracotta);
+  opacity: 0;
+  transition: opacity 250ms ease;
+  pointer-events: none;
 }
 
 .like-stamp:not(:disabled):hover {
-  transform: rotate(-6deg) scale(1.04);
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.like-stamp[data-liked="true"] {
+  animation: stamp-press 360ms ease;
+}
+
+.like-stamp[data-liked="true"]::after {
+  opacity: 0.4;
 }
 
 .like-stamp[data-liked="true"] .like-heart {
   animation: heart-pop 420ms ease;
+}
+
+.like-count {
+  display: inline-flex;
+  min-width: 1.4em;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.heart-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.heart-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  opacity: 0;
+  animation: heart-burst-fly 560ms ease-out forwards;
+}
+
+.heart-particle:nth-child(1) {
+  --burst-x: -13px;
+  --burst-y: -15px;
+  animation-delay: 0ms;
+}
+
+.heart-particle:nth-child(2) {
+  --burst-x: 14px;
+  --burst-y: -13px;
+  background: var(--color-ochre-light);
+  animation-delay: 40ms;
+}
+
+.heart-particle:nth-child(3) {
+  --burst-x: -11px;
+  --burst-y: 12px;
+  background: var(--color-ochre-light);
+  animation-delay: 20ms;
+}
+
+.heart-particle:nth-child(4) {
+  --burst-x: 12px;
+  --burst-y: 13px;
+  animation-delay: 60ms;
+}
+
+@keyframes stamp-press {
+  0% {
+    transform: rotate(-5deg) scale(1.32);
+  }
+  55% {
+    transform: rotate(-5deg) scale(0.94);
+  }
+  100% {
+    transform: rotate(-5deg) scale(1);
+  }
+}
+
+@keyframes heart-burst-fly {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--burst-x)), calc(-50% + var(--burst-y)))
+      scale(0.3);
+  }
 }
 
 @keyframes heart-pop {
@@ -690,7 +800,15 @@ a {
     transition: none;
   }
 
+  .like-stamp[data-liked="true"] {
+    animation: none;
+  }
+
   .like-stamp[data-liked="true"] .like-heart {
     animation: none;
+  }
+
+  .heart-particle {
+    display: none;
   }
 }
