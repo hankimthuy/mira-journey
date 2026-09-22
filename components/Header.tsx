@@ -27,6 +27,21 @@ function GearMark() {
   );
 }
 
+function DiceIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" strokeWidth="1.8" />
+      <g fill="currentColor">
+        <circle cx="8.2" cy="8.2" r="1.3" />
+        <circle cx="15.8" cy="8.2" r="1.3" />
+        <circle cx="12" cy="12" r="1.3" />
+        <circle cx="8.2" cy="15.8" r="1.3" />
+        <circle cx="15.8" cy="15.8" r="1.3" />
+      </g>
+    </svg>
+  );
+}
+
 function MenuIcon({ open }: { open: boolean }) {
   return (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" aria-hidden="true">
@@ -106,6 +121,14 @@ export default function Header() {
               </Link>
             );
           })}
+          <Link
+            href="/random"
+            aria-label="Dịch chuyển ngẫu nhiên"
+            title="Dịch chuyển ngẫu nhiên"
+            className="flex h-7 w-7 items-center justify-center rounded-full text-forest transition-colors hover:text-terracotta"
+          >
+            <DiceIcon />
+          </Link>
         </nav>
 
         <div className="sm:hidden" ref={menuRef}>
@@ -139,6 +162,14 @@ export default function Header() {
                   </Link>
                 );
               })}
+              <Link
+                href="/random"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-2 py-2.5 text-[15px] font-serif italic font-semibold text-forest"
+              >
+                <DiceIcon />
+                Dịch chuyển ngẫu nhiên
+              </Link>
             </div>
           )}
         </div>

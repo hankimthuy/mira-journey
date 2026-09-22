@@ -30,6 +30,11 @@ export const categories: Category[] = [
     name: "Radar",
     tagline: "Vài thứ nhỏ nhặt nhưng hay ho",
   },
+  {
+    slug: "explore",
+    name: "Khám phá đó đây",
+    tagline: "Những chuyến đi, những nơi đã ghé qua, và vài điều học được dọc đường",
+  },
 ];
 
 export function getCategoryBySlug(slug: string): Category | undefined {
