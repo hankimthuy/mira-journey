@@ -58,17 +58,21 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Close the mobile menu on route change — adjusted during render (comparing
+  // against the last-seen pathname) rather than in an effect, so there's no
+  // extra render where the stale menu is still visible.
+  const [menuPathname, setMenuPathname] = useState(pathname);
+  if (pathname !== menuPathname) {
+    setMenuPathname(pathname);
+    setMenuOpen(false);
+  }
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Close the mobile menu on route change.
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
 
   // Close on outside click / Escape while open.
   useEffect(() => {

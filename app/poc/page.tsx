@@ -62,7 +62,7 @@ export default async function PocPage() {
             rel="noopener noreferrer"
             className="cta-rewind inline-block font-serif text-lg font-medium italic text-terracotta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta/60"
           >
-            Let's connect →
+            Let&apos;s connect →
           </a>
         </p>
       </section>
