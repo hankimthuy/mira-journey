@@ -733,10 +733,32 @@ a {
   animation: dial-turn 75s linear infinite;
 }
 
+/* Right-aligned tip for buttons at the row's end, so the (invisible) tip
+   never pokes past the viewport and causes sideways scroll on mobile. */
+.tip-end::after {
+  left: auto;
+  right: 0;
+  transform: translate(0, 4px);
+}
+
+.tip-end:hover::after,
+.tip-end:focus-visible::after {
+  transform: translate(0, 0);
+}
+
 .tip-below::after {
   top: calc(100% + 8px);
   bottom: auto;
   transform: translate(-50%, -4px);
+}
+
+.tip-below.tip-end::after {
+  transform: translate(0, -4px);
+}
+
+.tip-below.tip-end:hover::after,
+.tip-below.tip-end:focus-visible::after {
+  transform: translate(0, 0);
 }
 
 /* --- Búng tay: random-jump snap + time-warp portal ----------------------- */
@@ -746,8 +768,48 @@ a {
   transition: transform 200ms ease;
 }
 
-a:hover > .snap-icon {
-  transform: rotate(-12deg) scale(1.08);
+/* Dial hands drift at rest, then spin like a date roller on hover / tap. */
+.dial-hand {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: dial-spin 12s linear infinite;
+}
+
+.dial-hand-hour {
+  animation-duration: 48s;
+}
+
+a:hover .dial-hand-min,
+a:focus-visible .dial-hand-min,
+a:active .dial-hand-min,
+.snap-icon[data-snapping="true"] .dial-hand-min {
+  animation-duration: 0.6s;
+}
+
+a:hover .dial-hand-hour,
+a:focus-visible .dial-hand-hour,
+a:active .dial-hand-hour,
+.snap-icon[data-snapping="true"] .dial-hand-hour {
+  animation-duration: 2.4s;
+}
+
+@keyframes dial-spin {
+  to { transform: rotate(360deg); }
+}
+
+.snap-trigger {
+  color: var(--color-terracotta);
+  background: color-mix(in srgb, var(--color-terracotta) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-terracotta) 28%, transparent);
+  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.snap-trigger:hover,
+.snap-trigger:focus-visible,
+.snap-trigger:active {
+  background: color-mix(in srgb, var(--color-terracotta) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-terracotta) 45%, transparent);
+  transform: scale(1.06);
 }
 
 .snap-icon[data-snapping="true"] svg {
@@ -1049,5 +1111,13 @@ html[data-warp="arrive"] body::after {
 
   .heart-particle {
     display: none;
+  }
+
+  .dial-hand {
+    animation: none;
+  }
+
+  .snap-trigger {
+    transition: none;
   }
 }

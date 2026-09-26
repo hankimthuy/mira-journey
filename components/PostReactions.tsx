@@ -151,7 +151,7 @@ export function PostActions({ className = "" }: { className?: string }) {
         onClick={share}
         aria-label={shareLabel}
         data-tip={shareLabel}
-        className="icon-action tip"
+        className="icon-action tip tip-end"
       >
         <svg
           viewBox="0 0 24 24"

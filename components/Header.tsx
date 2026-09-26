@@ -119,9 +119,9 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Búng tay — dịch chuyển ngẫu nhiên"
-            data-tip="Búng tay — dịch chuyển ngẫu nhiên"
-            className="tip tip-below flex h-8 w-8 items-center justify-center rounded-full text-forest transition-colors hover:text-terracotta"
+            aria-label="Quay số — tới một bài ngẫu nhiên"
+            data-tip="Quay số — tới một bài ngẫu nhiên"
+            className="snap-trigger tip tip-below tip-end flex h-9 w-9 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
           </a>
@@ -131,8 +131,8 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Búng tay — dịch chuyển ngẫu nhiên"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-forest transition-colors active:text-terracotta"
+            aria-label="Quay số — tới một bài ngẫu nhiên"
+            className="snap-trigger mr-1 flex h-9 w-9 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
           </a>
