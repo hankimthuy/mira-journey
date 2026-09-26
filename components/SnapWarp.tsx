@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 type Destination = { slug: string; title: string; date: string };
 type Phase = "idle" | "open" | "warp" | "land";
 
-// Shown like a loading sequence: each step lights up in turn.
+// Status line text per step, swapped in turn like a loading sequence.
 const STEPS: { phase: Exclude<Phase, "idle">; label: string }[] = [
   { phase: "open", label: "Mở cổng thời gian" },
   { phase: "warp", label: "Đang di chuyển" },
@@ -147,7 +147,8 @@ export function useSnapWarp(fromSlug: string) {
               <span className="warp-ring warp-ring-3" />
             </div>
             <div className="warp-center">
-              <p className="warp-kicker">
+              {/* key={phase}: remount per step so the swap-in animation replays */}
+              <p key={phase} className="warp-kicker">
                 ✦ {STEPS.find((st) => st.phase === phase)?.label}
                 {phase === "land" ? "" : "…"}
               </p>
@@ -159,17 +160,6 @@ export function useSnapWarp(fromSlug: string) {
                 <span>{dial[2]}</span>
               </p>
               <p className="warp-dest">{dest ? `→ ${dest.title}` : " "}</p>
-              <ol className="warp-steps" aria-hidden="true">
-                {STEPS.map((st, i) => {
-                  const current = STEPS.findIndex((x) => x.phase === phase);
-                  const state = i < current || phase === "land" ? "done" : i === current ? "active" : "todo";
-                  return (
-                    <li key={st.phase} data-state={state}>
-                      {st.label}
-                    </li>
-                  );
-                })}
-              </ol>
             </div>
           </div>,
           document.body

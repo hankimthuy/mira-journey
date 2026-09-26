@@ -888,6 +888,14 @@ html[data-warp="arrive"] body::after {
   text-transform: uppercase;
   color: var(--color-ochre-light);
   margin-bottom: 14px;
+  animation: kicker-in 260ms ease both;
+}
+
+@keyframes kicker-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
 }
 
 .warp-dial {
@@ -935,69 +943,6 @@ html[data-warp="arrive"] body::after {
 .warp-overlay[data-phase="land"] .warp-dest {
   opacity: 1;
   transform: none;
-}
-
-.warp-steps {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 26px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  list-style: none;
-  padding: 0;
-}
-
-.warp-steps > li {
-  position: relative;
-  width: clamp(88px, 26vw, 132px);
-  padding-top: 12px;
-  color: color-mix(in srgb, var(--color-cream) 35%, transparent);
-  transition: color 250ms ease;
-}
-
-/* Progress segment above each step label. */
-.warp-steps > li::before,
-.warp-steps > li::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 3px;
-  border-radius: 2px;
-}
-
-.warp-steps > li::before {
-  right: 0;
-  background: color-mix(in srgb, var(--color-cream) 15%, transparent);
-}
-
-.warp-steps > li::after {
-  width: 0;
-  background: var(--color-ochre-light);
-  transition: width 300ms ease;
-}
-
-.warp-steps > li[data-state="active"] {
-  color: var(--color-cream);
-}
-
-.warp-steps > li[data-state="active"]::after {
-  animation: step-fill 1.2s ease-out forwards;
-}
-
-.warp-steps > li[data-state="done"] {
-  color: var(--color-ochre-light);
-}
-
-.warp-steps > li[data-state="done"]::after {
-  width: 100%;
-}
-
-@keyframes step-fill {
-  from { width: 0; }
-  to { width: 85%; }
 }
 
 /* Arrival: the portal shrinks shut in the middle of the new page. */
