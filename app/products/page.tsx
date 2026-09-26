@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getAllPocs } from "@/lib/pocs";
 import { LINKEDIN_URL } from "@/lib/seo";
-import PocCard from "@/components/PocCard";
+import ProductRail, { StageLegend } from "@/components/ProductRail";
 import OpenSign from "@/components/OpenSign";
 
 export const revalidate = 60;
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Nơi những ý tưởng thành sản phẩm.",
 };
 
-export default async function PocPage() {
+export default async function ProductsPage() {
   const pocs = await getAllPocs();
 
   return (
@@ -32,20 +32,15 @@ export default async function PocPage() {
 
       {pocs.length === 0 ? (
         <p className="py-12 text-center text-forest/70">
-          Trạm đang dọn hàng. Quay lại sau nhé.
+          Xưởng đang dọn hàng. Quay lại sau nhé.
         </p>
       ) : (
-        <div className="poc-grid grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {pocs.map((poc, i) => (
-            <div
-              key={poc.id}
-              className="poc-reveal h-full"
-              style={{ animationDelay: `${0.05 * i}s` }}
-            >
-              <PocCard poc={poc} />
-            </div>
-          ))}
-        </div>
+        <>
+          <div className="mb-10 border-y border-forest/15 py-3">
+            <StageLegend />
+          </div>
+          <ProductRail pocs={pocs} />
+        </>
       )}
 
       <section className="mt-12 border-t border-forest/15 pt-8">

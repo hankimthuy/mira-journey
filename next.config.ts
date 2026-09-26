@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // The section used to live at /poc; keep old links and search results working.
+  async redirects() {
+    return [
+      { source: "/poc", destination: "/products", permanent: true },
+      { source: "/poc/:path*", destination: "/products/:path*", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

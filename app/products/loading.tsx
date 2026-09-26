@@ -1,6 +1,6 @@
-import PocGridSkeleton from "@/components/skeletons/PocGridSkeleton";
+import ProductRailSkeleton from "@/components/skeletons/ProductRailSkeleton";
 
-export default function PocLoading() {
+export default function ProductsLoading() {
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-9 flex flex-col-reverse items-start gap-6 sm:flex-row sm:justify-between">
@@ -14,7 +14,7 @@ export default function PocLoading() {
           </p>
         </div>
       </section>
-      <PocGridSkeleton />
+      <ProductRailSkeleton />
     </div>
   );
 }
