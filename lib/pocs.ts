@@ -17,6 +17,7 @@ export type Poc = {
   tagline: string;
   painPoint: string;
   story: string;
+  impact: string;
   status: PocStatus;
   stage: PocStage;
   yearLabel: string;
@@ -34,6 +35,7 @@ type PocRow = {
   tagline: string;
   pain_point: string;
   story: string;
+  impact: string;
   status: PocStatus;
   stage: PocStage;
   year_label: string;
@@ -43,7 +45,7 @@ type PocRow = {
 };
 
 const POC_COLUMNS =
-  "id, name, emoji, cover_url, tagline, pain_point, story, status, stage, year_label, former_name, link, stack";
+  "id, name, emoji, cover_url, tagline, pain_point, story, impact, status, stage, year_label, former_name, link, stack";
 
 /**
  * How far a project has come — the question it has answered so far.
@@ -76,6 +78,7 @@ function toPoc(row: PocRow): Poc {
     tagline: row.tagline ?? "",
     painPoint: row.pain_point ?? "",
     story: row.story ?? "",
+    impact: row.impact ?? "",
     status: row.status ?? "pending",
     stage: row.stage ?? "poc",
     yearLabel: row.year_label ?? "",

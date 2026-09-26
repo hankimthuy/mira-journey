@@ -91,11 +91,22 @@ export default function ProductRail({ pocs }: { pocs: Poc[] }) {
   );
 }
 
+/**
+ * The case-study beats, in reading order. English on purpose — the same
+ * register as the PoC / MVP / Live stage labels. Empty ones are skipped.
+ */
+const WRITE_UP = [
+  { key: "painPoint", label: "Problem" },
+  { key: "story", label: "Solution" },
+  { key: "impact", label: "Impact" },
+] as const satisfies readonly { key: keyof Poc; label: string }[];
+
 function Station({ poc }: { poc: Poc }) {
   const stage = POC_STAGE[poc.stage];
   const note = POC_STATUS_NOTE[poc.status];
+  const beats = WRITE_UP.filter(({ key }) => poc[key]);
   const hasDetails = Boolean(
-    poc.painPoint || poc.story || poc.stack.length > 0 || poc.formerName
+    beats.length > 0 || poc.stack.length > 0 || poc.formerName
   );
 
   return (
@@ -153,7 +164,11 @@ function Station({ poc }: { poc: Poc }) {
             <span className="summary-caret text-[10px]" aria-hidden="true">
               ▶
             </span>
-            Vấn đề &amp; câu chuyện
+            {/* Names only the beats this project has, so the toggle never
+                promises a section that isn't there. */}
+            {beats.length > 0
+              ? beats.map((b) => b.label).join(" · ")
+              : "Chi tiết"}
           </summary>
           <div className="mt-3 space-y-3 border-l-2 border-ochre-light/70 pl-4 text-[14px] leading-relaxed text-ink/75">
             {poc.formerName && (
@@ -161,22 +176,14 @@ function Station({ poc }: { poc: Poc }) {
                 Tiền thân: {poc.formerName}
               </p>
             )}
-            {poc.painPoint && (
-              <div>
+            {beats.map(({ key, label }) => (
+              <div key={key}>
                 <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-ochre">
-                  Vấn đề
+                  {label}
                 </p>
-                <p className="whitespace-pre-line">{poc.painPoint}</p>
+                <p className="whitespace-pre-line">{poc[key]}</p>
               </div>
-            )}
-            {poc.story && (
-              <div>
-                <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-ochre">
-                  Câu chuyện
-                </p>
-                <p className="whitespace-pre-line">{poc.story}</p>
-              </div>
-            )}
+            ))}
             {poc.stack.length > 0 && (
               <p className="text-[12px] text-ink/55">{poc.stack.join(" · ")}</p>
             )}
