@@ -9,10 +9,18 @@ import { createPortal } from "react-dom";
 // app/layout.tsx + the html[data-warp] rule in globals.css).
 
 type Destination = { slug: string; title: string; date: string };
-type Phase = "idle" | "warp" | "land";
+type Phase = "idle" | "open" | "warp" | "land";
+
+// Shown like a loading sequence: each step lights up in turn.
+const STEPS: { phase: Exclude<Phase, "idle">; label: string }[] = [
+  { phase: "open", label: "Mở cổng thời gian" },
+  { phase: "warp", label: "Đang di chuyển" },
+  { phase: "land", label: "Đã tới nơi" },
+];
 
 const ARRIVE_KEY = "warp:arrive"; // read by WARP_ARRIVE_SCRIPT in app/layout.tsx
-const MIN_SPIN_MS = 750;
+const OPEN_MS = 500;
+const MIN_SPIN_MS = 1100;
 const LAND_MS = 650;
 
 function pad(n: number) {
@@ -68,7 +76,7 @@ export function useSnapWarp(fromSlug: string) {
 
   // Spin the dial while warping.
   useEffect(() => {
-    if (phase !== "warp") return;
+    if (phase !== "open" && phase !== "warp") return;
     const id = window.setInterval(() => setDial(randomDial()), 60);
     return () => window.clearInterval(id);
   }, [phase]);
@@ -84,8 +92,11 @@ export function useSnapWarp(fromSlug: string) {
     const rect = e.currentTarget.getBoundingClientRect();
     setOrigin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
     setDest(null);
-    setPhase("warp");
+    setPhase("open");
     const startedAt = Date.now();
+    timers.current.push(
+      window.setTimeout(() => setPhase((p) => (p === "open" ? "warp" : p)), OPEN_MS)
+    );
 
     let target: Destination | null = null;
     try {
@@ -137,7 +148,8 @@ export function useSnapWarp(fromSlug: string) {
             </div>
             <div className="warp-center">
               <p className="warp-kicker">
-                {phase === "land" ? "✦ Đã khóa tọa độ" : "✦ Tách! Đang dịch chuyển…"}
+                ✦ {STEPS.find((st) => st.phase === phase)?.label}
+                {phase === "land" ? "" : "…"}
               </p>
               <p className="warp-dial" aria-hidden="true">
                 <span>{dial[0]}</span>
@@ -147,6 +159,17 @@ export function useSnapWarp(fromSlug: string) {
                 <span>{dial[2]}</span>
               </p>
               <p className="warp-dest">{dest ? `→ ${dest.title}` : " "}</p>
+              <ol className="warp-steps" aria-hidden="true">
+                {STEPS.map((st, i) => {
+                  const current = STEPS.findIndex((x) => x.phase === phase);
+                  const state = i < current || phase === "land" ? "done" : i === current ? "active" : "todo";
+                  return (
+                    <li key={st.phase} data-state={state}>
+                      {st.label}
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
           </div>,
           document.body
