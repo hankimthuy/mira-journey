@@ -64,13 +64,27 @@ export const metadata: Metadata = {
   },
 };
 
+// After a "búng tay" random jump, play the portal closing from the very first
+// paint (a hydrated component would flash the new page first). The flag is
+// set in components/SnapWarp.tsx just before navigating.
+const WARP_ARRIVE_SCRIPT = `try{if(sessionStorage.getItem("warp:arrive")){sessionStorage.removeItem("warp:arrive");var d=document.documentElement;d.dataset.warp="arrive";setTimeout(function(){delete d.dataset.warp},900)}}catch(e){}`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${beVietnamPro.variable} ${lora.variable} h-full antialiased`}>
+    // suppressHydrationWarning: WARP_ARRIVE_SCRIPT may set data-warp on <html>
+    // before React hydrates.
+    <html
+      lang="vi"
+      className={`${beVietnamPro.variable} ${lora.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: WARP_ARRIVE_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <Header />
         <main className="flex-1 w-full">{children}</main>
