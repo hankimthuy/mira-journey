@@ -1,5 +1,9 @@
 import { supabase } from "@/lib/supabase";
 
+// New comments are paused (spam). Existing comments stay visible; flip to
+// true to reopen the form and the POST endpoint.
+export const COMMENTS_OPEN = false;
+
 export type PublicComment = {
   id: string;
   postSlug: string;

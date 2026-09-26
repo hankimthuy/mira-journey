@@ -62,6 +62,11 @@ export default function Header() {
   // against the last-seen pathname) rather than in an effect, so there's no
   // extra render where the stale menu is still visible.
   const [menuPathname, setMenuPathname] = useState(pathname);
+  // Plain <a>, not <Link>: /random is a Route Handler that redirects, and
+  // <Link> would prefetch it and replay the cached redirect (same post every
+  // click). `from` keeps the jump off the post being read.
+  const currentSlug = pathname.startsWith("/blog/") ? pathname.slice("/blog/".length) : "";
+  const randomHref = currentSlug ? `/random?from=${encodeURIComponent(currentSlug)}` : "/random";
   if (pathname !== menuPathname) {
     setMenuPathname(pathname);
     setMenuOpen(false);
@@ -125,14 +130,14 @@ export default function Header() {
               </Link>
             );
           })}
-          <Link
-            href="/random"
+          <a
+            href={randomHref}
             aria-label="Dịch chuyển ngẫu nhiên"
             title="Dịch chuyển ngẫu nhiên"
             className="flex h-7 w-7 items-center justify-center rounded-full text-forest transition-colors hover:text-terracotta"
           >
             <DiceIcon />
-          </Link>
+          </a>
         </nav>
 
         <div className="sm:hidden" ref={menuRef}>
@@ -166,14 +171,14 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <Link
-                href="/random"
+              <a
+                href={randomHref}
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center gap-2 py-2.5 text-[15px] font-serif italic font-semibold text-forest"
               >
                 <DiceIcon />
                 Dịch chuyển ngẫu nhiên
-              </Link>
+              </a>
             </div>
           )}
         </div>

@@ -462,39 +462,65 @@ a {
   opacity: 0.22;
 }
 
-.like-stamp {
+.icon-action {
   position: relative;
-  transform: rotate(-5deg);
-  box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--color-cream) 85%, transparent) inset;
-  transition: transform 200ms ease, background 200ms ease, color 200ms ease,
-    box-shadow 200ms ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  min-width: 34px;
+  padding: 0 9px;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-forest) 15%, transparent);
+  color: var(--color-forest-deep);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
 }
 
-.like-stamp::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 6px;
-  border: 1px dashed var(--color-terracotta);
-  opacity: 0;
-  transition: opacity 250ms ease;
-  pointer-events: none;
+.icon-action:hover,
+.icon-action:focus-visible {
+  color: var(--color-terracotta);
+  border-color: color-mix(in srgb, var(--color-terracotta) 45%, transparent);
 }
 
-.like-stamp:not(:disabled):hover {
-  transform: rotate(-5deg) scale(1.05);
+.icon-action[data-liked="true"] {
+  color: var(--color-terracotta);
+  border-color: color-mix(in srgb, var(--color-terracotta) 35%, transparent);
+  background: color-mix(in srgb, var(--color-terracotta) 8%, transparent);
+  cursor: default;
 }
 
-.like-stamp[data-liked="true"] {
-  animation: stamp-press 360ms ease;
-}
-
-.like-stamp[data-liked="true"]::after {
-  opacity: 0.4;
-}
-
-.like-stamp[data-liked="true"] .like-heart {
+.icon-action[data-liked="true"] .like-heart {
   animation: heart-pop 420ms ease;
+}
+
+/* Tooltip from data-tip — shows on hover / keyboard focus. */
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translate(-50%, 4px);
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--color-forest-deep);
+  color: var(--color-cream);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 150ms ease;
+  z-index: 10;
+}
+
+.tip:hover::after,
+.tip:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
 .like-count {
@@ -517,7 +543,7 @@ a {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--color-cream);
+  background: var(--color-terracotta);
   opacity: 0;
   animation: heart-burst-fly 560ms ease-out forwards;
 }
@@ -546,18 +572,6 @@ a {
   --burst-x: 12px;
   --burst-y: 13px;
   animation-delay: 60ms;
-}
-
-@keyframes stamp-press {
-  0% {
-    transform: rotate(-5deg) scale(1.32);
-  }
-  55% {
-    transform: rotate(-5deg) scale(0.94);
-  }
-  100% {
-    transform: rotate(-5deg) scale(1);
-  }
 }
 
 @keyframes heart-burst-fly {
@@ -796,15 +810,12 @@ a {
     rotate: none;
   }
 
-  .like-stamp {
+  .icon-action,
+  .tip::after {
     transition: none;
   }
 
-  .like-stamp[data-liked="true"] {
-    animation: none;
-  }
-
-  .like-stamp[data-liked="true"] .like-heart {
+  .icon-action[data-liked="true"] .like-heart {
     animation: none;
   }
 

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { Post, PostMeta } from "@/lib/posts";
 import type { Category } from "@/lib/categories";
-import type { PublicComment } from "@/lib/comments";
+import { COMMENTS_OPEN, type PublicComment } from "@/lib/comments";
 import { formatDate } from "@/lib/format";
 import PostSidebar from "@/components/PostSidebar";
-import LikeButton from "@/components/LikeButton";
+import { PostActions, ReactionsProvider } from "@/components/PostReactions";
 import CommentSection from "@/components/CommentSection";
 
 const READING_FONT_SIZE = 16;
@@ -24,6 +24,7 @@ export default function PostDetail({
   comments: PublicComment[];
 }) {
   return (
+    <ReactionsProvider postSlug={post.slug} title={post.title} initialCount={likeCount}>
     <div className="mx-auto max-w-5xl px-5 py-12">
       <div className="max-w-[720px]">
         <div className="flex items-center gap-2.5 text-xs text-forest/70 mb-4 flex-wrap">
@@ -41,6 +42,7 @@ export default function PostDetail({
           </span>
           <span className="text-forest/30">·</span>
           <span>{formatDate(post.date)}</span>
+          <PostActions className="ml-auto" />
         </div>
 
         <h1 className="font-serif italic font-semibold text-4xl sm:text-[40px] leading-[1.15] text-forest-deep mb-3.5">
@@ -69,12 +71,18 @@ export default function PostDetail({
           Bạn thấy hành trình này thế nào?
         </p>
         <span className="like-row-rule" aria-hidden="true" />
-        <LikeButton postSlug={post.slug} initialCount={likeCount} />
+        <PostActions />
       </div>
 
-      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
-        <CommentSection postSlug={post.slug} initialComments={comments} />
-      </div>
+      {(COMMENTS_OPEN || comments.length > 0) && (
+        <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15">
+          <CommentSection
+            postSlug={post.slug}
+            initialComments={comments}
+            open={COMMENTS_OPEN}
+          />
+        </div>
+      )}
 
       <div className="max-w-[720px] mt-12 pt-6 border-t border-forest/15">
         <Link href="/blog" className="text-sm font-bold text-terracotta hover:underline">
@@ -82,5 +90,6 @@ export default function PostDetail({
         </Link>
       </div>
     </div>
+    </ReactionsProvider>
   );
 }

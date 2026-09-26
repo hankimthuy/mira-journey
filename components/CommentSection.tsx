@@ -8,9 +8,11 @@ import type { PublicComment } from "@/lib/comments";
 export default function CommentSection({
   postSlug,
   initialComments,
+  open,
 }: {
   postSlug: string;
   initialComments: PublicComment[];
+  open: boolean;
 }) {
   const [comments, setComments] = useState(initialComments);
   const [authorName, setAuthorName] = useState("");
@@ -83,6 +85,7 @@ export default function CommentSection({
         </ul>
       )}
 
+      {open && (
       <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 max-w-[480px]">
         {/* Honeypot — real visitors never see or fill this. Not display:none,
             some bots skip fields that are. */}
@@ -120,6 +123,7 @@ export default function CommentSection({
           {submitting ? "Đang gửi..." : "Gửi bình luận →"}
         </button>
       </form>
+      )}
     </div>
   );
 }
