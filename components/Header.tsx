@@ -127,7 +127,15 @@ export default function Header() {
           </a>
         </nav>
 
-        <div className="sm:hidden" ref={menuRef}>
+        <div className="flex items-center gap-1 sm:hidden" ref={menuRef}>
+          <a
+            href={warp.href}
+            onClick={warp.start}
+            aria-label="Búng tay — dịch chuyển ngẫu nhiên"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-forest transition-colors active:text-terracotta"
+          >
+            <SnapIcon snapping={warp.snapping} />
+          </a>
           <button
             type="button"
             aria-label={menuOpen ? "Đóng menu" : "Mở menu"}
@@ -158,14 +166,6 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <a
-                href={warp.href}
-                onClick={warp.start}
-                className="flex items-center gap-2 py-2.5 text-[15px] font-serif italic font-semibold text-forest"
-              >
-                <SnapIcon snapping={warp.snapping} />
-                Búng tay dịch chuyển
-              </a>
             </div>
           )}
         </div>
