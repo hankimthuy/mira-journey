@@ -168,14 +168,25 @@ export function useSnapWarp(fromSlug: string) {
   return { href: fallbackHref, start, snapping: phase !== "idle", overlay };
 }
 
-// Snap icon: a four-point spark with a small twin, like the flash of a
-// finger snap. The rays around it only fire while `snapping`.
+// Snap icon: a time dial whose hands drift slowly at rest and spin fast on
+// hover / tap, like rolling a random date. The rays around it only fire
+// while `snapping`.
 export function SnapIcon({ snapping }: { snapping: boolean }) {
   return (
     <span className="snap-icon" data-snapping={snapping} aria-hidden="true">
-      <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="currentColor">
-        <path d="M11 2.5c.5 4.6 1.9 6 6.5 6.5-4.6.5-6 1.9-6.5 6.5-.5-4.6-1.9-6-6.5-6.5 4.6-.5 6-1.9 6.5-6.5Z" />
-        <path d="M18 14c.25 2.2.8 2.75 3 3-2.2.25-2.75.8-3 3-.25-2.2-.8-2.75-3-3 2.2-.25 2.75-.8 3-3Z" />
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 3.8v1.6M20.2 12h-1.6M12 20.2v-1.6M3.8 12h1.6" strokeWidth="1.4" />
+        <path className="dial-hand dial-hand-hour" d="M12 12V8.2" strokeWidth="2" />
+        <path className="dial-hand dial-hand-min" d="M12 12h4.8" />
+        <circle cx="12" cy="12" r="1.4" fill="var(--color-ochre)" stroke="none" />
       </svg>
       <span className="snap-rays">
         {Array.from({ length: 8 }, (_, i) => (

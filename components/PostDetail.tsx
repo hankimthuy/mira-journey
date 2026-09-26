@@ -66,12 +66,12 @@ export default function PostDetail({
         <PostSidebar post={post} relatedPosts={relatedPosts} />
       </div>
 
-      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15 flex items-center gap-4">
-        <p className="font-serif italic text-[15px] text-ink/55 shrink-0">
+      <div className="max-w-[720px] mt-8 pt-8 border-t border-forest/15 flex items-center gap-x-4 gap-y-3">
+        <p className="font-serif italic text-[15px] text-ink/55 min-w-0 flex-1 sm:flex-none sm:shrink-0">
           Bạn thấy hành trình này thế nào?
         </p>
-        <span className="like-row-rule" aria-hidden="true" />
-        <PostActions />
+        <span className="like-row-rule hidden sm:block" aria-hidden="true" />
+        <PostActions className="shrink-0" />
       </div>
 
       {(COMMENTS_OPEN || comments.length > 0) && (
