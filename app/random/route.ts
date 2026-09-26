@@ -1,15 +1,30 @@
 import { NextResponse } from "next/server";
-import { getAllPostSlugs } from "@/lib/posts";
+import { getAllPosts } from "@/lib/posts";
 
 export const dynamic = "force-dynamic";
 
+// GET /random            → 307 to a random post (plain links, no-JS fallback)
+// GET /random?format=json → { slug, title, date } for the header's warp
+//                           animation, which lands on the destination's date.
 export async function GET(request: Request) {
-  const slugs = await getAllPostSlugs();
+  const url = new URL(request.url);
+  const from = url.searchParams.get("from");
+  const wantsJson = url.searchParams.get("format") === "json";
+  const posts = await getAllPosts();
 
-  if (slugs.length === 0) {
-    return NextResponse.redirect(new URL("/blog", request.url));
+  if (posts.length === 0) {
+    return wantsJson
+      ? NextResponse.json({ error: "no posts" }, { status: 404 })
+      : NextResponse.redirect(new URL("/blog", request.url));
   }
 
-  const slug = slugs[Math.floor(Math.random() * slugs.length)];
-  return NextResponse.redirect(new URL(`/blog/${slug}`, request.url), 307);
+  // Don't "jump" to the post the reader is already on.
+  const candidates = posts.length > 1 ? posts.filter((p) => p.slug !== from) : posts;
+  const post = candidates[Math.floor(Math.random() * candidates.length)];
+
+  const res = wantsJson
+    ? NextResponse.json({ slug: post.slug, title: post.title, date: post.date })
+    : NextResponse.redirect(new URL(`/blog/${post.slug}`, request.url), 307);
+  res.headers.set("Cache-Control", "no-store");
+  return res;
 }

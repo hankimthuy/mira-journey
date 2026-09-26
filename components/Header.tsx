@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
 
 const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
@@ -22,21 +23,6 @@ function GearMark() {
       <circle cx="12" cy="12" r="3.2" fill="currentColor" />
       <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <path d="M12 2v3M12 19v3M22 12h-3M5 12H2M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1M18.4 18.4l-2.1-2.1M7.7 7.7 5.6 5.6" />
-      </g>
-    </svg>
-  );
-}
-
-function DiceIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden="true">
-      <rect x="3.5" y="3.5" width="17" height="17" rx="3" stroke="currentColor" strokeWidth="1.8" />
-      <g fill="currentColor">
-        <circle cx="8.2" cy="8.2" r="1.3" />
-        <circle cx="15.8" cy="8.2" r="1.3" />
-        <circle cx="12" cy="12" r="1.3" />
-        <circle cx="8.2" cy="15.8" r="1.3" />
-        <circle cx="15.8" cy="15.8" r="1.3" />
       </g>
     </svg>
   );
@@ -62,6 +48,11 @@ export default function Header() {
   // against the last-seen pathname) rather than in an effect, so there's no
   // extra render where the stale menu is still visible.
   const [menuPathname, setMenuPathname] = useState(pathname);
+  // Plain <a>, not <Link>: /random is a Route Handler that redirects, and
+  // <Link> would prefetch it and replay the cached redirect (same post every
+  // click). The href is the no-JS fallback; with JS the snap warp takes over.
+  const currentSlug = pathname.startsWith("/blog/") ? pathname.slice("/blog/".length) : "";
+  const warp = useSnapWarp(currentSlug);
   if (pathname !== menuPathname) {
     setMenuPathname(pathname);
     setMenuOpen(false);
@@ -125,14 +116,15 @@ export default function Header() {
               </Link>
             );
           })}
-          <Link
-            href="/random"
-            aria-label="Dịch chuyển ngẫu nhiên"
-            title="Dịch chuyển ngẫu nhiên"
-            className="flex h-7 w-7 items-center justify-center rounded-full text-forest transition-colors hover:text-terracotta"
+          <a
+            href={warp.href}
+            onClick={warp.start}
+            aria-label="Búng tay — dịch chuyển ngẫu nhiên"
+            data-tip="Búng tay — dịch chuyển ngẫu nhiên"
+            className="tip tip-below flex h-8 w-8 items-center justify-center rounded-full text-forest transition-colors hover:text-terracotta"
           >
-            <DiceIcon />
-          </Link>
+            <SnapIcon snapping={warp.snapping} />
+          </a>
         </nav>
 
         <div className="sm:hidden" ref={menuRef}>
@@ -166,18 +158,19 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <Link
-                href="/random"
-                onClick={() => setMenuOpen(false)}
+              <a
+                href={warp.href}
+                onClick={warp.start}
                 className="flex items-center gap-2 py-2.5 text-[15px] font-serif italic font-semibold text-forest"
               >
-                <DiceIcon />
-                Dịch chuyển ngẫu nhiên
-              </Link>
+                <SnapIcon snapping={warp.snapping} />
+                Búng tay dịch chuyển
+              </a>
             </div>
           )}
         </div>
       </div>
+      {warp.overlay}
     </header>
   );
 }

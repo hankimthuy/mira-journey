@@ -5,10 +5,15 @@ import { getClientIp, hashIp, countRecentByIp, COMMENT_RATE_LIMIT } from "@/lib/
 import { checkContent } from "@/lib/moderation/keywords";
 import { notifyNewComment } from "@/lib/notifyComment";
 import { SITE_URL } from "@/lib/seo";
+import { COMMENTS_OPEN } from "@/lib/comments";
 
 const MIN_SUBMIT_MS = 3000;
 
 export async function POST(request: Request) {
+  if (!COMMENTS_OPEN) {
+    return NextResponse.json({ error: "Bình luận đang tạm đóng." }, { status: 403 });
+  }
+
   let body: {
     postSlug?: unknown;
     clientId?: unknown;
