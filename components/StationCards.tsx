@@ -99,7 +99,7 @@ export default function StationCards({ places }: { places: Place[] }) {
             }
             name={exploreStation.name}
             meta={stamped.length > 0 ? `${stamped.length} con dấu` : "Hộ chiếu"}
-            description="Những nơi đã ghé, mỗi nơi một con dấu trong hộ chiếu."
+            description="Những nơi mình đã đi qua, mỗi nơi để lại một con dấu."
           />
         </Link>
       </li>
@@ -114,7 +114,7 @@ export default function StationCards({ places }: { places: Place[] }) {
             object={<GrowingPots width={190} />}
             name="Trạm chế tạo"
             meta={<span className="normal-case tracking-wide">PoC → MVP → Live</span>}
-            description="Những câu hỏi không trả lời được bằng chữ, mang vào xưởng."
+            description="Những ý tưởng mình muốn làm thử, cho đến khi chạy được."
           />
         </Link>
       </li>
@@ -137,7 +137,7 @@ export default function StationCards({ places }: { places: Place[] }) {
             }
             name="Trạm Aha"
             meta="Tarot · Bài tây"
-            description="Rút một lá dưới ánh trăng, để trực giác lên tiếng."
+            description="Rút một lá bài, nghe thử trực giác nói gì."
           />
         </Link>
       </li>

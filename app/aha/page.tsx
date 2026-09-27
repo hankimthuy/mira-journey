@@ -3,7 +3,7 @@ import CardStation from "@/components/CardStation";
 
 export const metadata: Metadata = {
   title: "Trạm Aha",
-  description: "Dưới ánh trăng, rút một lá tarot hay bài tây và để trực giác lên tiếng.",
+  description: "Rút một lá tarot hay bài tây, nghe thử trực giác nói gì.",
 };
 
 // Fixed star field: positions come from a tiny seeded generator, so the
