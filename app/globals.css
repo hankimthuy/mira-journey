@@ -75,14 +75,27 @@ a {
   font-weight: 600;
   color: var(--color-forest-deep);
   scroll-margin-top: 96px;
+  /* Headings inherit the body's 1.8 reading line-height otherwise, which
+     leaves a wrapped heading looking like separate lines on phones. */
+  line-height: 1.3;
 }
 
 .prose-post :where(h2) {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 .prose-post :where(h3) {
-  font-size: 19px;
+  font-size: 18px;
+}
+
+@media (min-width: 640px) {
+  .prose-post :where(h2) {
+    font-size: 24px;
+  }
+
+  .prose-post :where(h3) {
+    font-size: 19px;
+  }
 }
 
 .prose-post :where(a) {
@@ -638,33 +651,23 @@ a {
   transition: transform 200ms ease;
 }
 
-/* Dial hands drift at rest, then spin like a date roller on hover / tap. */
-.dial-hand {
+/* The lever leans back at rest, swings forward on hover / tap and yanks all
+   the way while the warp runs. */
+.lever-arm {
   transform-box: view-box;
-  transform-origin: 12px 12px;
-  animation: dial-spin 12s linear infinite;
+  transform-origin: 12px 17px;
+  transform: rotate(28deg);
+  transition: transform 320ms cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 
-.dial-hand-hour {
-  animation-duration: 48s;
+a:hover .lever-arm,
+a:focus-visible .lever-arm,
+a:active .lever-arm {
+  transform: rotate(-22deg);
 }
 
-a:hover .dial-hand-min,
-a:focus-visible .dial-hand-min,
-a:active .dial-hand-min,
-.snap-icon[data-snapping="true"] .dial-hand-min {
-  animation-duration: 0.6s;
-}
-
-a:hover .dial-hand-hour,
-a:focus-visible .dial-hand-hour,
-a:active .dial-hand-hour,
-.snap-icon[data-snapping="true"] .dial-hand-hour {
-  animation-duration: 2.4s;
-}
-
-@keyframes dial-spin {
-  to { transform: rotate(360deg); }
+.snap-icon[data-snapping="true"] .lever-arm {
+  transform: rotate(-40deg);
 }
 
 .snap-trigger {
@@ -1058,6 +1061,86 @@ body:has(.aha-night) .snap-trigger {
   animation-delay: calc(var(--flip-delay, 0ms) + 750ms);
 }
 
+/* --- Homepage: the stations off the rail, as objects on a desk ---------- */
+.desk-object {
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 380ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+
+.group:hover .desk-object,
+.group:focus-visible .desk-object,
+.group:active .desk-object {
+  transform: translateY(-5px) rotate(0deg);
+}
+
+/* The shadow on the desk shrinks as the object lifts off it. */
+.desk-shadow {
+  background: radial-gradient(closest-side, rgb(36 56 42 / 0.18), transparent);
+  transition: transform 380ms ease, opacity 380ms ease;
+}
+
+.group:hover .desk-shadow,
+.group:focus-visible .desk-shadow,
+.group:active .desk-shadow {
+  transform: scale(0.8);
+  opacity: 0.6;
+}
+
+/* Trạm khám phá: each stamp thumps down in turn. */
+@keyframes desk-thump {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-8px) scale(1.08); }
+  60% { transform: translateY(1px) scale(0.94); }
+}
+
+.group:hover .desk-stamp,
+.group:active .desk-stamp {
+  animation: desk-thump 520ms ease both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Trạm chế tạo: seed, sprout, flower each grow a little, one after another. */
+.desk-plant {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@keyframes desk-grow {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.12, 1.22); }
+  70% { transform: scale(0.97, 0.94); }
+}
+
+.group:hover .desk-plant,
+.group:active .desk-plant {
+  animation: desk-grow 620ms ease both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Trạm Aha: the front card flips up off the pair. */
+.desk-card-back,
+.desk-card-front {
+  transition: transform 420ms cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.desk-card-back {
+  transform: rotate(-8deg);
+}
+
+.desk-card-front {
+  transform: rotate(8deg);
+}
+
+.group:hover .desk-card-back,
+.group:active .desk-card-back {
+  transform: rotate(-14deg) translateX(-4px);
+}
+
+.group:hover .desk-card-front,
+.group:active .desk-card-front {
+  transform: translateY(-10px) rotate(18deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html[data-warp="arrive"] body::after {
     display: none;
@@ -1101,6 +1184,25 @@ body:has(.aha-night) .snap-trigger {
     animation: none;
   }
 
+  .desk-object,
+  .desk-card-back,
+  .desk-card-front,
+  .desk-shadow {
+    transition: none;
+  }
+
+  .group:hover .desk-object,
+  .group:active .desk-object {
+    transform: rotate(var(--tilt, 0deg));
+  }
+
+  .group:hover .desk-stamp,
+  .group:active .desk-stamp,
+  .group:hover .desk-plant,
+  .group:active .desk-plant {
+    animation: none;
+  }
+
   .time-rail-line {
     animation: none;
   }
@@ -1137,8 +1239,8 @@ body:has(.aha-night) .snap-trigger {
     display: none;
   }
 
-  .dial-hand {
-    animation: none;
+  .lever-arm {
+    transition: none;
   }
 
   .snap-trigger {

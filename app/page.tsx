@@ -1,32 +1,22 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { getAllPocs } from "@/lib/pocs";
 import { getAllPlaces } from "@/lib/places";
-import {
-  EXPLORE_PATH,
-  categories,
-  exploreStation,
-  getCategoryBySlug,
-  isExplorePost,
-} from "@/lib/categories";
+import { categories, getCategoryBySlug, isExplorePost } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
-import { StageDot } from "@/components/ProductRail";
+import StationCards from "@/components/StationCards";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [posts, pocs, places] = await Promise.all([
+  const [posts, places] = await Promise.all([
     getAllPosts(),
-    getAllPocs(),
     getAllPlaces(),
   ]);
-  const stampCount = places.filter((p) => !p.isHome).length;
-  // The travel series has its own station; it gets a teaser, not a spot in
-  // the post timeline.
+  // The travel series has its own station below, not a spot in the post
+  // timeline.
   const timeline = posts.filter((p) => !isExplorePost(p));
-  const latestTrip = posts.find(isExplorePost);
   const latestPosts = timeline.slice(0, 5);
   const categoryCounts: Record<string, number> = Object.fromEntries(
     categories.map((c) => [c.slug, timeline.filter((p) => p.category === c.slug).length])
@@ -34,7 +24,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8 overflow-x-hidden">
-      <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
+      <section className="mb-20 sm:mb-24 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div className="animate-reveal-focus">
           <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
             Chào mừng đến với
@@ -81,7 +71,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mb-16">
+      <section className="mb-20 sm:mb-24">
         <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
           Những trạm dừng
         </h2>
@@ -136,40 +126,13 @@ export default async function HomePage() {
           </ol>
         </div>
 
-        <p className="mt-10 border-t border-dashed border-forest/20 pt-5 font-serif text-lg italic text-forest-deep">
-          Muốn rẽ khỏi đường ray một chút?{" "}
-          <Link href={EXPLORE_PATH} className="font-semibold text-terracotta hover:underline">
-            Ghé {exploreStation.name.toLowerCase()} →
-          </Link>
-          {stampCount > 0 && (
-            <span className="font-sans text-[13px] not-italic text-ink/60">
-              {" "}· {stampCount} con dấu trong hộ chiếu
-            </span>
-          )}
-          {latestTrip && (
-            <span className="mt-1 block font-sans text-[13px] not-italic text-ink/60">
-              Chuyến gần nhất:{" "}
-              <Link href={`/blog/${latestTrip.slug}`} className="hover:text-terracotta">
-                {latestTrip.title}
-              </Link>
-            </span>
-          )}
-        </p>
-      </section>
 
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-forest/70">
-            Bài viết mới nhất
-          </h2>
-          <Link href="/blog" className="text-sm text-terracotta font-bold hover:underline">
-            Xem tất cả →
-          </Link>
-        </div>
+        {/* The latest stops hang right off the rail: they are what the
+            stations above hold, so no heading of their own. */}
         {latestPosts.length === 0 ? (
           <p className="text-forest/70">Chưa có bài viết nào. Sắp có rồi.</p>
         ) : (
-          <div>
+          <div className="mt-12 border-t border-forest/15">
             {latestPosts.map((post, i) => {
               const category = getCategoryBySlug(post.category);
               return (
@@ -207,40 +170,24 @@ export default async function HomePage() {
             })}
           </div>
         )}
+        <div className="mt-5 text-right">
+          <Link href="/blog" className="text-sm text-terracotta font-bold hover:underline">
+            Xem tất cả bài viết →
+          </Link>
+        </div>
       </section>
 
-      {pocs.length > 0 && (
-        <section className="mt-16">
-          <div className="mb-3 flex items-center justify-between gap-4">
-            <h2 className="font-serif italic text-2xl text-forest-deep">
-              Trạm chế tạo
-            </h2>
-            <Link
-              href="/products"
-              className="shrink-0 text-sm font-bold text-terracotta hover:underline"
-            >
-              Ghé xưởng →
-            </Link>
-          </div>
-          {/* Just the names, one line that wraps — a teaser for /products,
-              not a second copy of it. The dot is the stage (hollow PoC, half
-              MVP, solid Live), explained by the legend over there; it also does
-              the separating, so no "·" that could wrap to a line start. */}
-          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 font-serif italic text-base sm:text-lg text-forest-deep">
-            {pocs.map((poc) => (
-              <li key={poc.id}>
-                <Link
-                  href={`/products#${poc.id}`}
-                  className="inline-flex items-center gap-1.5 hover:text-terracotta"
-                >
-                  <StageDot stage={poc.stage} className="size-2.5" />
-                  {poc.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      {/* Leaving the rail comes after riding it: the other stations sit
+          below the posts, each card a small picture of what is inside. */}
+      <section>
+        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
+          Ghé thêm vài trạm
+        </h2>
+        <p className="text-sm text-ink/70 mb-6">
+          Một phần của hành trình.
+        </p>
+        <StationCards places={places} />
+      </section>
     </div>
   );
 }

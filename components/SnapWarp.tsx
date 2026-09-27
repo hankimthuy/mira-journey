@@ -168,9 +168,9 @@ export function useSnapWarp(fromSlug: string) {
   return { href: fallbackHref, start, snapping: phase !== "idle", overlay };
 }
 
-// Snap icon: a time dial whose hands drift slowly at rest and spin fast on
-// hover / tap, like rolling a random date. The rays around it only fire
-// while `snapping`.
+// Snap icon: the time machine's lever. It leans back at rest, swings
+// forward on hover / tap, and yanks all the way while `snapping`, when the
+// rays around it fire.
 export function SnapIcon({ snapping }: { snapping: boolean }) {
   return (
     <span className="snap-icon" data-snapping={snapping} aria-hidden="true">
@@ -182,11 +182,13 @@ export function SnapIcon({ snapping }: { snapping: boolean }) {
         strokeWidth="1.8"
         strokeLinecap="round"
       >
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 3.8v1.6M20.2 12h-1.6M12 20.2v-1.6M3.8 12h1.6" strokeWidth="1.4" />
-        <path className="dial-hand dial-hand-hour" d="M12 12V8.2" strokeWidth="2" />
-        <path className="dial-hand dial-hand-min" d="M12 12h4.8" />
-        <circle cx="12" cy="12" r="1.4" fill="var(--color-ochre)" stroke="none" />
+        <g className="lever-arm">
+          <path d="M12 17V7" strokeWidth="3.4" />
+          <circle cx="12" cy="4.8" r="3.3" fill="currentColor" stroke="none" />
+          <circle cx="11" cy="3.9" r="0.9" fill="var(--color-cream)" stroke="none" opacity="0.7" />
+        </g>
+        <rect x="3.5" y="16.2" width="17" height="5.6" rx="2.8" fill="var(--color-cream)" strokeWidth="2.2" />
+        <circle cx="12" cy="17" r="2" fill="var(--color-ochre)" stroke="currentColor" strokeWidth="1.2" />
       </svg>
       <span className="snap-rays">
         {Array.from({ length: 8 }, (_, i) => (

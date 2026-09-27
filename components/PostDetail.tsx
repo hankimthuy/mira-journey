@@ -45,7 +45,7 @@ export default function PostDetail({
           <PostActions className="ml-auto" />
         </div>
 
-        <h1 className="font-serif italic font-semibold text-4xl sm:text-[40px] leading-[1.15] text-forest-deep mb-3.5">
+        <h1 className="font-serif italic font-semibold text-[28px] leading-[1.2] sm:text-[40px] sm:leading-[1.15] text-forest-deep mb-3.5">
           {post.title}
         </h1>
 
@@ -58,7 +58,7 @@ export default function PostDetail({
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_180px] gap-8 md:gap-16 items-start">
         <div
-          className="prose-post max-w-[720px] text-ink [&_h2]:mt-10 [&_h3]:mt-8 [&>*]:mb-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
+          className="prose-post max-w-[720px] text-ink [&_h2]:mt-8 sm:[&_h2]:mt-10 [&_h3]:mt-7 sm:[&_h3]:mt-8 [&>*]:mb-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
           style={{ fontSize: READING_FONT_SIZE, lineHeight: READING_LINE_HEIGHT }}
           dangerouslySetInnerHTML={{ __html: post.contentHtml }}
         />
