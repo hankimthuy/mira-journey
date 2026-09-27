@@ -36,6 +36,21 @@ export async function generateMetadata(
   };
 }
 
+// A polaroid taped to the page. Utilities only, no hand-written CSS rules.
+const POLAROID =
+  "relative mt-3 mb-6 inline-block break-inside-avoid align-top rotate-(--tilt) bg-[#fffdf8] p-2.5 pb-10 shadow-[0_10px_22px_-12px_rgb(36_56_42/0.45),0_1px_2px_rgb(36_56_42/0.12)] transition-transform duration-300 hover:rotate-0 hover:scale-102 motion-reduce:transition-none";
+
+/** The strip of washi tape holding a polaroid up. */
+function Tape() {
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute -top-2.5 left-1/2 z-10 h-[22px] w-[84px] -translate-x-1/2 bg-ochre-light/55 shadow-[0_1px_2px_rgb(36_56_42/0.12)]"
+      style={{ rotate: "calc(var(--tilt) * -1.5)" }}
+    />
+  );
+}
+
 /** Slight tilt per photo, stable across renders. */
 function tilt(url: string): string {
   return `${(slugHash(url) % 7) - 3}deg`;
@@ -89,9 +104,10 @@ export default async function PlacePage(props: PageProps<"/explore/[slug]">) {
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="polaroid"
+              className={`${POLAROID} w-full`}
               style={{ "--tilt": tilt(url) } as React.CSSProperties}
             >
+              <Tape />
               <Image
                 src={url}
                 alt={`${place.name} — ảnh ${i + 1}`}
@@ -113,9 +129,10 @@ export default async function PlacePage(props: PageProps<"/explore/[slug]">) {
           {[-3, 2].map((deg, i) => (
             <div
               key={deg}
-              className="polaroid w-56"
+              className={`${POLAROID} w-56`}
               style={{ "--tilt": `${deg}deg` } as React.CSSProperties}
             >
+              <Tape />
               <div className="flex aspect-[4/5] items-center justify-center bg-forest-deep/90 px-4 text-center font-serif italic text-cream/70">
                 {i === 0 ? "Ảnh đang được rửa…" : ""}
               </div>
