@@ -101,6 +101,44 @@ const WRITE_UP = [
   { key: "impact", label: "Impact" },
 ] as const satisfies readonly { key: keyof Poc; label: string }[];
 
+/**
+ * Drawn arrows instead of ↗ / ▶ — iOS renders those characters as blue emoji
+ * tiles. Muted grey so they point without shouting.
+ */
+function ExternalArrow() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className="ml-1.5 inline-block size-3.5 align-[0.1em] text-ink/40 transition-colors group-hover/link:text-terracotta"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M5 11 11 5M6 5h5v5" />
+    </svg>
+  );
+}
+
+function Chevron() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className="summary-caret size-3 text-ink/40"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m6 4 4 4-4 4" />
+    </svg>
+  );
+}
+
 function Station({ poc }: { poc: Poc }) {
   const stage = POC_STAGE[poc.stage];
   const note = POC_STATUS_NOTE[poc.status];
@@ -125,10 +163,10 @@ function Station({ poc }: { poc: Poc }) {
               href={poc.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-terracotta"
+              className="group/link hover:text-terracotta"
             >
               {poc.name}
-              <span className="ml-1 text-base not-italic text-terracotta">↗</span>
+              <ExternalArrow />
             </a>
           ) : (
             poc.name
@@ -161,14 +199,10 @@ function Station({ poc }: { poc: Poc }) {
       {hasDetails && (
         <details className="mt-2 max-w-2xl">
           <summary className="inline-flex items-center gap-1 text-[13px] font-semibold text-terracotta hover:underline">
-            <span className="summary-caret text-[10px]" aria-hidden="true">
-              ▶
-            </span>
-            {/* Names only the beats this project has, so the toggle never
-                promises a section that isn't there. */}
-            {beats.length > 0
-              ? beats.map((b) => b.label).join(" · ")
-              : "Chi tiết"}
+            <Chevron />
+            {/* One short invitation instead of listing every beat — the
+                Problem / Solution / Impact labels wait inside. */}
+            {beats.length > 0 ? "Hé lộ hậu trường" : "Chi tiết"}
           </summary>
           <div className="mt-3 space-y-3 border-l-2 border-ochre-light/70 pl-4 text-[14px] leading-relaxed text-ink/75">
             {poc.formerName && (

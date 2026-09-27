@@ -8,7 +8,8 @@ import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
 const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
   { href: "/blog", label: "Trạm dừng" },
-  { href: "/products", label: "Trạm Chế Tạo" },
+  { href: "/explore", label: "Trạm khám phá" },
+  { href: "/products", label: "Trạm chế tạo" },
   { href: "/about", label: "Trạm xuất phát" },
 ];
 

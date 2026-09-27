@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getAllPosts } from "@/lib/posts";
-import { categories } from "@/lib/categories";
+import { categories, isExplorePost } from "@/lib/categories";
 import PostList from "@/components/PostList";
 import { SITE_NAME } from "@/lib/seo";
 
@@ -15,7 +15,8 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function BlogIndexPage() {
-  const posts = await getAllPosts();
+  // The travel series has its own station at /explore.
+  const posts = (await getAllPosts()).filter((p) => !isExplorePost(p));
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, posts.filter((p) => p.category === c.slug).length])
   );

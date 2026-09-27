@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/poc", destination: "/products", permanent: true },
       { source: "/poc/:path*", destination: "/products/:path*", permanent: true },
+      // The travel series moved out of the post categories onto its own station.
+      { source: "/category/explore", destination: "/explore", permanent: true },
     ];
   },
 };

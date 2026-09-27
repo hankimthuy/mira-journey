@@ -30,13 +30,31 @@ export const categories: Category[] = [
     name: "Radar",
     tagline: "Vài thứ nhỏ nhặt nhưng hay ho",
   },
-  {
-    slug: "explore",
-    name: "Khám phá đó đây",
-    tagline: "Những chuyến đi, những nơi đã ghé qua, và vài điều học được dọc đường",
-  },
 ];
 
+/**
+ * The travel series lives on its own station (/explore) instead of mixing
+ * into the post timeline. Posts still carry `category: "explore"` in the CMS;
+ * it is just kept out of `categories`, which are the stops on the blog rail.
+ */
+export const exploreStation: Category = {
+  slug: "explore",
+  name: "Trạm khám phá",
+  tagline: "Những chuyến đi, những nơi đã ghé qua, và vài điều học được dọc đường",
+};
+
+export const EXPLORE_PATH = "/explore";
+
+export function isExplorePost(post: { category: string }): boolean {
+  return post.category === exploreStation.slug;
+}
+
 export function getCategoryBySlug(slug: string): Category | undefined {
+  if (slug === exploreStation.slug) return exploreStation;
   return categories.find((c) => c.slug === slug);
+}
+
+/** Where a category's own page lives — the travel series has its own route. */
+export function categoryHref(slug: string): string {
+  return slug === exploreStation.slug ? EXPLORE_PATH : `/category/${slug}`;
 }
