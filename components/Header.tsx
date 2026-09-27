@@ -96,7 +96,7 @@ export default function Header() {
           : "border-b border-transparent bg-transparent"
         }`}
     >
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-3">
         <Link href="/" aria-label="Cỗ Máy Thời Gian" className="group flex shrink-0 items-center gap-2.5">
           <GearMark night={night} />
           {pathname !== "/" && (
@@ -106,7 +106,7 @@ export default function Header() {
           )}
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href;
             return (
@@ -114,7 +114,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
+                className={`whitespace-nowrap border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
                   } ${active ? (night ? "border-ochre-light text-ochre-light" : "border-terracotta") : "border-transparent"
                   }`}
               >
@@ -127,18 +127,18 @@ export default function Header() {
             onClick={warp.start}
             aria-label="Búng tay — tới một bài viết ngẫu nhiên"
             data-tip="Búng tay — tới một bài viết ngẫu nhiên"
-            className="snap-trigger tip tip-below tip-end flex h-9 w-9 items-center justify-center rounded-full"
+            className="snap-trigger tip tip-below tip-end flex h-8 w-8 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
           </a>
         </nav>
 
-        <div className="flex items-center gap-1 sm:hidden" ref={menuRef}>
+        <div className="flex items-center gap-1 lg:hidden" ref={menuRef}>
           <a
             href={warp.href}
             onClick={warp.start}
             aria-label="Búng tay — tới một bài viết ngẫu nhiên"
-            className="snap-trigger mr-1 flex h-9 w-9 items-center justify-center rounded-full"
+            className="snap-trigger mr-1 flex h-8 w-8 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
           </a>

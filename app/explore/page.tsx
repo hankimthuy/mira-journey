@@ -5,6 +5,7 @@ import { EXPLORE_PATH, exploreStation, isExplorePost } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import { getAllPlaces } from "@/lib/places";
 import Passport from "@/components/Passport";
+import Luggage from "@/components/Luggage";
 
 export const revalidate = 60;
 
@@ -60,9 +61,7 @@ export default async function ExplorePage() {
       </h2>
 
       {trips.length === 0 ? (
-        <p className="py-12 text-center text-forest/70">
-          Hành lý đang được sắp xếp. Chuyến đầu tiên sẽ sớm lên đường.
-        </p>
+        <Luggage />
       ) : (
         <div className="relative">
           <div

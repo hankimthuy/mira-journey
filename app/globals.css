@@ -319,85 +319,6 @@ a {
   transform: scaleX(1);
 }
 
-/* --- Ticket-stub accent: entry points into "trạm dừng" -----------------
-   A dashed perforation with round "punch" notches, like the tear-line
-   on a paper ticket stub — used as a small colored accent beside
-   category cards and the blog filter chips. The header nav itself stays
-   plain text; this motif is intentionally concentrated here only. */
-
-.ticket-accent-0 {
-  --ticket-accent: var(--color-terracotta);
-}
-
-.ticket-accent-1 {
-  --ticket-accent: var(--color-ochre);
-}
-
-.ticket-accent-2 {
-  --ticket-accent: var(--color-forest);
-}
-
-.ticket-stub {
-  position: relative;
-  flex: none;
-  width: 10px;
-  background: var(--ticket-accent, var(--color-terracotta));
-}
-
-.ticket-stub::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 5px;
-  height: 5px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: color-mix(in srgb, var(--color-cream) 65%, transparent);
-}
-
-.ticket-divider {
-  position: relative;
-  flex: none;
-  width: 10px;
-}
-
-.ticket-divider::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(-50%);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    var(--color-forest-deep) 0px,
-    var(--color-forest-deep) 3px,
-    transparent 3px,
-    transparent 6px
-  );
-  opacity: 0.22;
-}
-
-.ticket-notch {
-  position: absolute;
-  left: 50%;
-  z-index: 1;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--color-cream);
-  transform: translate(-50%, -50%);
-}
-
-.ticket-notch-top {
-  top: 0;
-}
-
-.ticket-notch-bottom {
-  top: 100%;
-}
-
 /* --- Thả tim: like button, stamped like a rubber postmark --------------- */
 .like-row-rule {
   flex: 1 1 auto;
@@ -565,6 +486,22 @@ a {
 
 .open-sign-swing {
   animation: sign-sway 5.5s ease-in-out infinite;
+}
+
+/* Trạm khám phá: the packed suitcase rocks on its wheels, waiting to leave. */
+@keyframes luggage-sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
+.luggage-sway {
+  transform-origin: 50% 95%;
+  animation: luggage-sway 4.5s ease-in-out infinite;
 }
 
 /* --- Trạm chế tạo: the rail ---------------------------------------------
@@ -1176,7 +1113,8 @@ body:has(.aha-night) .snap-trigger {
     animation: none;
   }
 
-  .open-sign-swing {
+  .open-sign-swing,
+  .luggage-sway {
     animation: none;
   }
 
