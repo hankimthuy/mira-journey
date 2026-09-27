@@ -10,7 +10,7 @@ import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
  * cached redirect.
  */
 export default function WarpCard() {
-  const warp = useSnapWarp("");
+  const warp = useSnapWarp();
   return (
     <>
       <a

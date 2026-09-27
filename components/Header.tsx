@@ -4,14 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
+import { STATIONS as NAV_ITEMS } from "@/lib/stations";
 
-const NAV_ITEMS = [
-  { href: "/blog", label: "Trạm dừng" },
-  { href: "/products", label: "Trạm chế tạo" },
-  { href: "/explore", label: "Trạm khám phá" },
-  { href: "/aha", label: "Trạm Aha" },
-  { href: "/about", label: "Trạm xuất phát" },
-];
 
 // A station stays marked on its sub-pages too (e.g. /blog/<slug>).
 function isActive(pathname: string, href: string) {
@@ -59,8 +53,7 @@ export default function Header() {
   // Plain <a>, not <Link>: /random is a Route Handler that redirects, and
   // <Link> would prefetch it and replay the cached redirect (same post every
   // click). The href is the no-JS fallback; with JS the snap warp takes over.
-  const currentSlug = pathname.startsWith("/blog/") ? pathname.slice("/blog/".length) : "";
-  const warp = useSnapWarp(currentSlug);
+  const warp = useSnapWarp();
   if (pathname !== menuPathname) {
     setMenuPathname(pathname);
     setMenuOpen(false);
@@ -135,8 +128,8 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Dịch chuyển ngẫu nhiên — tới một bài bất kỳ"
-            data-tip="Dịch chuyển ngẫu nhiên — tới một bài bất kỳ"
+            aria-label="Dịch chuyển ngẫu nhiên — tới một trạm bất kỳ"
+            data-tip="Dịch chuyển ngẫu nhiên — tới một trạm bất kỳ"
             className="snap-trigger tip tip-below tip-end flex h-8 w-8 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
@@ -147,7 +140,7 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Dịch chuyển ngẫu nhiên — tới một bài bất kỳ"
+            aria-label="Dịch chuyển ngẫu nhiên — tới một trạm bất kỳ"
             className="snap-trigger mr-1 flex h-8 w-8 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />

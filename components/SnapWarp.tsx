@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 
-// "Búng tay" random jump: snap burst on the button → a portal opens from the
+// "Búng tay" random jump to any station on the journey (see app/random): snap burst on the button → a portal opens from the
 // click point → the date dial spins and lands on the destination's real date
 // → navigate. The next page plays the portal closing (WARP_ARRIVE_SCRIPT in
 // app/layout.tsx + the html[data-warp] rule in globals.css).
 
-type Destination = { slug: string; title: string; date: string };
+type Destination = { href: string; title: string; date: string };
 type Phase = "idle" | "open" | "warp" | "land";
 
 // Status line text per step, swapped in turn like a loading sequence.
@@ -45,14 +46,15 @@ function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-export function useSnapWarp(fromSlug: string) {
+export function useSnapWarp() {
+  const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
   const [origin, setOrigin] = useState({ x: 0, y: 0 });
   const [dial, setDial] = useState(["01", "01", "2000"]);
   const [dest, setDest] = useState<Destination | null>(null);
   const timers = useRef<number[]>([]);
 
-  const fallbackHref = fromSlug ? `/random?from=${encodeURIComponent(fromSlug)}` : "/random";
+  const fallbackHref = `/random?from=${encodeURIComponent(pathname)}`;
 
   useEffect(() => {
     const clear = () => {
@@ -100,7 +102,7 @@ export function useSnapWarp(fromSlug: string) {
 
     let target: Destination | null = null;
     try {
-      const res = await fetch(`${fallbackHref}${fromSlug ? "&" : "?"}format=json`, {
+      const res = await fetch(`${fallbackHref}&format=json`, {
         cache: "no-store",
       });
       if (res.ok) target = await res.json();
@@ -123,7 +125,7 @@ export function useSnapWarp(fromSlug: string) {
             } catch {
               // arrival animation is optional
             }
-            window.location.assign(target ? `/blog/${target.slug}` : fallbackHref);
+            window.location.assign(target ? target.href : fallbackHref);
           }, LAND_MS)
         );
       }, wait)

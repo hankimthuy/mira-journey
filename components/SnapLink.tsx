@@ -9,7 +9,7 @@ import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
  * replay the cached redirect.
  */
 export default function SnapLink() {
-  const warp = useSnapWarp("");
+  const warp = useSnapWarp();
   return (
     <>
       <a
