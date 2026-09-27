@@ -80,8 +80,8 @@ export default function Luggage() {
           Hành lý ký gửi
         </h3>
         <p className="mt-2 max-w-md text-[15px] leading-relaxed text-ink/75">
-          Bài viết, ý tưởng, con người và kỉ niệm dọc đường — gom hết vào một vali, mở ra khi
-          chuyến đi bắt đầu.
+          Những lần tình cờ gặp, món quà nhỏ, ý tưởng chợt lóe và kỉ niệm dọc đường — gom hết
+          vào một vali, mở ra khi chuyến đi bắt đầu.
         </p>
 
         <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-1.5 text-[13px]">
