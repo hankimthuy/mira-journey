@@ -34,7 +34,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8 overflow-x-hidden">
-      <section className="mb-16 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
+      <section className="mb-20 sm:mb-24 grid md:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div className="animate-reveal-focus">
           <p className="text-lg font-semibold tracking-wide text-ochre mb-3">
             Chào mừng đến với
@@ -81,7 +81,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mb-16">
+      <section className="mb-20 sm:mb-24">
         <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
           Những trạm dừng
         </h2>
@@ -136,40 +136,13 @@ export default async function HomePage() {
           </ol>
         </div>
 
-        <p className="mt-10 border-t border-dashed border-forest/20 pt-5 font-serif text-lg italic text-forest-deep">
-          Muốn rẽ khỏi đường ray một chút?{" "}
-          <Link href={EXPLORE_PATH} className="font-semibold text-terracotta hover:underline">
-            Ghé {exploreStation.name.toLowerCase()} →
-          </Link>
-          {stampCount > 0 && (
-            <span className="font-sans text-[13px] not-italic text-ink/60">
-              {" "}· {stampCount} con dấu trong hộ chiếu
-            </span>
-          )}
-          {latestTrip && (
-            <span className="mt-1 block font-sans text-[13px] not-italic text-ink/60">
-              Chuyến gần nhất:{" "}
-              <Link href={`/blog/${latestTrip.slug}`} className="hover:text-terracotta">
-                {latestTrip.title}
-              </Link>
-            </span>
-          )}
-        </p>
-      </section>
 
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-forest/70">
-            Bài viết mới nhất
-          </h2>
-          <Link href="/blog" className="text-sm text-terracotta font-bold hover:underline">
-            Xem tất cả →
-          </Link>
-        </div>
+        {/* The latest stops hang right off the rail: they are what the
+            stations above hold, so no heading of their own. */}
         {latestPosts.length === 0 ? (
           <p className="text-forest/70">Chưa có bài viết nào. Sắp có rồi.</p>
         ) : (
-          <div>
+          <div className="mt-12 border-t border-forest/15">
             {latestPosts.map((post, i) => {
               const category = getCategoryBySlug(post.category);
               return (
@@ -207,11 +180,40 @@ export default async function HomePage() {
             })}
           </div>
         )}
+        <div className="mt-5 text-right">
+          <Link href="/blog" className="text-sm text-terracotta font-bold hover:underline">
+            Xem tất cả bài viết →
+          </Link>
+        </div>
+      </section>
+
+      {/* Leaving the rail comes after riding it: the explore teaser sits
+          below the posts, not inside the stations. */}
+      <section className="mb-20 sm:mb-24">
+        <p className="border-t border-dashed border-forest/20 pt-6 font-serif text-lg italic text-forest-deep">
+          Muốn rẽ khỏi đường ray một chút?{" "}
+          <Link href={EXPLORE_PATH} className="font-semibold text-terracotta hover:underline">
+            Ghé {exploreStation.name.toLowerCase()} →
+          </Link>
+          {stampCount > 0 && (
+            <span className="font-sans text-[13px] not-italic text-ink/60">
+              {" "}· {stampCount} con dấu trong hộ chiếu
+            </span>
+          )}
+          {latestTrip && (
+            <span className="mt-1 block font-sans text-[13px] not-italic text-ink/60">
+              Chuyến gần nhất:{" "}
+              <Link href={`/blog/${latestTrip.slug}`} className="hover:text-terracotta">
+                {latestTrip.title}
+              </Link>
+            </span>
+          )}
+        </p>
       </section>
 
       {pocs.length > 0 && (
-        <section className="mt-16">
-          <div className="mb-3 flex items-center justify-between gap-4">
+        <section>
+          <div className="mb-6 flex items-center justify-between gap-4">
             <h2 className="font-serif italic text-2xl text-forest-deep">
               Trạm chế tạo
             </h2>
