@@ -73,12 +73,9 @@ export default async function HomePage() {
       </section>
 
       <section className="mb-20 sm:mb-24">
-        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
-          Những chủ đề mình quan tâm
+        <h2 className="font-serif italic text-2xl text-forest-deep mb-6">
+          Những trạm dừng
         </h2>
-        <p className="text-sm text-ink/70 mb-6">
-          Những gì được ghi lại ở Trạm dừng, theo điều chúng đang nói tới.
-        </p>
         {/* One continuous route instead of a row of boxed tickets: a dot per
             topic on the track, the words hanging underneath. Vertical on
             mobile (same rail language as /products), horizontal from lg:. */}
@@ -179,14 +176,9 @@ export default async function HomePage() {
       </section>
 
       {/* Leaving the rail comes after riding it: the other stations sit
-          below the posts, each card a small picture of what is inside. */}
+          below the posts, each card a small picture of what is inside. The
+          cards carry their own names, so the section needs no heading. */}
       <section className="mb-20 sm:mb-24">
-        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
-          Những ngả đường phía trước
-        </h2>
-        <p className="text-sm text-ink/70 mb-6">
-          Mỗi hướng đi là một phần của hành trình.
-        </p>
         <StationCards places={places} />
       </section>
 
