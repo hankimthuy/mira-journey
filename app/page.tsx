@@ -16,10 +16,9 @@ export default async function HomePage() {
     getAllPocs(),
     getAllPlaces(),
   ]);
-  // The travel series has its own station; it gets a card, not a spot in
-  // the post timeline.
+  // The travel series has its own station below, not a spot in the post
+  // timeline.
   const timeline = posts.filter((p) => !isExplorePost(p));
-  const latestTrip = posts.find(isExplorePost);
   const latestPosts = timeline.slice(0, 5);
   const categoryCounts: Record<string, number> = Object.fromEntries(
     categories.map((c) => [c.slug, timeline.filter((p) => p.category === c.slug).length])
@@ -189,7 +188,7 @@ export default async function HomePage() {
         <p className="text-sm text-ink/70 mb-6">
           Những trạm không nằm trên tuyến chính, nhưng cũng là một phần của hành trình.
         </p>
-        <StationCards places={places} pocs={pocs} latestTrip={latestTrip} />
+        <StationCards places={places} pocs={pocs} />
       </section>
     </div>
   );
