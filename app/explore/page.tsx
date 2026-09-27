@@ -43,6 +43,16 @@ function SuitcaseIcon() {
   );
 }
 
+function LuggageTag({ className }: { className: string }) {
+  return (
+    <span
+      className={`${className} shrink-0 whitespace-nowrap rounded-full border border-dashed border-ochre px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-ochre sm:px-2.5 sm:py-1 sm:text-[11px]`}
+    >
+      Đang xếp đồ
+    </span>
+  );
+}
+
 function groupByYear(posts: PostMeta[]) {
   const groups = new Map<string, PostMeta[]>();
   for (const post of posts) {
@@ -93,17 +103,22 @@ export default async function ExplorePage() {
           </p>
           <ul className="divide-y divide-forest/10 border-y border-forest/10">
             {SUITCASES.map((suitcase) => (
-              <li key={suitcase.label} className="flex items-center gap-4 py-4 opacity-90">
+              <li
+                key={suitcase.label}
+                className="flex items-start gap-3.5 py-4 opacity-90 sm:items-center sm:gap-4"
+              >
                 <SuitcaseIcon />
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
-                    {suitcase.label}
-                  </h3>
-                  <p className="text-[14px] text-ink/65">{suitcase.note}</p>
+                  {/* On phones the luggage tag sits beside the name so the note keeps the full width. */}
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                    <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
+                      {suitcase.label}
+                    </h3>
+                    <LuggageTag className="sm:hidden" />
+                  </div>
+                  <p className="text-[14px] leading-snug text-ink/65">{suitcase.note}</p>
                 </div>
-                <span className="shrink-0 rounded-full border border-dashed border-ochre px-2.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-ochre">
-                  Đang xếp đồ
-                </span>
+                <LuggageTag className="hidden sm:inline-block" />
               </li>
             ))}
           </ul>

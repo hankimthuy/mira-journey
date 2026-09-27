@@ -106,7 +106,7 @@ export default function Header() {
           )}
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden items-center gap-6 lg:flex">
           {NAV_ITEMS.map((item) => {
             const active = pathname === item.href;
             return (
@@ -114,7 +114,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
+                className={`whitespace-nowrap border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
                   } ${active ? (night ? "border-ochre-light text-ochre-light" : "border-terracotta") : "border-transparent"
                   }`}
               >
@@ -133,7 +133,7 @@ export default function Header() {
           </a>
         </nav>
 
-        <div className="flex items-center gap-1 sm:hidden" ref={menuRef}>
+        <div className="flex items-center gap-1 lg:hidden" ref={menuRef}>
           <a
             href={warp.href}
             onClick={warp.start}
