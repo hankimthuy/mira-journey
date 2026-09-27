@@ -93,9 +93,15 @@ export default function Passport({ places }: { places: Place[] }) {
           </dl>
         </div>
 
-        <p className="mt-6 max-w-sm font-serif text-lg italic leading-snug text-cream/90">
-          Đi thật xa để thấy nhà thật gần — mỗi con dấu là một lần như thế. Bấm vào dấu để mở album của nơi đó.
-        </p>
+        <div className="mt-7 max-w-sm">
+          <p className="font-serif text-2xl font-semibold italic leading-tight text-ochre-light sm:text-[28px]">
+            Đi để trở về
+          </p>
+          <p className="mt-2 text-[15px] leading-relaxed text-cream/85">
+            Mỗi con dấu là một trải nghiệm khiến mình lớn thêm một chút. Bấm vào dấu để mở
+            album của nơi đó.
+          </p>
+        </div>
 
         <div className="mt-auto pt-8 font-mono text-[10px] leading-relaxed tracking-[0.18em] text-cream/40 sm:text-[11px]" aria-hidden="true">
           <p className="truncate">{mrz1}</p>
