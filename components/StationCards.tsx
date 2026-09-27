@@ -4,7 +4,6 @@ import { EXPLORE_PATH, exploreStation } from "@/lib/categories";
 import PassportStamp, { stampStyle } from "@/components/PassportStamp";
 import CardBack from "@/components/cards/CardBack";
 import DeskItem, { DESK_LINK } from "@/components/DeskItem";
-import WarpCard from "@/components/WarpCard";
 
 /** A clay pot with its soil, centred on `cx`. */
 function Pot({ cx }: { cx: number }) {
@@ -58,8 +57,7 @@ function GrowingPots() {
 
 /**
  * The stations off the post rail as small objects on a desk: a passport page
- * of stamps, a pair of cards under the moon, the workshop's pots, the warp
- * lever. No frames — each object lifts off the page on hover and does its
+ * of stamps, a pair of cards under the moon, the workshop's pots. No frames — each object lifts off the page on hover and does its
  * own little thing.
  */
 export default function StationCards({ places }: { places: Place[] }) {
@@ -71,7 +69,7 @@ export default function StationCards({ places }: { places: Place[] }) {
   ].slice(0, 2);
 
   return (
-    <ul className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
+    <ul className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-3">
       <li className="animate-reveal-settle">
         <Link href={EXPLORE_PATH} className={DESK_LINK}>
           <DeskItem
@@ -141,10 +139,6 @@ export default function StationCards({ places }: { places: Place[] }) {
             description="Những câu hỏi không trả lời được bằng chữ, mang vào xưởng."
           />
         </Link>
-      </li>
-
-      <li className="animate-reveal-settle" style={{ animationDelay: "0.15s" }}>
-        <WarpCard />
       </li>
     </ul>
   );
