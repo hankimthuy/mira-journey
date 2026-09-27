@@ -74,10 +74,10 @@ export default function Luggage() {
 
       <div className="min-w-0">
         <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre">
-          Hành lý ký gửi<span className="hidden sm:inline"> · Checked baggage</span>
+          Checked baggage
         </p>
         <h3 className="mt-2 font-serif text-2xl font-semibold italic leading-snug text-forest-deep">
-          Chuyến đầu tiên đang xếp đồ
+          Hành lý ký gửi
         </h3>
         <p className="mt-2 max-w-md text-[15px] leading-relaxed text-ink/75">
           Bài viết, ý tưởng, con người và kỉ niệm dọc đường — gom hết vào một vali, mở ra khi
