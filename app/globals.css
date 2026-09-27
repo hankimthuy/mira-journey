@@ -1071,6 +1071,55 @@ body:has(.aha-night) .snap-trigger {
   animation-delay: calc(var(--flip-delay, 0ms) + 750ms);
 }
 
+/* --- Homepage bento: the stations off the rail ---------------------------- */
+.bento-tile {
+  transition: transform 260ms cubic-bezier(0.3, 1.4, 0.5, 1), box-shadow 260ms ease;
+}
+
+.bento-tile:hover,
+.bento-tile:focus-visible {
+  transform: translateY(-4px) rotate(var(--bento-tilt, -0.6deg));
+  box-shadow: 0 14px 28px -12px rgb(36 56 42 / 0.45);
+}
+
+.bento-arrow {
+  transition: transform 260ms ease, background 200ms ease;
+}
+
+.bento-tile:hover .bento-arrow,
+.bento-tile:focus-visible .bento-arrow {
+  transform: translateX(3px) rotate(-45deg);
+}
+
+/* Trạm khám phá: each stamp thumps down in turn. */
+@keyframes bento-thump {
+  0%, 100% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-10px) scale(1.08); }
+  60% { transform: translateY(1px) scale(0.94); }
+}
+
+.bento-tile:hover .bento-stamp {
+  animation: bento-thump 520ms ease both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Trạm Aha: the front card flips up off the pair. */
+.bento-card-front {
+  transition: transform 420ms cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.bento-tile:hover .bento-card-front {
+  transform: translateY(-10px) rotate(14deg);
+}
+
+.bento-tile:hover .bento-card-back {
+  transform: rotate(-12deg);
+}
+
+.bento-card-back {
+  transition: transform 420ms ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html[data-warp="arrive"] body::after {
     display: none;
@@ -1111,6 +1160,15 @@ body:has(.aha-night) .snap-trigger {
 
   .animate-gear-spin,
   .group:hover .animate-gear-spin {
+    animation: none;
+  }
+
+  .bento-tile:hover,
+  .bento-tile:focus-visible {
+    transform: none;
+  }
+
+  .bento-tile:hover .bento-stamp {
     animation: none;
   }
 
