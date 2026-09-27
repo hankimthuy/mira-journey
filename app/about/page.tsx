@@ -5,8 +5,74 @@ import { categories } from "@/lib/categories";
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
-    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và vì sao có một Trạm chế tạo.",
+    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
 };
+
+type Station = { name: string; href: string; body: React.ReactNode; plain?: boolean };
+
+// The stations in the order a visitor meets them: write, build, travel,
+// listen to intuition — and a shortcut for when you don't know where to start.
+const STATIONS: Station[] = [
+  {
+    name: "Trạm dừng",
+    href: "/blog",
+    body: (
+      <>
+        Nơi mình phanh cỗ máy lại để viết. Năm trạm nhỏ trên tuyến chính
+        (Life, Product &amp; Work, Mind, System, Radar), mỗi trạm một góc để
+        nhìn lại những gì vừa học.
+      </>
+    ),
+  },
+  {
+    name: "Trạm chế tạo",
+    href: "/products",
+    body: (
+      <>
+        Có những câu hỏi không trả lời được bằng chữ, chỉ có lời đáp khi mình
+        bắt tay làm ra một thứ chạy được. Mỗi dự án bắt đầu từ một sự khó chịu
+        có thật và lớn lên qua ba chặng: <strong>PoC</strong>, làm được
+        không? <strong>MVP</strong>, có ai cần không? <strong>Live</strong>,
+        đã có người dùng thật. Không phải hạt nào cũng thành hoa, và điều đó
+        ổn: một PoC dừng lại vẫn trả lời được câu hỏi của nó.
+      </>
+    ),
+  },
+  {
+    name: "Trạm khám phá",
+    href: "/explore",
+    body: (
+      <>
+        Khi rẽ khỏi đường ray để đi thật. Mỗi nơi đã ghé để lại một con dấu
+        trong hộ chiếu, còn những điều nhặt được dọc đường thì nằm trong hành
+        lý ký gửi.
+      </>
+    ),
+  },
+  {
+    name: "Trạm Aha",
+    href: "/aha",
+    body: (
+      <>
+        Có những lúc lý trí đã nói đủ. Dưới ánh trăng, rút một lá tarot hay
+        bài tây, không phải để đoán tương lai, mà để nghe xem trực giác đang
+        muốn nói gì.
+      </>
+    ),
+  },
+  {
+    name: "Búng tay",
+    href: "/random",
+    plain: true,
+    body: (
+      <>
+        Và nếu chưa biết bắt đầu từ đâu, cứ búng tay: cỗ máy sẽ quay tới một
+        ngày bất kỳ và thả bạn xuống một bài viết. Nút ấy luôn nằm trên thanh
+        điều hướng.
+      </>
+    ),
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -44,7 +110,7 @@ export default function AboutPage() {
       </div>
 
       <div className="grid md:grid-cols-[1fr_260px] gap-10">
-        <div className="prose-post max-w-none text-ink [&>p]:mb-[18px]">
+        <div className="prose-post max-w-none text-ink [&>p]:mb-[18px] [&>h2]:mb-3 [&>h2:not(:first-child)]:mt-10">
           <h2>Vì sao lại là một &ldquo;Cỗ máy thời gian&rdquo;?</h2>
           <p className="text-base leading-relaxed">
             Bởi vì mình thích hình dung việc học như một hành trình — có thể không
@@ -60,33 +126,45 @@ export default function AboutPage() {
             những gì vừa đi qua, rồi lại tiếp tục hành trình.
           </p>
 
-          <h2>Còn Trạm chế tạo thì sao?</h2>
+          <h2>Bản đồ các trạm</h2>
           <p className="text-base leading-relaxed">
-            Viết giúp mình giữ lại những điều đã học. Nhưng có những câu hỏi
-            không trả lời được bằng chữ. Chúng chỉ có lời đáp khi mình bắt tay
-            làm ra một thứ gì đó chạy được.
+            Cỗ máy không chạy trên một đường thẳng, nên nơi này cũng không chỉ
+            có một lối đi. Mỗi trạm giữ lại một kiểu khoảnh khắc khác nhau.
           </p>
-          <p className="text-base leading-relaxed">
-            Trạm chế tạo là nơi những câu hỏi ấy được mang vào xưởng. Mỗi dự án
-            bắt đầu từ một sự khó chịu có thật, của chính mình, rồi đi qua ba
-            chặng: <strong>PoC</strong>, làm được không?{" "}
-            <strong>MVP</strong>, có ai cần không? <strong>Live</strong>, đã có
-            người dùng thật.
-          </p>
-          <p className="text-base leading-relaxed">
-            Không phải dự án nào cũng đi hết ba chặng, và điều đó ổn. Một PoC
-            dừng lại vẫn trả lời được câu hỏi của nó. Thứ mình muốn giữ ở đây là
-            cả hành trình, kể cả những lần tạm dừng, để mỗi ý tưởng sau đi xa
-            hơn ý tưởng trước một chút.
-          </p>
-          <p className="text-base leading-relaxed">
-            <Link
-              href="/products"
-              className="font-bold text-terracotta no-underline hover:underline"
-            >
-              Ghé xưởng →
-            </Link>
-          </p>
+          {/* Same rail language as the homepage: a dashed track, a dot per
+              station, the words hanging beside it. */}
+          <ol className="relative !mb-8 mt-6 space-y-7">
+            <span
+              className="product-rail-line absolute bottom-2 left-[6px] top-2 w-[2px]"
+              aria-hidden="true"
+            />
+            {STATIONS.map((station) => (
+              <li key={station.name} className="relative pl-8">
+                <span
+                  className="absolute left-0 top-[7px] size-3.5 rounded-full border-2 border-forest-deep bg-cream"
+                  aria-hidden="true"
+                />
+                {station.plain ? (
+                  // Plain <a>: /random is a Route Handler that redirects, and
+                  // <Link> would prefetch it and replay the cached redirect.
+                  <a
+                    href={station.href}
+                    className="font-serif text-lg font-semibold italic !text-forest-deep !no-underline hover:!text-terracotta"
+                  >
+                    {station.name}
+                  </a>
+                ) : (
+                  <Link
+                    href={station.href}
+                    className="font-serif text-lg font-semibold italic !text-forest-deep !no-underline hover:!text-terracotta"
+                  >
+                    {station.name}
+                  </Link>
+                )}
+                <p className="mt-1 text-base leading-relaxed">{station.body}</p>
+              </li>
+            ))}
+          </ol>
           <p className="!mb-0 text-sm italic text-ink/55">
             Cỗ máy đã khởi động. Hẹn gặp bạn ở những chặng đường hữu&nbsp;duyên.
           </p>
