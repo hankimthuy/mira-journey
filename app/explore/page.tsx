@@ -16,6 +16,33 @@ export const metadata: Metadata = {
   },
 };
 
+/** The travel log's compartments — packed later, shown as coming soon for now. */
+const SUITCASES = [
+  { label: "Bài viết", note: "Những trang ghi chép dọc đường" },
+  { label: "Ý tưởng", note: "Những điều chợt nảy ra khi đang đi" },
+  { label: "Con người", note: "Những người đã gặp, đã cùng đi một đoạn" },
+  { label: "Kỉ niệm", note: "Những khoảnh khắc muốn giữ lại" },
+];
+
+function SuitcaseIcon() {
+  return (
+    <svg
+      viewBox="0 0 32 32"
+      className="h-8 w-8 shrink-0 text-terracotta"
+      fill="none"
+      aria-hidden="true"
+    >
+      <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 9V6.5A1.5 1.5 0 0 1 13.5 5h5A1.5 1.5 0 0 1 20 6.5V9" />
+        <rect x="5" y="9" width="22" height="17" rx="2.5" />
+        <path d="M11 9v17M21 9v17" />
+      </g>
+      <circle cx="9" cy="28" r="1.2" fill="currentColor" />
+      <circle cx="23" cy="28" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
 function groupByYear(posts: PostMeta[]) {
   const groups = new Map<string, PostMeta[]>();
   for (const post of posts) {
@@ -60,9 +87,27 @@ export default async function ExplorePage() {
       </h2>
 
       {trips.length === 0 ? (
-        <p className="py-12 text-center text-forest/70">
-          Hành lý đang được sắp xếp. Chuyến đầu tiên sẽ sớm lên đường.
-        </p>
+        <>
+          <p className="mb-5 text-[15px] text-forest/70">
+            Hành lý đang được sắp xếp — chuyến đầu tiên sẽ sớm lên đường.
+          </p>
+          <ul className="divide-y divide-forest/10 border-y border-forest/10">
+            {SUITCASES.map((suitcase) => (
+              <li key={suitcase.label} className="flex items-center gap-4 py-4 opacity-90">
+                <SuitcaseIcon />
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
+                    {suitcase.label}
+                  </h3>
+                  <p className="text-[14px] text-ink/65">{suitcase.note}</p>
+                </div>
+                <span className="shrink-0 rounded-full border border-dashed border-ochre px-2.5 py-1 text-[11px] font-semibold uppercase tracking-widest text-ochre">
+                  Đang xếp đồ
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
       ) : (
         <div className="relative">
           <div
