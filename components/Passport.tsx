@@ -94,7 +94,7 @@ export default function Passport({ places }: { places: Place[] }) {
         </div>
 
         <p className="mt-6 max-w-sm font-serif text-lg italic leading-snug text-cream/90">
-          Mỗi con dấu là một lần rời khỏi nhà. Bấm vào dấu để mở album của nơi đó.
+          Đi thật xa để thấy nhà thật gần — mỗi con dấu là một lần như thế. Bấm vào dấu để mở album của nơi đó.
         </p>
 
         <div className="mt-auto pt-8 font-mono text-[10px] leading-relaxed tracking-[0.18em] text-cream/40 sm:text-[11px]" aria-hidden="true">
