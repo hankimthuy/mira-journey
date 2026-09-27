@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getAllPosts, type PostMeta } from "@/lib/posts";
 import { EXPLORE_PATH, exploreStation, isExplorePost } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
+import { getAllPlaces } from "@/lib/places";
+import Passport from "@/components/Passport";
 
 export const revalidate = 60;
 
@@ -24,12 +26,13 @@ function groupByYear(posts: PostMeta[]) {
 }
 
 /**
- * The travel series as a travel log: one pin per trip on a dashed route,
- * grouped by year. Same rail language as /products, so the two stations
- * read as siblings.
+ * The places visited as a passport of ink stamps (authored in the admin),
+ * then the travel series as a travel log: one pin per trip on a dashed
+ * route, grouped by year — the same rail language as /products.
  */
 export default async function ExplorePage() {
-  const trips = (await getAllPosts()).filter(isExplorePost);
+  const [posts, places] = await Promise.all([getAllPosts(), getAllPlaces()]);
+  const trips = posts.filter(isExplorePost);
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
@@ -46,6 +49,16 @@ export default async function ExplorePage() {
         </p>
       </section>
 
+      {places.length > 0 && (
+        <section className="animate-reveal-focus mb-16" style={{ animationDelay: "0.1s" }}>
+          <Passport places={places} />
+        </section>
+      )}
+
+      <h2 className="mb-6 font-serif text-2xl font-semibold italic text-forest-deep">
+        Nhật ký chuyến đi
+      </h2>
+
       {trips.length === 0 ? (
         <p className="py-12 text-center text-forest/70">
           Hành lý đang được sắp xếp. Chuyến đầu tiên sẽ sớm lên đường.
@@ -58,13 +71,13 @@ export default async function ExplorePage() {
           />
           {groupByYear(trips).map(([year, items]) => (
             <section key={year} className="mb-10 last:mb-0">
-              <h2 className="relative mb-5 pl-8 font-serif text-xl italic text-forest/70">
+              <h3 className="relative mb-5 pl-8 font-serif text-xl italic text-forest/70">
                 <span
                   className="absolute left-0 top-1/2 h-[2px] w-3.5 -translate-y-1/2 bg-forest/40"
                   aria-hidden="true"
                 />
                 {year}
-              </h2>
+              </h3>
               <ol className="space-y-8">
                 {items.map((post) => (
                   <li key={post.slug} className="station-reveal relative pl-8">
@@ -76,11 +89,11 @@ export default async function ExplorePage() {
                       {formatDate(post.date)}
                       {post.readingMinutes > 0 && ` · ${post.readingMinutes} phút đọc`}
                     </p>
-                    <h3 className="mt-0.5 font-serif text-xl font-semibold italic text-forest-deep">
+                    <h4 className="mt-0.5 font-serif text-xl font-semibold italic text-forest-deep">
                       <Link href={`/blog/${post.slug}`} className="hover:text-terracotta">
                         {post.title}
                       </Link>
-                    </h3>
+                    </h4>
                     {post.description && (
                       <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-ink/80">
                         {post.description}

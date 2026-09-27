@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { getAllPocs } from "@/lib/pocs";
+import { getAllPlaces } from "@/lib/places";
 import {
   EXPLORE_PATH,
   categories,
@@ -16,7 +17,12 @@ import { StageDot } from "@/components/ProductRail";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
+  const [posts, pocs, places] = await Promise.all([
+    getAllPosts(),
+    getAllPocs(),
+    getAllPlaces(),
+  ]);
+  const stampCount = places.filter((p) => !p.isHome).length;
   // The travel series has its own station; it gets a teaser, not a spot in
   // the post timeline.
   const timeline = posts.filter((p) => !isExplorePost(p));
@@ -135,6 +141,11 @@ export default async function HomePage() {
           <Link href={EXPLORE_PATH} className="font-semibold text-terracotta hover:underline">
             Ghé {exploreStation.name.toLowerCase()} →
           </Link>
+          {stampCount > 0 && (
+            <span className="font-sans text-[13px] not-italic text-ink/60">
+              {" "}· {stampCount} con dấu trong hộ chiếu
+            </span>
+          )}
           {latestTrip && (
             <span className="mt-1 block font-sans text-[13px] not-italic text-ink/60">
               Chuyến gần nhất:{" "}

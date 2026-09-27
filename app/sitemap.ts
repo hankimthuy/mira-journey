@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
 import { getAllPosts } from "@/lib/posts";
 import { categories } from "@/lib/categories";
+import { getAllPlaces } from "@/lib/places";
 
 export const revalidate = 60;
 
@@ -61,5 +62,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...categoryRoutes, ...postRoutes];
+  const placeRoutes: MetadataRoute.Sitemap = (await getAllPlaces()).map((place) => ({
+    url: `${SITE_URL}/explore/${place.slug}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...postRoutes, ...placeRoutes];
 }
