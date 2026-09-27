@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
   { href: "/blog", label: "Trạm dừng" },
   { href: "/products", label: "Trạm Chế Tạo" },
+  { href: "/cards", label: "Trạm Rút Bài" },
   { href: "/about", label: "Trạm xuất phát" },
 ];
 
