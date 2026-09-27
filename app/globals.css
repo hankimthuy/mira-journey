@@ -567,7 +567,7 @@ a {
   animation: sign-sway 5.5s ease-in-out infinite;
 }
 
-/* --- Trạm Chế Tạo: the rail ---------------------------------------------
+/* --- Trạm chế tạo: the rail ---------------------------------------------
    /products is a vertical time rail, one station per project. Stations
    arrive as they are scrolled to, driven by the native view() timeline (no
    JS); browsers without scroll-driven animations fall back to the on-load

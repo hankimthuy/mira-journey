@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
 import { getAllPocs } from "@/lib/pocs";
-import { categories, getCategoryBySlug } from "@/lib/categories";
+import {
+  EXPLORE_PATH,
+  categories,
+  exploreStation,
+  getCategoryBySlug,
+  isExplorePost,
+} from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
@@ -11,7 +17,14 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
-  const latestPosts = posts.slice(0, 5);
+  // The travel series has its own station; it gets a teaser, not a spot in
+  // the post timeline.
+  const timeline = posts.filter((p) => !isExplorePost(p));
+  const latestTrip = posts.find(isExplorePost);
+  const latestPosts = timeline.slice(0, 5);
+  const categoryCounts: Record<string, number> = Object.fromEntries(
+    categories.map((c) => [c.slug, timeline.filter((p) => p.category === c.slug).length])
+  );
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8 overflow-x-hidden">
@@ -66,38 +79,71 @@ export default async function HomePage() {
         <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
           Những trạm dừng
         </h2>
-        <p className="text-sm text-ink/70 mb-4">
+        <p className="text-sm text-ink/70 mb-6">
           Mỗi trạm dừng, một điều để nhìn lại và hiểu thêm một chút.
         </p>
-        <TimeRail />
-        {/* One row per category, not a grid — 2 columns left an orphan card
-            alone on its own row with 5 items. Padding stays tight so each
-            row reads as a long thin ticket instead of a tall block. */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-2.5">
-          {categories.map((c, i) => (
-            <Link
-              key={c.slug}
-              href={`/category/${c.slug}`}
-              className={`ticket-accent-${i % 3} group animate-reveal-settle flex items-stretch overflow-hidden rounded-[3px] border border-forest/15 bg-cream text-left transition-all duration-300 hover:border-terracotta/50 hover:shadow-md hover:-translate-y-1 hover:rotate-[-0.4deg]`}
-              style={{ animationDelay: `${0.05 * i}s` }}
-            >
-              <span className="ticket-stub" aria-hidden="true" />
-              <span className="ticket-divider" aria-hidden="true">
-                <span className="ticket-notch ticket-notch-top" />
-                <span className="ticket-notch ticket-notch-bottom" />
-              </span>
-              <span className="min-w-0 flex-1 px-3 py-2.5">
-                <p className="mb-0.5 flex items-center gap-1.5 font-serif italic font-semibold text-[15px] text-forest-deep">
-                  {c.name}
-                  <span className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:opacity-100 group-hover:translate-x-0">
-                    →
+        {/* One continuous route instead of a row of boxed tickets: a dot per
+            station on the track, the words hanging underneath. Vertical on
+            mobile (same rail language as /products), horizontal from lg:. */}
+        <div className="relative">
+          <TimeRail />
+          <ol className="relative grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-5">
+            <span
+              className="product-rail-line absolute bottom-2 left-[6px] top-2 w-[2px] lg:hidden"
+              aria-hidden="true"
+            />
+            {categories.map((c, i) => (
+              <li
+                key={c.slug}
+                className="animate-reveal-settle"
+                style={{ animationDelay: `${0.05 * i}s` }}
+              >
+                <Link
+                  href={`/category/${c.slug}`}
+                  className="group relative block pl-8 lg:pl-0 lg:pt-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta/60"
+                >
+                  <span
+                    className="station-dot absolute left-0 top-[3px] size-3.5 rounded-full border-2 border-forest-deep bg-cream transition-colors group-hover:border-terracotta group-hover:bg-terracotta lg:top-0"
+                    aria-hidden="true"
+                  />
+                  <span className="block text-[11px] font-semibold uppercase tracking-widest text-ochre">
+                    Trạm {i + 1}
+                    {categoryCounts[c.slug] > 0 && (
+                      <span className="text-ink/45"> · {categoryCounts[c.slug]} bài</span>
+                    )}
                   </span>
-                </p>
-                <p className="text-[11px] leading-relaxed text-ink/70">{c.tagline}</p>
-              </span>
-            </Link>
-          ))}
+                  <span className="mt-1 flex items-center gap-1.5 font-serif text-lg font-semibold italic text-forest-deep transition-colors group-hover:text-terracotta">
+                    {c.name}
+                    <span
+                      className="text-terracotta opacity-0 -translate-x-1 transition-all group-hover:translate-x-0 group-hover:opacity-100"
+                      aria-hidden="true"
+                    >
+                      →
+                    </span>
+                  </span>
+                  <span className="mt-1 block text-[13px] leading-relaxed text-ink/70">
+                    {c.tagline}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </div>
+
+        <p className="mt-10 border-t border-dashed border-forest/20 pt-5 font-serif text-lg italic text-forest-deep">
+          Muốn rẽ khỏi đường ray một chút?{" "}
+          <Link href={EXPLORE_PATH} className="font-semibold text-terracotta hover:underline">
+            Ghé {exploreStation.name.toLowerCase()} →
+          </Link>
+          {latestTrip && (
+            <span className="mt-1 block font-sans text-[13px] not-italic text-ink/60">
+              Chuyến gần nhất:{" "}
+              <Link href={`/blog/${latestTrip.slug}`} className="hover:text-terracotta">
+                {latestTrip.title}
+              </Link>
+            </span>
+          )}
+        </p>
       </section>
 
       <section>
@@ -156,7 +202,7 @@ export default async function HomePage() {
         <section className="mt-16">
           <div className="mb-3 flex items-center justify-between gap-4">
             <h2 className="font-serif italic text-2xl text-forest-deep">
-              Trạm Chế Tạo
+              Trạm chế tạo
             </h2>
             <Link
               href="/products"

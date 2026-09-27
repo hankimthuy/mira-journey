@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
-import { getCategoryBySlug } from "@/lib/categories";
+import { categoryHref, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 
 export default function PostCard({ post }: { post: PostMeta }) {
@@ -32,7 +32,7 @@ export default function PostCard({ post }: { post: PostMeta }) {
       <div className="text-right text-xs text-ink/65">
         {category && (
           <Link
-            href={`/category/${category.slug}`}
+            href={categoryHref(category.slug)}
             className="block font-bold uppercase tracking-wide text-forest-deep hover:text-terracotta"
           >
             {category.name}

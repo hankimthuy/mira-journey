@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Post, PostMeta } from "@/lib/posts";
-import type { Category } from "@/lib/categories";
+import { categoryHref, type Category } from "@/lib/categories";
 import { COMMENTS_OPEN, type PublicComment } from "@/lib/comments";
 import { formatDate } from "@/lib/format";
 import PostSidebar from "@/components/PostSidebar";
@@ -30,7 +30,7 @@ export default function PostDetail({
         <div className="flex items-center gap-2.5 text-xs text-forest/70 mb-4 flex-wrap">
           {category && (
             <Link
-              href={`/category/${category.slug}`}
+              href={categoryHref(category.slug)}
               className="font-bold uppercase tracking-wide text-forest-deep hover:text-terracotta"
             >
               {category.name}

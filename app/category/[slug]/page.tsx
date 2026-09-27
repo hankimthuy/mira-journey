@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { categories, getCategoryBySlug } from "@/lib/categories";
+import { categories, getCategoryBySlug, isExplorePost } from "@/lib/categories";
 import { getAllPosts } from "@/lib/posts";
 import PostList from "@/components/PostList";
 
@@ -28,11 +28,13 @@ export async function generateMetadata(
 
 export default async function CategoryPage(props: PageProps<"/category/[slug]">) {
   const { slug } = await props.params;
+  // getCategoryBySlug also knows the travel series, but /category/explore is
+  // redirected to /explore in next.config.ts, so it never reaches here.
   const category = getCategoryBySlug(slug);
 
   if (!category) notFound();
 
-  const allPosts = await getAllPosts();
+  const allPosts = (await getAllPosts()).filter((p) => !isExplorePost(p));
   const posts = allPosts.filter((p) => p.category === category.slug);
   const categoryCounts = Object.fromEntries(
     categories.map((c) => [c.slug, allPosts.filter((p) => p.category === c.slug).length])

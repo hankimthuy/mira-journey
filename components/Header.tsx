@@ -8,7 +8,8 @@ import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
 const NAV_ITEMS = [
   { href: "/", label: "Trang chủ" },
   { href: "/blog", label: "Trạm dừng" },
-  { href: "/products", label: "Trạm Chế Tạo" },
+  { href: "/explore", label: "Trạm khám phá" },
+  { href: "/products", label: "Trạm chế tạo" },
   { href: "/about", label: "Trạm xuất phát" },
 ];
 
@@ -119,8 +120,8 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Quay số — tới một bài ngẫu nhiên"
-            data-tip="Quay số — tới một bài ngẫu nhiên"
+            aria-label="Búng tay — tới một bài viết ngẫu nhiên"
+            data-tip="Búng tay — tới một bài viết ngẫu nhiên"
             className="snap-trigger tip tip-below tip-end flex h-9 w-9 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
@@ -131,7 +132,7 @@ export default function Header() {
           <a
             href={warp.href}
             onClick={warp.start}
-            aria-label="Quay số — tới một bài ngẫu nhiên"
+            aria-label="Búng tay — tới một bài viết ngẫu nhiên"
             className="snap-trigger mr-1 flex h-9 w-9 items-center justify-center rounded-full"
           >
             <SnapIcon snapping={warp.snapping} />
