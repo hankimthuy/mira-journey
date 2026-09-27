@@ -1,14 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { isExplorePost } from "@/lib/categories";
-import { getAllPosts } from "@/lib/posts";
-import { formatDate } from "@/lib/format";
+import { categories } from "@/lib/categories";
 import SnapLink from "@/components/SnapLink";
-
-export const revalidate = 60;
-
-// The opening post — the first thing to read for someone just arriving.
-const FIRST_POST_SLUG = "khoi-dau-cua-mot-hanh-trinh";
 
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
@@ -20,16 +13,15 @@ type Station = { name: string; href: string; body: React.ReactNode };
 
 // The stations in the order a visitor meets them: write, build, travel,
 // listen to intuition. The snap shortcut isn't a station, so it lives in the
-// "Bắt đầu từ đâu?" column instead.
+// sidebar instead, under the blog's own stops.
 const STATIONS: Station[] = [
   {
     name: "Trạm dừng",
     href: "/blog",
     body: (
       <>
-        Nơi mình phanh cỗ máy lại để viết. Năm trạm nhỏ trên tuyến chính
-        (Life, Product &amp; Work, Mind, System, Radar), mỗi trạm một góc để
-        nhìn lại những gì vừa học.
+        Nơi mình phanh cỗ máy lại để viết, nhìn lại những gì vừa học trước
+        khi đi tiếp.
       </>
     ),
   },
@@ -71,10 +63,7 @@ const STATIONS: Station[] = [
   },
 ];
 
-export default async function AboutPage() {
-  const posts = await getAllPosts();
-  const firstPost = posts.find((p) => p.slug === FIRST_POST_SLUG);
-  const latestPost = posts.find((p) => !isExplorePost(p) && p.slug !== FIRST_POST_SLUG);
+export default function AboutPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
@@ -161,48 +150,32 @@ export default async function AboutPage() {
         </div>
 
         <div className="animate-fade-in-up border-l border-forest/18 pl-6">
-          {/* Not a second map: a few ways in for someone who just arrived. */}
-          <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-5">
-            Bắt đầu từ đâu?
+          <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
+            Bắt đầu từ đâu đó
           </p>
-          {[
-            { label: "Bài mở đầu", post: firstPost },
-            { label: "Mới nhất", post: latestPost },
-          ].map(
-            ({ label, post }) =>
-              post && (
-                <Link
-                  key={label}
-                  href={`/blog/${post.slug}`}
-                  className="group block rounded-[3px] -mx-2 mb-5 px-2 py-1 transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-2"
-                >
-                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-ochre">
-                    {label}
-                    {label === "Mới nhất" && (
-                      <span className="text-ink/45"> · {formatDate(post.date)}</span>
-                    )}
-                  </span>
-                  <span className="mt-1 block font-serif text-[15px] font-bold italic leading-snug text-forest-deep group-hover:text-terracotta">
-                    {post.title}
-                  </span>
-                </Link>
-              )
-          )}
-          <div className="mb-6">
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ochre">
-              Hay để cỗ máy chọn
-            </p>
-            <SnapLink>Búng tay</SnapLink>
-            <p className="mt-2 text-xs leading-snug text-ink/65">
-              Quay tới một ngày bất kỳ và thả bạn xuống một bài viết.
-            </p>
-          </div>
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/category/${c.slug}`}
+              className="block rounded-[3px] -mx-2 mb-4 px-2 py-1 transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-2"
+            >
+              <p className="font-serif italic font-bold text-[13px] text-forest-deep">
+                {c.name}
+              </p>
+              <p className="mt-0.5 text-xs leading-snug text-ink/65">
+                {c.tagline}
+              </p>
+            </Link>
+          ))}
           <Link
             href="/blog"
             className="text-sm text-terracotta font-bold hover:underline"
           >
             Xem tất cả bài viết →
           </Link>
+          <div className="mt-8 border-t border-dashed border-forest/20 pt-6">
+            <SnapLink />
+          </div>
         </div>
       </div>
     </div>
