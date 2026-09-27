@@ -955,9 +955,25 @@ html[data-warp="arrive"] body::after {
 /* --- Trạm Aha: night sky ---------------------------------------------- */
 /* On Trạm Aha the whole page goes dark: the sky lives on <body> so it runs
    seamlessly behind the header, the station and the footer. */
+/* html gets its own colour so the body gradient stops propagating to the
+   canvas (where it repeats per viewport and leaves cream on overscroll). */
+html:has(.aha-night) {
+  background: #0d121b;
+}
+
 body:has(.aha-night) {
-  background: linear-gradient(180deg, #0f1522 0%, #151c2c 45%, #0d121b 100%);
+  background: #0d121b linear-gradient(180deg, #0f1522 0%, #151c2c 45%, #0d121b 100%) no-repeat;
   color: var(--color-cream);
+}
+
+/* Let the star field stretch down to the footer on tall screens. */
+main:has(> .aha-night) {
+  display: flex;
+  flex-direction: column;
+}
+
+main > .aha-night {
+  flex: 1;
 }
 
 body:has(.aha-night) .site-footer {
