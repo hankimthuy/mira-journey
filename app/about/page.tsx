@@ -1,6 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { categories } from "@/lib/categories";
+import { isExplorePost } from "@/lib/categories";
+import { getAllPosts } from "@/lib/posts";
+import { formatDate } from "@/lib/format";
+import SnapLink from "@/components/SnapLink";
+
+export const revalidate = 60;
+
+// The opening post — the first thing to read for someone just arriving.
+const FIRST_POST_SLUG = "khoi-dau-cua-mot-hanh-trinh";
 
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
@@ -8,10 +16,11 @@ export const metadata: Metadata = {
     "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
 };
 
-type Station = { name: string; href: string; body: React.ReactNode; plain?: boolean };
+type Station = { name: string; href: string; body: React.ReactNode };
 
 // The stations in the order a visitor meets them: write, build, travel,
-// listen to intuition — and a shortcut for when you don't know where to start.
+// listen to intuition. The snap shortcut isn't a station, so it lives in the
+// "Bắt đầu từ đâu?" column instead.
 const STATIONS: Station[] = [
   {
     name: "Trạm dừng",
@@ -60,21 +69,13 @@ const STATIONS: Station[] = [
       </>
     ),
   },
-  {
-    name: "Búng tay",
-    href: "/random",
-    plain: true,
-    body: (
-      <>
-        Và nếu chưa biết bắt đầu từ đâu, cứ búng tay: cỗ máy sẽ quay tới một
-        ngày bất kỳ và thả bạn xuống một bài viết. Nút ấy luôn nằm trên thanh
-        điều hướng.
-      </>
-    ),
-  },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const posts = await getAllPosts();
+  const firstPost = posts.find((p) => p.slug === FIRST_POST_SLUG);
+  const latestPost = posts.find((p) => !isExplorePost(p) && p.slug !== FIRST_POST_SLUG);
+
   return (
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-8 grid sm:grid-cols-[1fr_180px] gap-6 items-start">
@@ -144,23 +145,12 @@ export default function AboutPage() {
                   className="absolute left-0 top-[7px] size-3.5 rounded-full border-2 border-forest-deep bg-cream"
                   aria-hidden="true"
                 />
-                {station.plain ? (
-                  // Plain <a>: /random is a Route Handler that redirects, and
-                  // <Link> would prefetch it and replay the cached redirect.
-                  <a
-                    href={station.href}
-                    className="font-serif text-lg font-semibold italic !text-forest-deep !no-underline hover:!text-terracotta"
-                  >
-                    {station.name}
-                  </a>
-                ) : (
-                  <Link
-                    href={station.href}
-                    className="font-serif text-lg font-semibold italic !text-forest-deep !no-underline hover:!text-terracotta"
-                  >
-                    {station.name}
-                  </Link>
-                )}
+                <Link
+                  href={station.href}
+                  className="font-serif text-lg font-semibold italic !text-forest-deep !no-underline hover:!text-terracotta"
+                >
+                  {station.name}
+                </Link>
                 <p className="mt-1 text-base leading-relaxed">{station.body}</p>
               </li>
             ))}
@@ -171,23 +161,42 @@ export default function AboutPage() {
         </div>
 
         <div className="animate-fade-in-up border-l border-forest/18 pl-6">
-          <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
-            Những trạm dừng
+          {/* Not a second map: a few ways in for someone who just arrived. */}
+          <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-5">
+            Bắt đầu từ đâu?
           </p>
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              href={`/category/${c.slug}`}
-              className="block rounded-[3px] -mx-2 mb-4 px-2 py-1 transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-2"
-            >
-              <p className="font-serif italic font-bold text-[13px] text-forest-deep">
-                {c.name}
-              </p>
-              <p className="mt-0.5 text-xs leading-snug text-ink/65">
-                {c.tagline}
-              </p>
-            </Link>
-          ))}
+          {[
+            { label: "Bài mở đầu", post: firstPost },
+            { label: "Mới nhất", post: latestPost },
+          ].map(
+            ({ label, post }) =>
+              post && (
+                <Link
+                  key={label}
+                  href={`/blog/${post.slug}`}
+                  className="group block rounded-[3px] -mx-2 mb-5 px-2 py-1 transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta/60 focus-visible:outline-offset-2"
+                >
+                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-ochre">
+                    {label}
+                    {label === "Mới nhất" && (
+                      <span className="text-ink/45"> · {formatDate(post.date)}</span>
+                    )}
+                  </span>
+                  <span className="mt-1 block font-serif text-[15px] font-bold italic leading-snug text-forest-deep group-hover:text-terracotta">
+                    {post.title}
+                  </span>
+                </Link>
+              )
+          )}
+          <div className="mb-6">
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ochre">
+              Hay để cỗ máy chọn
+            </p>
+            <SnapLink>Búng tay</SnapLink>
+            <p className="mt-2 text-xs leading-snug text-ink/65">
+              Quay tới một ngày bất kỳ và thả bạn xuống một bài viết.
+            </p>
+          </div>
           <Link
             href="/blog"
             className="text-sm text-terracotta font-bold hover:underline"
