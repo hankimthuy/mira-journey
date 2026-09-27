@@ -21,10 +21,10 @@ function Pot({ cx }: { cx: number }) {
  * flower (Live) — a project growing through its stages. Each plant grows a
  * little on hover, one after another.
  */
-function GrowingPots() {
+function GrowingPots({ width = 132 }: { width?: number }) {
   const leaf = "var(--color-forest)";
   return (
-    <svg viewBox="0 0 120 80" width={132} height={88} className="overflow-visible">
+    <svg viewBox="0 0 120 80" width={width} height={(width * 2) / 3} className="overflow-visible">
       <Pot cx={20} />
       <Pot cx={60} />
       <Pot cx={100} />
@@ -57,7 +57,8 @@ function GrowingPots() {
 
 /**
  * The stations off the post rail as small objects on a desk: a passport page
- * of stamps, a pair of cards under the moon, the workshop's pots. No frames — each object lifts off the page on hover and does its
+ * of stamps, the workshop's pots in the middle, a pair of cards under the
+ * moon. No frames — each object lifts off the page on hover and does its
  * own little thing.
  */
 export default function StationCards({ places }: { places: Place[] }) {
@@ -69,7 +70,7 @@ export default function StationCards({ places }: { places: Place[] }) {
   ].slice(0, 2);
 
   return (
-    <ul className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-3">
+    <ul className="grid grid-cols-1 items-end gap-x-6 gap-y-12 sm:grid-cols-[1fr_1.35fr_1fr]">
       <li className="animate-reveal-settle">
         <Link href={EXPLORE_PATH} className={DESK_LINK}>
           <DeskItem
@@ -103,7 +104,21 @@ export default function StationCards({ places }: { places: Place[] }) {
         </Link>
       </li>
 
-      <li className="animate-reveal-settle" style={{ animationDelay: "0.05s" }}>
+      {/* The workshop is the station that matters most: it sits in the middle,
+          bigger than its neighbours, and comes first on phones. */}
+      <li className="order-first animate-reveal-settle sm:order-none">
+        <Link href="/products" className={DESK_LINK}>
+          <DeskItem
+            tilt={0}
+            featured
+            object={<GrowingPots width={190} />}
+            name="Trạm chế tạo"
+            meta={<span className="normal-case tracking-wide">PoC → MVP → Live</span>}
+            description="Những câu hỏi không trả lời được bằng chữ, mang vào xưởng."
+          />
+        </Link>
+      </li>
+      <li className="animate-reveal-settle" style={{ animationDelay: "0.1s" }}>
         <Link href="/aha" className={DESK_LINK}>
           <DeskItem
             tilt={3}
@@ -127,19 +142,6 @@ export default function StationCards({ places }: { places: Place[] }) {
         </Link>
       </li>
 
-      <li className="animate-reveal-settle" style={{ animationDelay: "0.1s" }}>
-        <Link href="/products" className={DESK_LINK}>
-          <DeskItem
-            tilt={0}
-            object={
-              <GrowingPots />
-            }
-            name="Trạm chế tạo"
-            meta={<span className="normal-case tracking-wide">PoC → MVP → Live</span>}
-            description="Những câu hỏi không trả lời được bằng chữ, mang vào xưởng."
-          />
-        </Link>
-      </li>
     </ul>
   );
 }
