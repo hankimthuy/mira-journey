@@ -3,7 +3,7 @@ import CardStation from "@/components/CardStation";
 
 export const metadata: Metadata = {
   title: "Trạm Aha",
-  description: "Dưới ánh trăng, rút một lá tarot hay bài tây và để trực giác nói phần còn lại.",
+  description: "Dưới ánh trăng, rút một lá tarot hay bài tây và để trực giác lên tiếng.",
 };
 
 // Fixed star field: positions come from a tiny seeded generator, so the
@@ -70,8 +70,8 @@ export default function AhaPage() {
           <p className="text-lg leading-relaxed text-cream/80">
             Tắt bớt tiếng ồn, hít một hơi thật sâu, nghĩ về điều bạn đang băn khoăn.
             Rồi chọn một kiểu rút{" "}
-            <span className="font-semibold text-ochre-light">theo trực giác</span>, và để lá bài nói
-            phần còn lại.
+            <span className="font-semibold text-ochre-light">theo trực giác</span>. Lá bài
+            không đoán tương lai, nó chỉ giúp điều bạn đã biết sẵn lên tiếng.
           </p>
         </section>
 

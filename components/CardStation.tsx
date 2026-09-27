@@ -22,7 +22,7 @@ type Drawn =
 const MODES: { mode: Mode; label: string; hint: string }[] = [
   { mode: "tarot-1", label: "1 lá tarot", hint: "Một lời thì thầm cho hôm nay" },
   { mode: "tarot-3", label: "Trải 3 lá", hint: "Điều đã qua, điều đang đến, điều còn chờ" },
-  { mode: "playing-1", label: "1 lá bài tây", hint: "Một lá, để vận may tự chọn" },
+  { mode: "playing-1", label: "1 lá bài tây", hint: "Một lá, để trực giác tự chọn" },
   { mode: "playing-n", label: "Nhiều lá bài tây", hint: "Vài lá, không lá nào trùng lá nào" },
 ];
 
@@ -171,7 +171,7 @@ export default function CardStation() {
   const cardSize = isTarot ? "w-36 aspect-[7/12] sm:w-44" : "w-28 aspect-[5/7] sm:w-36";
 
   return (
-    <section aria-label="Bàn bói bài">
+    <section aria-label="Bàn rút bài">
       <div className="mb-8 flex flex-col gap-4 border-y border-ochre-light/15 py-4">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Chọn kiểu rút">
           {MODES.map((m) => (
@@ -292,7 +292,7 @@ export default function CardStation() {
             disabled={phase === "shuffle"}
             className="aha-summon rounded-full border border-ochre-light/70 bg-ochre-light/10 px-7 py-2.5 font-serif text-lg font-medium italic text-ochre-light transition-colors hover:bg-ochre-light hover:text-[#141b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ochre-light/70 disabled:opacity-70"
           >
-            {phase === "shuffle" ? "Các vì sao đang xào bài…" : phase === "reveal" ? "Xin một quẻ khác" : "Bốc bài"}
+            {phase === "shuffle" ? "Đang lắng nghe…" : phase === "reveal" ? "Lắng nghe lần nữa" : "Bốc bài"}
           </button>
           <p className="text-[12px] text-cream/45">
             {isTarot ? "Modern Witch Tarot" : "Bài tây"} · {deckSize} lá
@@ -301,7 +301,7 @@ export default function CardStation() {
       </div>
 
       <p className="sr-only" aria-live="polite">
-        {phase === "reveal" ? `Bài đã trả lời: ${hand.map(describe).join("; ")}.` : ""}
+        {phase === "reveal" ? `Trực giác gửi bạn: ${hand.map(describe).join("; ")}.` : ""}
       </p>
     </section>
   );
