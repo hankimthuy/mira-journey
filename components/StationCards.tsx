@@ -58,8 +58,8 @@ function GrowingPots() {
 
 /**
  * The stations off the post rail as small objects on a desk: a passport page
- * of stamps, a pair of cards under the moon, the workshop's pots, the snap
- * dial. No frames — each object lifts off the page on hover and does its
+ * of stamps, a pair of cards under the moon, the workshop's pots, the warp
+ * lever. No frames — each object lifts off the page on hover and does its
  * own little thing.
  */
 export default function StationCards({ places }: { places: Place[] }) {

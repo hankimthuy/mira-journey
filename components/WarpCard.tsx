@@ -4,10 +4,9 @@ import DeskItem, { DESK_LINK } from "@/components/DeskItem";
 import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
 
 /**
- * The snap warp as a desk object: the dial, big enough to watch its hands
- * race on hover. Plain <a>, like the header trigger: /random is a Route
- * Handler that redirects, and <Link> would prefetch it and replay the cached
- * redirect.
+ * The snap warp as a desk object: the lever, big enough to watch it swing
+ * on hover. Plain <a>, like the header trigger: /random is a Route Handler
+ * that redirects, and <Link> would prefetch it and replay the cached redirect.
  */
 export default function WarpCard() {
   const warp = useSnapWarp("");
@@ -22,7 +21,7 @@ export default function WarpCard() {
             </span>
           }
           name="Dịch chuyển ngẫu nhiên"
-          meta="Búng tay"
+          meta="Gạt cần"
           description="Chưa biết đọc gì? Để cỗ máy chọn giúp một bài."
         />
       </a>

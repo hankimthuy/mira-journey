@@ -651,33 +651,23 @@ a {
   transition: transform 200ms ease;
 }
 
-/* Dial hands drift at rest, then spin like a date roller on hover / tap. */
-.dial-hand {
+/* The lever leans back at rest, swings forward on hover / tap and yanks all
+   the way while the warp runs. */
+.lever-arm {
   transform-box: view-box;
-  transform-origin: 12px 12px;
-  animation: dial-spin 12s linear infinite;
+  transform-origin: 12px 17.5px;
+  transform: rotate(28deg);
+  transition: transform 320ms cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 
-.dial-hand-hour {
-  animation-duration: 48s;
+a:hover .lever-arm,
+a:focus-visible .lever-arm,
+a:active .lever-arm {
+  transform: rotate(-22deg);
 }
 
-a:hover .dial-hand-min,
-a:focus-visible .dial-hand-min,
-a:active .dial-hand-min,
-.snap-icon[data-snapping="true"] .dial-hand-min {
-  animation-duration: 0.6s;
-}
-
-a:hover .dial-hand-hour,
-a:focus-visible .dial-hand-hour,
-a:active .dial-hand-hour,
-.snap-icon[data-snapping="true"] .dial-hand-hour {
-  animation-duration: 2.4s;
-}
-
-@keyframes dial-spin {
-  to { transform: rotate(360deg); }
+.snap-icon[data-snapping="true"] .lever-arm {
+  transform: rotate(-40deg);
 }
 
 .snap-trigger {
@@ -1127,67 +1117,6 @@ body:has(.aha-night) .snap-trigger {
   animation-delay: var(--delay, 0ms);
 }
 
-/* Trạm xuất phát sidebar: the snapping hand. At rest the sparks are
-   hidden; hover snaps the middle finger down and bursts them; while the warp
-   runs they stay lit. */
-.snap-hand-middle,
-.snap-hand-thumb {
-  transform-box: view-box;
-}
-
-.snap-hand-middle {
-  transform-origin: 40px 25px;
-}
-
-.snap-hand-thumb {
-  transform-origin: 28px 38px;
-}
-
-.snap-hand-sparks {
-  opacity: 0;
-  transform-box: view-box;
-  transform-origin: 17px 13px;
-}
-
-@keyframes hand-snap-middle {
-  0%, 100% { transform: rotate(0deg); }
-  30% { transform: rotate(8deg); }
-  55% { transform: rotate(-62deg); }
-  80% { transform: rotate(-55deg); }
-}
-
-@keyframes hand-snap-thumb {
-  0%, 100% { transform: rotate(0deg); }
-  55% { transform: rotate(-8deg); }
-}
-
-@keyframes hand-sparks {
-  0%, 45% { opacity: 0; transform: scale(0.4); }
-  60% { opacity: 1; transform: scale(1.15); }
-  100% { opacity: 0; transform: scale(1.4); }
-}
-
-.snap-hand-link:hover .snap-hand-middle,
-.snap-hand-link:focus-visible .snap-hand-middle,
-.snap-hand-link[data-snapping="true"] .snap-hand-middle {
-  animation: hand-snap-middle 700ms cubic-bezier(0.5, 0, 0.3, 1.4) both;
-}
-
-.snap-hand-link:hover .snap-hand-thumb,
-.snap-hand-link:focus-visible .snap-hand-thumb,
-.snap-hand-link[data-snapping="true"] .snap-hand-thumb {
-  animation: hand-snap-thumb 700ms ease both;
-}
-
-.snap-hand-link:hover .snap-hand-sparks,
-.snap-hand-link:focus-visible .snap-hand-sparks {
-  animation: hand-sparks 700ms ease-out both;
-}
-
-.snap-hand-link[data-snapping="true"] .snap-hand-sparks {
-  animation: hand-sparks 700ms ease-out infinite;
-}
-
 /* Trạm Aha: the front card flips up off the pair. */
 .desk-card-back,
 .desk-card-front {
@@ -1267,12 +1196,6 @@ body:has(.aha-night) .snap-trigger {
     transform: rotate(var(--tilt, 0deg));
   }
 
-  .snap-hand-link .snap-hand-middle,
-  .snap-hand-link .snap-hand-thumb,
-  .snap-hand-link .snap-hand-sparks {
-    animation: none !important;
-  }
-
   .group:hover .desk-stamp,
   .group:active .desk-stamp,
   .group:hover .desk-plant,
@@ -1316,8 +1239,8 @@ body:has(.aha-night) .snap-trigger {
     display: none;
   }
 
-  .dial-hand {
-    animation: none;
+  .lever-arm {
+    transition: none;
   }
 
   .snap-trigger {
