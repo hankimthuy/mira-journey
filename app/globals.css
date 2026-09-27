@@ -398,56 +398,6 @@ a {
   top: 100%;
 }
 
-/* --- Trạm PoC: specimen index card (home teaser) -----------------------
-   The home page's mini PoC cards read as catalogued specimens in the
-   workshop archive, not boarding tickets: a punch-hole at the left edge,
-   as if filed in a card drawer. Distinct silhouette from the ticket-stub
-   cards used for blog categories right above it. (An earlier version also
-   had a colored rule near the top; dropped for taking up too much of a
-   small card.) */
-
-.specimen-card {
-  position: relative;
-}
-
-.specimen-card .specimen-hole {
-  position: absolute;
-  left: 9px;
-  top: 50%;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  transform: translateY(-50%);
-  background: var(--color-cream);
-  box-shadow: inset 0 1px 2px color-mix(in srgb, var(--color-forest) 35%, transparent);
-}
-
-/* --- Trạm PoC: rubber stamp on each PoC card --------------------------
-   A passport/parcel stamp sitting askew on the card art, inked in the
-   card's ticket accent. It is what makes a shelf of PoCs read as a
-   workshop log rather than a product grid. */
-
-.poc-stamp {
-  transform: rotate(-9deg);
-  padding: 0.2rem 0.45rem;
-  border: 1.5px solid var(--ticket-accent, var(--color-terracotta));
-  border-radius: 3px;
-  box-shadow: 0 0 0 1.5px
-    color-mix(in srgb, var(--color-cream) 80%, transparent) inset;
-  background: color-mix(in srgb, var(--color-cream) 72%, transparent);
-  color: var(--ticket-accent, var(--color-terracotta));
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.88;
-  transition: transform 300ms ease;
-}
-
-.poc-card:hover .poc-stamp {
-  animation: stamp-wobble 0.5s ease-in-out;
-}
-
 /* --- Thả tim: like button, stamped like a rubber postmark --------------- */
 .like-row-rule {
   flex: 1 1 auto;
@@ -601,19 +551,6 @@ a {
   }
 }
 
-@keyframes stamp-wobble {
-  0%,
-  100% {
-    transform: rotate(-9deg);
-  }
-  35% {
-    transform: rotate(-3deg) scale(1.06);
-  }
-  70% {
-    transform: rotate(-12deg);
-  }
-}
-
 /* The shop sign by the workshop door rocks on its two strings. Pivot is the
    hanger bar at the top, so it swings rather than wobbling in place. */
 @keyframes sign-sway {
@@ -630,14 +567,15 @@ a {
   animation: sign-sway 5.5s ease-in-out infinite;
 }
 
-/* --- Trạm PoC: the shelf ------------------------------------------------
-   Cards arrive as they are scrolled to, not all at once on load. Driven by
-   the native view() timeline, so there is no JS and no observer. Browsers
-   without scroll-driven animations fall back to the on-load settle. */
-@keyframes poc-rise {
+/* --- Trạm Chế Tạo: the rail ---------------------------------------------
+   /products is a vertical time rail, one station per project. Stations
+   arrive as they are scrolled to, driven by the native view() timeline (no
+   JS); browsers without scroll-driven animations fall back to the on-load
+   settle. */
+@keyframes station-rise {
   from {
     opacity: 0;
-    transform: translateY(30px) scale(0.97);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
@@ -645,80 +583,75 @@ a {
   }
 }
 
-.poc-reveal {
+.station-reveal {
   animation: reveal-settle 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
 @supports (animation-timeline: view()) {
-  .poc-reveal {
-    animation: poc-rise linear both;
+  .station-reveal {
+    animation: station-rise linear both;
     animation-timeline: view();
-    /* Fully arrived by the time it is a third of the way up the viewport. */
-    animation-range: entry 0% cover 32%;
+    animation-range: entry 0% cover 25%;
   }
 }
 
-/* Objects set down on a wooden shelf, not cells in a spreadsheet: alternate
-   columns sit lower, and each card is off-square by a fraction of a degree.
-   `rotate` is its own property, so the hover transform still composes. */
-@media (min-width: 640px) {
-  .poc-grid > :nth-child(2n) {
-    margin-top: 26px;
-  }
+/* The rail itself: the same dashed forest line as the home TimeRail, turned
+   upright. Static — a flowing vertical line under body text is distracting. */
+.product-rail-line {
+  background-image: repeating-linear-gradient(
+    180deg,
+    var(--color-forest) 0px,
+    var(--color-forest) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  opacity: 0.3;
 }
 
-@media (min-width: 1024px) {
-  .poc-grid > :nth-child(n) {
-    margin-top: 0;
-  }
-
-  .poc-grid > :nth-child(3n + 2) {
-    margin-top: 32px;
-  }
+/* Stage marker. The fill tells how far a project has come:
+   hollow = PoC, half = MVP, solid = Live. */
+.stage-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  border: 2px solid var(--color-forest-deep);
+  background: var(--color-cream);
 }
 
-.poc-grid > :nth-child(3n + 1) .poc-card {
-  rotate: -0.35deg;
-}
-
-.poc-grid > :nth-child(3n + 2) .poc-card {
-  rotate: 0.4deg;
-}
-
-.poc-grid > :nth-child(3n + 3) .poc-card {
-  rotate: -0.15deg;
-}
-
-/* Warm spotlight following the cursor. Sits above the card background but
-   below the content (which is z-1), so it lights the paper without washing
-   out the text. --mx/--my are written by PocCard on mousemove. */
-.poc-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 260ms ease;
-  background: radial-gradient(
-    220px circle at var(--mx, 50%) var(--my, 50%),
-    color-mix(in srgb, var(--color-ochre-light) 55%, transparent),
-    transparent 68%
+.stage-dot--mvp {
+  background: linear-gradient(
+    90deg,
+    var(--color-forest-deep) 50%,
+    var(--color-cream) 50%
   );
 }
 
-.poc-card:hover::before {
-  opacity: 1;
+.stage-dot--live {
+  background: var(--color-forest-deep);
 }
 
-/* A shelved PoC sits faded, like a photo left in the sun — hovering
-   brings the color back. The state of the project, told without a label. */
-.poc-card--retired {
-  filter: saturate(0.5);
+/* A shelved project sits faded, like a photo left in the sun. */
+.station--retired {
+  filter: saturate(0.4);
+  opacity: 0.75;
 }
 
-.poc-card--retired:hover {
-  filter: saturate(1);
+.station details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.station details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.station details > summary .summary-caret {
+  display: inline-block;
+  transition: transform 200ms ease;
+}
+
+.station details[open] > summary .summary-caret {
+  transform: rotate(90deg);
 }
 
 /* Very slow rotating dial ring behind the hero illustration — a faint
@@ -1074,30 +1007,14 @@ html[data-warp="arrive"] body::after {
     animation: none;
   }
 
-  .poc-card:hover .poc-stamp {
-    animation: none;
-  }
-
-  .poc-stamp {
-    transition: none;
-  }
-
   .open-sign-swing {
     animation: none;
   }
 
-  .poc-reveal {
+  .station-reveal {
     animation: none;
     opacity: 1;
     transform: none;
-  }
-
-  .poc-card::before {
-    transition: none;
-  }
-
-  .poc-grid > :nth-child(n) .poc-card {
-    rotate: none;
   }
 
   .icon-action,

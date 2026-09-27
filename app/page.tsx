@@ -1,28 +1,17 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { getAllPocs, POC_STATUS, splitTagline } from "@/lib/pocs";
+import { getAllPocs } from "@/lib/pocs";
 import { categories, getCategoryBySlug } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
+import { StageDot } from "@/components/ProductRail";
 
 export const revalidate = 60;
-
-/**
- * A hand-picked 4, not "however sorts first" — the home page is a teaser,
- * and these are the ones worth a stranger's first look. Matched by name
- * rather than id since nothing else on the home page depends on a specific
- * PoC's identity; if one gets renamed in the CMS it just quietly drops out
- * instead of breaking the page.
- */
-const HOME_FEATURED_POCS = ["Aura Self AI", "Portfolio", "AI PT Chat", "Content Studio"];
 
 export default async function HomePage() {
   const [posts, pocs] = await Promise.all([getAllPosts(), getAllPocs()]);
   const latestPosts = posts.slice(0, 5);
-  const featuredPocs = HOME_FEATURED_POCS.map((name) =>
-    pocs.find((p) => p.name === name)
-  ).filter((p): p is (typeof pocs)[number] => Boolean(p));
 
   return (
     <div className="mx-auto max-w-5xl px-5 py-8 overflow-x-hidden">
@@ -163,96 +152,36 @@ export default async function HomePage() {
         )}
       </section>
 
-      {featuredPocs.length > 0 && (
+      {pocs.length > 0 && (
         <section className="mt-16">
-          <div className="mb-1.5 flex items-center justify-between gap-4">
-            {/* No `uppercase` here — it would flatten "PoC" into "POC". Same
-                heading treatment as "Những trạm dừng" above, not the small
-                eyebrow style — the two sections read as peers now. */}
+          <div className="mb-3 flex items-center justify-between gap-4">
             <h2 className="font-serif italic text-2xl text-forest-deep">
-              Trạm PoC
+              Trạm Chế Tạo
             </h2>
             <Link
-              href="/poc"
+              href="/products"
               className="shrink-0 text-sm font-bold text-terracotta hover:underline"
             >
-              Ghé trạm →
+              Ghé xưởng →
             </Link>
           </div>
-          <p className="text-sm text-ink/70 mb-4">
-            Nơi những ý tưởng thành sản phẩm.
-          </p>
-          {/* Specimen index card, not a ticket — a punch-hole at the left
-              edge, like something filed in a workshop archive drawer.
-              Deliberately not the ticket-stub shell used for blog
-              categories above; PoC needed its own silhouette. No
-              "Specimen № N" label — four repeats of the same word next to
-              a number nobody reads was noise, not information. Weight
-              carries the hierarchy: the name is the only bold line.
-
-              Every card is a flex column with the footer pinned via
-              mt-auto, and the hook clamps to 2 lines — without both, one
-              long hook (AI PT Chat's) stretches its card and every stamp
-              in the row lands at a different height, a visible stagger as
-              your eye moves across.
-
-              The name links to /poc, not the live product — a 2-line
-              clamp always leaves the hook cut off, and the full
-              pain-point/story only exist on the /poc card, so "read more"
-              has to go there. */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {featuredPocs.map((poc, i) => {
-              const status = POC_STATUS[poc.status];
-              return (
-                <div
-                  key={poc.id}
-                  className={`specimen-card ticket-accent-${status.accent} animate-reveal-settle relative flex h-full flex-col rounded-[3px] border border-forest/15 bg-cream pb-3.5 pl-8 pr-4 pt-4 transition-all duration-300 hover:-translate-y-1 hover:border-terracotta/50 hover:shadow-md`}
-                  style={{ animationDelay: `${0.05 * i}s` }}
+          {/* Just the names, one line that wraps — a teaser for /products,
+              not a second copy of it. The dot is the stage (hollow PoC, half
+              MVP, solid Live), explained by the legend over there; it also does
+              the separating, so no "·" that could wrap to a line start. */}
+          <ul className="flex flex-wrap items-center gap-x-5 gap-y-2 font-serif italic text-base sm:text-lg text-forest-deep">
+            {pocs.map((poc) => (
+              <li key={poc.id}>
+                <Link
+                  href={`/products#${poc.id}`}
+                  className="inline-flex items-center gap-1.5 hover:text-terracotta"
                 >
-                  <span className="specimen-hole" aria-hidden="true" />
-                  <span className="flex items-baseline justify-between gap-2">
-                    <span className="min-w-0 truncate font-serif text-[17px] font-semibold italic text-forest-deep">
-                      <Link
-                        href="/poc"
-                        className="after:absolute after:inset-0 hover:text-terracotta"
-                      >
-                        {poc.name}
-                      </Link>
-                    </span>
-                    {poc.yearLabel && (
-                      <span className="shrink-0 text-[10px] font-medium text-ink/40">
-                        {poc.yearLabel}
-                      </span>
-                    )}
-                  </span>
-                  {poc.tagline && (
-                    <span className="mt-2 line-clamp-2 text-[13.5px] font-normal leading-relaxed text-ink/70">
-                      {splitTagline(poc.tagline).map((part, j) =>
-                        part.mark ? (
-                          <span
-                            key={j}
-                            className="font-semibold text-forest-deep bg-ochre-light/45 px-0.5"
-                          >
-                            {part.text}
-                          </span>
-                        ) : (
-                          <span key={j}>{part.text}</span>
-                        )
-                      )}
-                    </span>
-                  )}
-                  <span className="mt-auto flex items-center justify-between gap-2 border-t border-dashed border-forest/15 pt-2.5">
-                    <span className="poc-stamp inline-block origin-left scale-[0.72]">
-                      {status.stamp}
-                    </span>
-                    <span className="text-[10.5px] font-semibold text-terracotta">
-                      Đọc tiếp →
-                    </span>
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+                  <StageDot stage={poc.stage} className="size-2.5" />
+                  {poc.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
     </div>
