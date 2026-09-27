@@ -1,7 +1,7 @@
 /**
  * The travel log before its first trip: one checked bag, covered in stickers
- * for what it will carry (posts, ideas, people, memories — all mixed in, not
- * sorted), with a baggage tag beside it. Same paper as the passport above.
+ * for what it will carry (chance meetings, souvenirs, ideas, memories — mixed,
+ * not sorted), with a baggage tag beside it. Same paper as the passport above.
  */
 
 const PAPER: React.CSSProperties = {
@@ -11,9 +11,9 @@ const PAPER: React.CSSProperties = {
 
 /** Travel decals stuck on the case — positioned over the SVG body, in %. */
 const STICKERS = [
-  { label: "Bài viết", className: "left-[14%] top-[36%] -rotate-[8deg] bg-cream text-forest-deep" },
-  { label: "Ý tưởng", className: "right-[12%] top-[31%] rotate-[7deg] rounded-full bg-ochre-light text-forest-deep" },
-  { label: "Con người", className: "left-[20%] top-[60%] rotate-[4deg] bg-forest-deep text-cream" },
+  { label: "Tình cờ gặp", className: "left-[14%] top-[36%] -rotate-[8deg] bg-cream text-forest-deep" },
+  { label: "Quà", className: "right-[12%] top-[31%] rotate-[7deg] rounded-full bg-ochre-light text-forest-deep" },
+  { label: "Bóng đèn", className: "left-[20%] top-[60%] rotate-[4deg] bg-forest-deep text-cream" },
   { label: "Kỉ niệm", className: "right-[14%] top-[66%] -rotate-[6deg] rounded-full border border-dashed border-cream/80 bg-transparent text-cream" },
 ];
 
