@@ -6,6 +6,26 @@ import PassportStamp, { stampStyle } from "./PassportStamp";
 
 const STAMPS_PER_PAGE = 6;
 
+// Styled with utilities and inline styles only, no hand-written CSS rules.
+const PAGE =
+  "relative mb-3 min-h-[22rem] rounded-[14px] border px-5 pt-6 pb-7 lg:mb-5 lg:px-8 lg:pt-7 lg:pb-8";
+// On wide screens two pages share a spread, with a shadowed fold between them.
+const PAGE_LEFT =
+  "lg:rounded-[16px_4px_4px_16px] lg:shadow-[inset_-22px_0_26px_-20px_rgb(36_56_42/0.28)]";
+const PAGE_RIGHT =
+  "lg:rounded-[4px_16px_16px_4px] lg:border-l-0 lg:shadow-[inset_22px_0_26px_-20px_rgb(36_56_42/0.28)]";
+const VISA_PAGE = `${PAGE} border-forest/12 bg-paper`;
+
+// Faint guilloche, like security printing on a real passport page.
+const PAPER: React.CSSProperties = {
+  backgroundImage:
+    "repeating-radial-gradient(circle at 30% 40%, transparent 0 14px, rgb(53 81 59 / 0.045) 14px 15px), repeating-linear-gradient(115deg, transparent 0 22px, rgb(201 138 59 / 0.05) 22px 23px)",
+};
+const COVER: React.CSSProperties = {
+  backgroundImage:
+    "repeating-radial-gradient(circle at 80% 20%, transparent 0 16px, rgb(232 184 109 / 0.07) 16px 17px)",
+};
+
 function chunk<T>(items: T[], size: number): T[][] {
   const pages: T[][] = [];
   for (let i = 0; i < items.length; i += size) pages.push(items.slice(i, i + size));
@@ -32,9 +52,13 @@ export default function Passport({ places }: { places: Place[] }) {
   const [mrz1, mrz2] = mrz(stamps.length);
 
   return (
-    <div className="passport grid lg:grid-cols-2">
+    <div className="grid drop-shadow-[0_18px_30px_rgb(36_56_42/0.14)] lg:grid-cols-2">
       {/* Identity page */}
-      <section className="passport-page passport-page--left passport-id flex flex-col" aria-label="Trang thông tin hộ chiếu">
+      <section
+        className={`${PAGE} ${PAGE_LEFT} flex flex-col border-ochre-light/25 bg-forest-deep`}
+        style={COVER}
+        aria-label="Trang thông tin hộ chiếu"
+      >
         <div className="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.25em] text-ochre-light/90">
           <span>Hộ chiếu · Passport</span>
           <span>Mira Journey</span>
@@ -69,9 +93,15 @@ export default function Passport({ places }: { places: Place[] }) {
           </dl>
         </div>
 
-        <p className="mt-6 max-w-sm font-serif text-lg italic leading-snug text-cream/90">
-          Mỗi con dấu là một lần rời khỏi nhà. Bấm vào dấu để mở album của nơi đó.
-        </p>
+        <div className="mt-7 max-w-sm">
+          <p className="font-serif text-2xl font-semibold italic leading-tight text-ochre-light sm:text-[28px]">
+            Đi để trở về
+          </p>
+          <p className="mt-2 text-[15px] leading-relaxed text-cream/85">
+            Mỗi con dấu là một trải nghiệm khiến mình lớn thêm một chút. Bấm vào dấu để mở
+            album của nơi đó.
+          </p>
+        </div>
 
         <div className="mt-auto pt-8 font-mono text-[10px] leading-relaxed tracking-[0.18em] text-cream/40 sm:text-[11px]" aria-hidden="true">
           <p className="truncate">{mrz1}</p>
@@ -82,7 +112,8 @@ export default function Passport({ places }: { places: Place[] }) {
       {pages.map((page, i) => (
         <section
           key={i}
-          className={`passport-page ${i % 2 === 0 ? "passport-page--right" : "passport-page--left"}`}
+          className={`${VISA_PAGE} ${i % 2 === 0 ? PAGE_RIGHT : PAGE_LEFT}`}
+          style={PAPER}
           aria-label={`Trang thị thực ${i + 1}`}
         >
           <div className="mb-3 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.25em] text-forest/45">
@@ -97,7 +128,7 @@ export default function Passport({ places }: { places: Place[] }) {
                 <li key={place.id} className="flex flex-col items-center">
                   <Link
                     href={`${EXPLORE_PATH}/${place.slug}`}
-                    className="passport-stamp rounded-xl p-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
+                    className="inline-block translate-x-(--dx) translate-y-(--dy) rotate-(--tilt) rounded-xl p-1 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:translate-x-0 hover:-translate-y-0.5 hover:rotate-0 hover:scale-106 focus-visible:translate-x-0 focus-visible:translate-y-0 focus-visible:rotate-0 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
                     style={
                       {
                         "--tilt": `${tilt}deg`,
@@ -108,8 +139,9 @@ export default function Passport({ places }: { places: Place[] }) {
                   >
                     <PassportStamp place={place} size={112} />
                   </Link>
-                  <span className="mt-1 text-[11px] text-ink/45">
-                    {photoCount > 0 ? `${photoCount} ảnh` : "chưa rửa ảnh"}
+                  {/* Empty line kept for places without photos so rows stay aligned. */}
+                  <span className="mt-1 min-h-4 text-[11px] text-ink/45">
+                    {photoCount > 0 && `${photoCount} ảnh`}
                   </span>
                 </li>
               );
@@ -120,7 +152,11 @@ export default function Passport({ places }: { places: Place[] }) {
 
       {/* Keep the last spread whole: a blank page waiting for the next trip. */}
       {pages.length % 2 === 0 && (
-        <section className="passport-page passport-page--right hidden items-center justify-center lg:flex" aria-hidden="true">
+        <section
+          className={`${VISA_PAGE} ${PAGE_RIGHT} hidden items-center justify-center lg:flex`}
+          style={PAPER}
+          aria-hidden="true"
+        >
           <p className="font-serif text-lg italic text-forest/35">Trang này dành cho chuyến tiếp theo…</p>
         </section>
       )}
