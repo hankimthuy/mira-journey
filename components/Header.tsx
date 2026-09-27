@@ -13,6 +13,11 @@ const NAV_ITEMS = [
   { href: "/about", label: "Trạm xuất phát" },
 ];
 
+// A station stays marked on its sub-pages too (e.g. /blog/<slug>).
+function isActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function GearMark({ night }: { night: boolean }) {
   return (
     <svg
@@ -108,14 +113,19 @@ export default function Header() {
 
         <nav className="hidden items-center gap-6 lg:flex">
           {NAV_ITEMS.map((item) => {
-            const active = pathname === item.href;
+            const active = isActive(pathname, item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`whitespace-nowrap border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
-                  } ${active ? (night ? "border-ochre-light text-ochre-light" : "border-terracotta") : "border-transparent"
+                className={`whitespace-nowrap border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${active
+                    ? night
+                      ? "border-ochre-light text-ochre-light"
+                      : "border-terracotta text-forest-deep"
+                    : night
+                      ? "border-transparent text-cream/75 hover:border-ochre-light/50 hover:text-ochre-light"
+                      : "border-transparent text-forest hover:border-terracotta/50 hover:text-terracotta"
                   }`}
               >
                 {item.label}
@@ -158,14 +168,14 @@ export default function Header() {
               className={`absolute inset-x-0 top-full border-b px-5 py-3 backdrop-blur ${night ? "border-ochre-light/10 bg-[#0f1522]/97" : "border-forest/10 bg-cream/97"}`}
             >
               {NAV_ITEMS.map((item) => {
-                const active = pathname === item.href;
+                const active = isActive(pathname, item.href);
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMenuOpen(false)}
-                    className={`block py-2.5 text-[15px] font-serif italic font-semibold ${active ? (night ? "text-ochre-light" : "text-terracotta") : night ? "text-cream/80" : "text-forest"
+                    className={`block py-2.5 text-[15px] font-serif italic font-semibold transition-colors ${active ? (night ? "text-ochre-light" : "text-terracotta") : night ? "text-cream/80 hover:text-ochre-light" : "text-forest hover:text-terracotta"
                       }`}
                   >
                     {item.label}
