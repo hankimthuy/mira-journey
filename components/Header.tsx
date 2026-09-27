@@ -6,18 +6,18 @@ import { useEffect, useRef, useState } from "react";
 import { SnapIcon, useSnapWarp } from "@/components/SnapWarp";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Trang chủ" },
   { href: "/blog", label: "Trạm dừng" },
-  { href: "/explore", label: "Trạm khám phá" },
   { href: "/products", label: "Trạm chế tạo" },
+  { href: "/explore", label: "Trạm khám phá" },
   { href: "/about", label: "Trạm xuất phát" },
+  { href: "/aha", label: "Trạm Aha" },
 ];
 
-function GearMark() {
+function GearMark({ night }: { night: boolean }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className="h-5 w-5 shrink-0 text-terracotta animate-gear-spin"
+      className={`h-5 w-5 shrink-0 animate-gear-spin ${night ? "text-ochre-light" : "text-terracotta"}`}
       fill="none"
       aria-hidden="true"
     >
@@ -41,6 +41,8 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export default function Header() {
   const pathname = usePathname();
+  // Trạm Aha is a night page: the header follows it into the dark.
+  const night = pathname === "/aha";
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -88,15 +90,17 @@ export default function Header() {
   return (
     <header
       className={`sticky top-0 z-20 transition-colors duration-200 ${scrolled
-          ? "border-b border-forest/10 bg-cream/90 backdrop-blur"
+          ? night
+            ? "border-b border-ochre-light/10 bg-[#0f1522]/85 backdrop-blur"
+            : "border-b border-forest/10 bg-cream/90 backdrop-blur"
           : "border-b border-transparent bg-transparent"
         }`}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-5">
         <Link href="/" aria-label="Cỗ Máy Thời Gian" className="group flex shrink-0 items-center gap-2.5">
-          <GearMark />
+          <GearMark night={night} />
           {pathname !== "/" && (
-            <span className="font-serif italic text-[14px] font-semibold text-forest-deep transition-colors group-hover:text-terracotta">
+            <span className={`font-serif italic text-[14px] font-semibold transition-colors ${night ? "text-cream group-hover:text-ochre-light" : "text-forest-deep group-hover:text-terracotta"}`}>
               Cỗ Máy Thời Gian
             </span>
           )}
@@ -110,7 +114,8 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide text-forest transition-colors hover:text-forest-deep ${active ? "border-terracotta" : "border-transparent"
+                className={`border-b-2 pb-0.5 text-[13px] font-semibold tracking-wide transition-colors ${night ? "text-cream/75 hover:text-ochre-light" : "text-forest hover:text-forest-deep"
+                  } ${active ? (night ? "border-ochre-light text-ochre-light" : "border-terracotta") : "border-transparent"
                   }`}
               >
                 {item.label}
@@ -143,14 +148,14 @@ export default function Header() {
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-8 w-8 items-center justify-center text-forest"
+            className={`flex h-8 w-8 items-center justify-center ${night ? "text-cream" : "text-forest"}`}
           >
             <MenuIcon open={menuOpen} />
           </button>
           {menuOpen && (
             <div
               id="mobile-nav"
-              className="absolute inset-x-0 top-full border-b border-forest/10 bg-cream/97 px-5 py-3 backdrop-blur"
+              className={`absolute inset-x-0 top-full border-b px-5 py-3 backdrop-blur ${night ? "border-ochre-light/10 bg-[#0f1522]/97" : "border-forest/10 bg-cream/97"}`}
             >
               {NAV_ITEMS.map((item) => {
                 const active = pathname === item.href;
@@ -160,7 +165,7 @@ export default function Header() {
                     href={item.href}
                     aria-current={active ? "page" : undefined}
                     onClick={() => setMenuOpen(false)}
-                    className={`block py-2.5 text-[15px] font-serif italic font-semibold ${active ? "text-terracotta" : "text-forest"
+                    className={`block py-2.5 text-[15px] font-serif italic font-semibold ${active ? (night ? "text-ochre-light" : "text-terracotta") : night ? "text-cream/80" : "text-forest"
                       }`}
                   >
                     {item.label}
