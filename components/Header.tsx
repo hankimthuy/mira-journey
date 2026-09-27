@@ -9,8 +9,8 @@ const NAV_ITEMS = [
   { href: "/blog", label: "Trạm dừng" },
   { href: "/products", label: "Trạm chế tạo" },
   { href: "/explore", label: "Trạm khám phá" },
-  { href: "/about", label: "Trạm xuất phát" },
   { href: "/aha", label: "Trạm Aha" },
+  { href: "/about", label: "Trạm xuất phát" },
 ];
 
 function GearMark({ night }: { night: boolean }) {

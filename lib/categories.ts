@@ -1,3 +1,10 @@
+/**
+ * Site vocabulary, kept to three layers:
+ * - Trạm: a space / a way of experiencing the content (Trạm dừng, Trạm chế
+ *   tạo, Trạm khám phá, Trạm Aha, Trạm xuất phát) — the header items.
+ * - Chủ đề: what a post is about — the `categories` below.
+ * - Dịch chuyển: navigating (the random warp), never a station.
+ */
 export type Category = {
   slug: string;
   name: string;
@@ -8,34 +15,34 @@ export const categories: Category[] = [
   {
     slug: "life",
     name: "Life",
-    tagline: "Chuyện đời sống, quan sát cá nhân và những bài học tự thân",
+    tagline: "Những chuyện đời sống và những điều mình quan sát",
   },
   {
     slug: "product",
     name: "Product & Work",
-    tagline: "Tư duy về sản phẩm, công việc và những đúc kết từ ngày làm việc thực tế",
+    tagline: "Sản phẩm, công việc và những điều mình học được từ thực tế",
   },
   {
     slug: "mind",
     name: "Mind",
-    tagline: "Tâm lý học thực hành để soi chiếu nội tâm và thấu hiểu các mối quan hệ",
+    tagline: "Những góc nhìn về bản thân, suy nghĩ và các mối quan hệ",
   },
   {
     slug: "system",
     name: "System",
-    tagline: "Quy trình, hạ tầng và cách mọi thứ vận hành phía sau",
+    tagline: "Quy trình, hệ thống và cách mọi thứ vận hành",
   },
   {
     slug: "radar",
     name: "Radar",
-    tagline: "Vài thứ nhỏ nhặt nhưng hay ho",
+    tagline: "Những điều nhỏ nhặt nhưng khiến mình tò mò",
   },
 ];
 
 /**
  * The travel series lives on its own station (/explore) instead of mixing
  * into the post timeline. Posts still carry `category: "explore"` in the CMS;
- * it is just kept out of `categories`, which are the stops on the blog rail.
+ * it is just kept out of `categories`, which are the topics of Trạm dừng.
  */
 export const exploreStation: Category = {
   slug: "explore",

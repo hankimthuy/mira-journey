@@ -71,11 +71,11 @@ export default function PostList({
   }, [posts, lang, query]);
 
   const stations = [
-    { key: "all", href: "/blog", kicker: "Ga đầu", name: "Tất cả", count: totalCount },
-    ...categories.map((c, i) => ({
+    { key: "all", href: "/blog", kicker: "Tất cả", name: "Mọi chủ đề", count: totalCount },
+    ...categories.map((c) => ({
       key: c.slug,
       href: `/category/${c.slug}`,
-      kicker: `Trạm ${i + 1}`,
+      kicker: "Chủ đề",
       name: c.name,
       count: categoryCounts?.[c.slug],
     })),
@@ -163,10 +163,10 @@ export default function PostList({
         </div>
       </div>
 
-      {/* The categories as stations on one rail — the same route as the
-          homepage, with the station you're on lit up. Scrolls sideways on
+      {/* The topics on one rail — the same route as the homepage, with the
+          topic you're on lit up. Scrolls sideways on
           phones; spreads across the width from sm: up. */}
-      <nav aria-label="Các trạm dừng" className="relative mb-10 min-w-0">
+      <nav aria-label="Chủ đề" className="relative mb-10 min-w-0">
         <div className="-mx-5 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
           <ol className="relative flex w-max gap-7 sm:grid sm:w-full sm:grid-cols-6 sm:gap-4">
             <span

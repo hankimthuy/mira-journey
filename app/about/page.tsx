@@ -6,60 +6,47 @@ import SnapLink from "@/components/SnapLink";
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
-    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
+    "Vì sao mình làm ra cỗ máy thời gian nhỏ này, vì sao đường đi không cần thẳng, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
 };
 
-type Station = { name: string; href: string; body: React.ReactNode };
+type Station = { name: string; href: string; lead: string; body: string[] };
 
-// The stations in the order a visitor meets them: write, build, travel,
-// listen to intuition. The snap shortcut isn't a station, so it lives in the
-// sidebar instead, under the blog's own stops.
+// The stations in header order. Trạm xuất phát is this page, so it isn't
+// listed; the random warp isn't a station at all, it lives in the sidebar.
 const STATIONS: Station[] = [
   {
     name: "Trạm dừng",
     href: "/blog",
-    body: (
-      <>
-        Nơi mình phanh cỗ máy lại để viết, nhìn lại những gì vừa học trước
-        khi đi tiếp.
-      </>
-    ),
+    lead: "Để nghĩ lại.",
+    body: [
+      "Những điều mình đã học, đã trải qua, hoặc vẫn còn đang nghĩ dở.",
+      "Không cần lúc nào cũng có kết luận. Có những thứ chỉ cần được nhìn thấy rõ hơn.",
+    ],
   },
   {
     name: "Trạm chế tạo",
     href: "/products",
-    body: (
-      <>
-        Có những câu hỏi không trả lời được bằng chữ, chỉ có lời đáp khi mình
-        bắt tay làm ra một thứ chạy được. Mỗi dự án bắt đầu từ một sự khó chịu
-        có thật và lớn lên qua ba chặng: <strong>PoC</strong>, làm được
-        không? <strong>MVP</strong>, có ai cần không? <strong>Live</strong>,
-        đã có người dùng thật. Không phải hạt nào cũng thành hoa, và điều đó
-        ổn: một PoC dừng lại vẫn trả lời được câu hỏi của nó.
-      </>
-    ),
+    lead: "Để làm thử.",
+    body: [
+      "Những ý tưởng mình muốn biến thành thứ gì đó chạy được — từ PoC, MVP cho đến sản phẩm thật.",
+      "Có thứ đi tiếp, có thứ dừng lại. Cả hai đều cho mình một trải nghiệm đáng nhớ.",
+    ],
   },
   {
     name: "Trạm khám phá",
     href: "/explore",
-    body: (
-      <>
-        Khi rẽ khỏi đường ray để đi thật. Mỗi nơi đã ghé để lại một con dấu
-        trong hộ chiếu, còn những điều nhặt được dọc đường thì nằm trong hành
-        lý ký gửi.
-      </>
-    ),
+    lead: "Để bước ra ngoài.",
+    body: [
+      "Những nơi mình đã đến, những điều mình nhìn thấy và những gì mang về sau mỗi chuyến đi.",
+    ],
   },
   {
     name: "Trạm Aha",
     href: "/aha",
-    body: (
-      <>
-        Có những lúc lý trí đã nói đủ. Dưới ánh trăng, rút một lá tarot hay
-        bài tây, không phải để đoán tương lai, mà để nghe xem trực giác đang
-        muốn nói gì.
-      </>
-    ),
+    lead: "Để thử lắng nghe trực giác.",
+    body: [
+      "Không phải để đoán tương lai, mà để nhìn một vấn đề từ một góc mà lý trí có thể đã bỏ qua.",
+    ],
   },
 ];
 
@@ -86,43 +73,59 @@ export default function AboutPage() {
 
       <div className="mb-12 font-serif [&>p]:mb-4">
         <p className="text-base text-ink leading-relaxed">
-          Có những ý tưởng hay góc nhìn mới, nếu chỉ để yên trong đầu, theo thời gian
-          chúng có thể biến mất hay lệch khỏi hình dạng ban đầu — không phải vì thời
-          gian cố tình bào mòn, mà vì mình chưa từng dừng lại để định hình và gọi tên
-          chúng.
+          Có những điều mình từng nghĩ rất hay, từng học được rất nhiều, nhưng nếu
+          không ghi lại, một thời gian sau nhìn lại có khi chẳng còn nhớ mình đã
+          nghĩ gì.
         </p>
         <p className="text-base text-ink leading-relaxed">
-          Đó là lý do cỗ máy thời gian này ra đời. Viết, với mình, là một lựa chọn
-          chủ động — một lời cam kết với những gì mình đã và đang học, để giữ được
-          trọn vẹn nguyên bản câu chuyện hay kiến thức ngay chính khoảnh khắc mình
-          chạm vào nó.
+          Vậy nên mình làm ra nơi này.
+        </p>
+        <p className="text-base text-ink leading-relaxed">
+          Một chỗ để mình dừng lại, nhìn lại những gì đã đi qua, và hiểu thêm về
+          chính mình.
+        </p>
+        <p className="text-base text-ink leading-relaxed">
+          Có thể là một ý tưởng, một dự án, một chuyến đi, một câu hỏi, hoặc một
+          điều nhỏ nhặt khiến mình suy nghĩ mãi.
         </p>
       </div>
 
       <div className="grid md:grid-cols-[1fr_260px] gap-10">
         <div className="prose-post max-w-none text-ink [&>p]:mb-[18px] [&>h2]:mb-3 [&>h2:not(:first-child)]:mt-10">
-          <h2>Vì sao lại là một &ldquo;Cỗ máy thời gian&rdquo;?</h2>
+          <h2>Vì sao lại là một &ldquo;Cỗ Máy Thời Gian&rdquo;?</h2>
           <p className="text-base leading-relaxed">
-            Bởi vì mình thích hình dung việc học như một hành trình — có thể không
-            đi theo một đường thẳng tắp từ đầu đến cuối. Có những chặng mình chủ
-            động tua nhanh qua các chủ đề đã quen, có những ga mình chấp nhận dừng
-            lại thật lâu trước một khái niệm hóc búa, hay thỉnh thoảng, mình sẵn
-            sàng quay đầu lại để đào sâu một điều từng lướt qua dưới một lăng kính
-            mới.
+            Vì mình không nghĩ việc học hay việc sống lúc nào cũng phải đi theo
+            một đường thẳng.
           </p>
           <p className="text-base leading-relaxed">
-            Vì vậy, nơi này sẽ không đi theo một lịch đăng bài cố định nào cả. Đây
-            đơn giản là nơi mình chủ động phanh cỗ máy lại, bước xuống, ghi chép lại
-            những gì vừa đi qua, rồi lại tiếp tục hành trình.
+            Có những thứ đã quen thì mình đi nhanh qua. Có những chuyện chưa hiểu
+            thì mình muốn dừng lại lâu hơn một chút.
+          </p>
+          <p className="text-base leading-relaxed">
+            Có khi mình quay lại một điều từng học, nhưng lần này nhìn nó từ một
+            góc khác và bất ngờ nhận ra: <em>à, hóa ra trước đây mình đã bỏ sót
+            điều này.</em>
+          </p>
+          <p className="text-base leading-relaxed">
+            Nên cỗ máy này cũng không có lịch trình cố định. Mình chỉ đi, gặp một
+            điều đáng nhớ thì bước xuống, ghi lại, rồi lại lên đường.
+          </p>
+          <p className="text-base leading-relaxed">
+            Có thể hôm nay mình viết về một thứ rất &ldquo;work&rdquo;, ngày mai
+            lại là một chuyến đi, một suy nghĩ vụn vặt, hoặc một điều chẳng biết
+            nên gọi tên thế nào.
+          </p>
+          <p className="text-base leading-relaxed">
+            Không sao cả. Đường đi không cần thẳng, miễn là mình vẫn đang đi.
           </p>
 
           <h2>Những trạm trên hành trình</h2>
           <p className="text-base leading-relaxed">
-            Mỗi trạm giữ lại một kiểu khoảnh khắc khác nhau.
+            Mỗi trạm là một cách mình lưu lại những điều đã đi qua.
           </p>
           {/* Same rail language as the homepage: a dashed track, a dot per
               station, the words hanging beside it. */}
-          <ol className="relative !mb-8 mt-6 space-y-7">
+          <ol className="relative !mb-0 mt-6 space-y-7">
             <span
               className="product-rail-line absolute bottom-2 left-[6px] top-2 w-[2px]"
               aria-hidden="true"
@@ -139,18 +142,22 @@ export default function AboutPage() {
                 >
                   {station.name}
                 </Link>
-                <p className="mt-1 text-base leading-relaxed">{station.body}</p>
+                <p className="mt-0.5 text-sm font-semibold text-ochre">
+                  {station.lead}
+                </p>
+                {station.body.map((line) => (
+                  <p key={line} className="mt-1 text-base leading-relaxed">
+                    {line}
+                  </p>
+                ))}
               </li>
             ))}
           </ol>
-          <p className="!mb-0 text-sm italic text-ink/55">
-            Cỗ máy đã khởi động. Hẹn gặp bạn ở những chặng đường hữu&nbsp;duyên.
-          </p>
         </div>
 
         <div className="animate-fade-in-up border-l border-forest/18 pl-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
-            Bắt đầu từ đâu đó
+            Những chủ đề mình quan tâm
           </p>
           {categories.map((c) => (
             <Link
@@ -176,6 +183,16 @@ export default function AboutPage() {
             <SnapLink />
           </div>
         </div>
+      </div>
+
+      {/* The sign-off sits below both columns, so on phones it still comes
+          after the topics instead of before them. */}
+      <div className="mt-14 border-t border-dashed border-forest/20 pt-8 text-center font-serif italic text-forest-deep">
+        <p className="text-lg">Cỗ máy đã khởi động.</p>
+        <p className="mt-2 text-base text-ink/75">
+          Mình chưa biết chuyến tiếp theo sẽ đưa mình đến đâu.
+        </p>
+        <p className="mt-1 text-base text-ink/75">Nhưng cứ đi đã.</p>
       </div>
     </div>
   );

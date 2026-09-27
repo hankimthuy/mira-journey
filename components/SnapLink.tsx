@@ -25,7 +25,7 @@ export default function SnapLink() {
             Dịch chuyển ngẫu nhiên
           </span>
           <span className="block text-xs leading-snug text-ink/65">
-            Tới đâu cũng được, để cỗ máy chọn giúp bạn một bài.
+            Để cỗ máy chọn một điểm đến bất kỳ cho bạn.
           </span>
         </span>
       </a>

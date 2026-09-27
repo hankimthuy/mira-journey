@@ -6,6 +6,7 @@ import { formatDate } from "@/lib/format";
 import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 import StationCards from "@/components/StationCards";
+import WarpCard from "@/components/WarpCard";
 
 export const revalidate = 60;
 
@@ -72,14 +73,11 @@ export default async function HomePage() {
       </section>
 
       <section className="mb-20 sm:mb-24">
-        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
+        <h2 className="font-serif italic text-2xl text-forest-deep mb-6">
           Những trạm dừng
         </h2>
-        <p className="text-sm text-ink/70 mb-6">
-          Mỗi trạm dừng, một điều để nhìn lại và hiểu thêm một chút.
-        </p>
         {/* One continuous route instead of a row of boxed tickets: a dot per
-            station on the track, the words hanging underneath. Vertical on
+            topic on the track, the words hanging underneath. Vertical on
             mobile (same rail language as /products), horizontal from lg:. */}
         <div className="relative">
           <TimeRail />
@@ -103,7 +101,7 @@ export default async function HomePage() {
                     aria-hidden="true"
                   />
                   <span className="block text-[11px] font-semibold uppercase tracking-widest text-ochre">
-                    Trạm {i + 1}
+                    Chủ đề
                     {categoryCounts[c.slug] > 0 && (
                       <span className="text-ink/45"> · {categoryCounts[c.slug]} bài</span>
                     )}
@@ -127,8 +125,8 @@ export default async function HomePage() {
         </div>
 
 
-        {/* The latest stops hang right off the rail: they are what the
-            stations above hold, so no heading of their own. */}
+        {/* The latest posts hang right off the rail: they are what the
+            topics above hold, so no heading of their own. */}
         {latestPosts.length === 0 ? (
           <p className="text-forest/70">Chưa có bài viết nào. Sắp có rồi.</p>
         ) : (
@@ -178,15 +176,16 @@ export default async function HomePage() {
       </section>
 
       {/* Leaving the rail comes after riding it: the other stations sit
-          below the posts, each card a small picture of what is inside. */}
-      <section>
-        <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
-          Ghé thêm vài trạm
-        </h2>
-        <p className="text-sm text-ink/70 mb-6">
-          Một phần của hành trình.
-        </p>
+          below the posts, each card a small picture of what is inside. The
+          cards carry their own names, so the section needs no heading. */}
+      <section className="mb-20 sm:mb-24">
         <StationCards places={places} />
+      </section>
+
+      {/* Dịch chuyển is a way of moving, not a station, so it stands apart
+          from the station cards. */}
+      <section>
+        <WarpCard />
       </section>
     </div>
   );
