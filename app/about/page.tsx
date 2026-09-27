@@ -5,7 +5,7 @@ import { categories } from "@/lib/categories";
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
-    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và vì sao có một Trạm Chế Tạo.",
+    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và vì sao có một Trạm chế tạo.",
 };
 
 export default function AboutPage() {
@@ -60,14 +60,14 @@ export default function AboutPage() {
             những gì vừa đi qua, rồi lại tiếp tục hành trình.
           </p>
 
-          <h2>Còn Trạm Chế Tạo thì sao?</h2>
+          <h2>Còn Trạm chế tạo thì sao?</h2>
           <p className="text-base leading-relaxed">
             Viết giúp mình giữ lại những điều đã học. Nhưng có những câu hỏi
             không trả lời được bằng chữ. Chúng chỉ có lời đáp khi mình bắt tay
             làm ra một thứ gì đó chạy được.
           </p>
           <p className="text-base leading-relaxed">
-            Trạm Chế Tạo là nơi những câu hỏi ấy được mang vào xưởng. Mỗi dự án
+            Trạm chế tạo là nơi những câu hỏi ấy được mang vào xưởng. Mỗi dự án
             bắt đầu từ một sự khó chịu có thật, của chính mình, rồi đi qua ba
             chặng: <strong>PoC</strong>, làm được không?{" "}
             <strong>MVP</strong>, có ai cần không? <strong>Live</strong>, đã có

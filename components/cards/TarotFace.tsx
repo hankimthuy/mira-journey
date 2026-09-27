@@ -59,21 +59,21 @@ function Glyph({ suit }: { suit: TarotSuit | null }) {
 export default function TarotFace({ card, reversed }: { card: TarotCard; reversed: boolean }) {
   const major = card.arcana === "major";
   return (
-    <div className="card-face h-full w-full rounded-xl border border-forest/25 bg-paper p-1.5 shadow-md">
+    <div className="card-face h-full w-full rounded-xl border border-ochre-light/40 bg-[#1b2230] p-1.5 shadow-[0_0_28px_rgb(232_184_109/0.28)]">
       <div
         className={`flex h-full w-full flex-col items-center justify-between rounded-lg border px-2 py-3 text-center transition-transform ${
-          major ? "border-ochre/70 text-forest-deep" : "border-forest/30 text-forest"
+          major ? "border-ochre-light/70 text-cream" : "border-ochre-light/30 text-cream/90"
         } ${reversed ? "rotate-180" : ""}`}
       >
-        <span className="font-serif text-sm font-semibold tracking-widest text-terracotta">
+        <span className="font-serif text-sm font-semibold tracking-widest text-ochre-light">
           {tarotIndex(card)}
         </span>
-        <div className={major ? "text-ochre" : "text-forest"}>
+        <div className={major ? "text-ochre-light" : "text-cream/75"}>
           <Glyph suit={card.suit} />
         </div>
         <div>
           <p className="font-serif text-[13px] font-semibold italic leading-tight sm:text-sm">{card.name}</p>
-          <p className="mt-0.5 text-[11px] leading-tight text-ink/70">{card.nameVi}</p>
+          <p className="mt-0.5 text-[11px] leading-tight text-cream/60">{card.nameVi}</p>
         </div>
       </div>
     </div>

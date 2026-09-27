@@ -8,7 +8,7 @@ import TarotFace from "@/components/cards/TarotFace";
 import PlayingFace from "@/components/cards/PlayingFace";
 import CardBack from "@/components/cards/CardBack";
 
-// Trạm Rút Bài: pick a style for the day, shuffle, flip. Nothing is saved —
+// Trạm Aha: pick a style for the day, shuffle, flip. Nothing is saved —
 // each draw is its own moment. Randomness only runs in the click handler, so
 // server and client render the same idle state.
 
@@ -20,10 +20,10 @@ type Drawn =
   | { kind: "playing"; card: PlayingCard };
 
 const MODES: { mode: Mode; label: string; hint: string }[] = [
-  { mode: "tarot-1", label: "1 lá tarot", hint: "Một thông điệp cho hôm nay" },
-  { mode: "tarot-3", label: "Trải 3 lá", hint: "Quá khứ – Hiện tại – Tương lai" },
-  { mode: "playing-1", label: "1 lá bài tây", hint: "Một lá, không cần lý do" },
-  { mode: "playing-n", label: "Nhiều lá bài tây", hint: "Bốc vài lá, không trùng nhau" },
+  { mode: "tarot-1", label: "1 lá tarot", hint: "Một lời thì thầm cho hôm nay" },
+  { mode: "tarot-3", label: "Trải 3 lá", hint: "Điều đã qua, điều đang đến, điều còn chờ" },
+  { mode: "playing-1", label: "1 lá bài tây", hint: "Một lá, để vận may tự chọn" },
+  { mode: "playing-n", label: "Nhiều lá bài tây", hint: "Vài lá, không lá nào trùng lá nào" },
 ];
 
 const SPREAD = ["Quá khứ", "Hiện tại", "Tương lai"];
@@ -48,10 +48,10 @@ function Pill({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-full border px-4 py-1.5 text-[13px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60 ${
+      className={`rounded-full border px-4 py-1.5 text-[13px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ochre-light/70 ${
         active
-          ? "border-forest-deep bg-forest-deep text-cream"
-          : "border-forest/30 text-forest hover:border-forest hover:text-forest-deep"
+          ? "border-ochre-light bg-ochre-light text-[#141b29] shadow-[0_0_16px_rgb(232_184_109/0.45)]"
+          : "border-ochre-light/35 text-cream/80 hover:border-ochre-light hover:text-ochre-light"
       }`}
     >
       {children}
@@ -69,12 +69,12 @@ function Toggle({
   children: React.ReactNode;
 }) {
   return (
-    <label className="inline-flex cursor-pointer items-center gap-2 text-[13px] text-ink/80">
+    <label className="inline-flex cursor-pointer items-center gap-2 text-[13px] text-cream/75">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 accent-[var(--color-forest)]"
+        className="h-4 w-4 accent-[var(--color-ochre-light)]"
       />
       {children}
     </label>
@@ -152,8 +152,8 @@ export default function CardStation() {
   const cardSize = isTarot ? "w-36 aspect-[7/12] sm:w-44" : "w-28 aspect-[5/7] sm:w-36";
 
   return (
-    <section aria-label="Bàn rút bài">
-      <div className="mb-8 flex flex-col gap-4 border-y border-forest/15 py-4">
+    <section aria-label="Bàn bói bài">
+      <div className="mb-8 flex flex-col gap-4 border-y border-ochre-light/15 py-4">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Chọn kiểu rút">
           {MODES.map((m) => (
             <Pill key={m.mode} active={mode === m.mode} onClick={() => pickMode(m.mode)}>
@@ -162,7 +162,7 @@ export default function CardStation() {
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
-          <p className="font-serif text-[15px] italic text-forest-deep">
+          <p className="font-serif text-[15px] italic text-ochre-light">
             {MODES.find((m) => m.mode === mode)?.hint}
           </p>
           {isTarot && (
@@ -176,18 +176,18 @@ export default function CardStation() {
             </Toggle>
           )}
           {mode === "playing-n" && (
-            <div className="inline-flex items-center gap-2 text-[13px] text-ink/80">
+            <div className="inline-flex items-center gap-2 text-[13px] text-cream/75">
               <span id="card-count-label">Số lá</span>
               <button
                 type="button"
                 aria-label="Bớt một lá"
                 disabled={count <= 2}
                 onClick={() => setCount((c) => Math.max(2, c - 1))}
-                className="h-7 w-7 rounded-full border border-forest/30 text-forest disabled:opacity-40"
+                className="h-7 w-7 rounded-full border border-ochre-light/40 text-ochre-light disabled:opacity-30"
               >
                 −
               </button>
-              <span aria-labelledby="card-count-label" className="w-4 text-center font-semibold text-forest-deep">
+              <span aria-labelledby="card-count-label" className="w-4 text-center font-semibold text-ochre-light">
                 {count}
               </span>
               <button
@@ -195,7 +195,7 @@ export default function CardStation() {
                 aria-label="Thêm một lá"
                 disabled={count >= 5}
                 onClick={() => setCount((c) => Math.min(5, c + 1))}
-                className="h-7 w-7 rounded-full border border-forest/30 text-forest disabled:opacity-40"
+                className="h-7 w-7 rounded-full border border-ochre-light/40 text-ochre-light disabled:opacity-30"
               >
                 +
               </button>
@@ -214,7 +214,7 @@ export default function CardStation() {
                 style={{ "--flip-delay": `${i * FLIP_STAGGER_MS}ms` } as React.CSSProperties}
               >
                 {d.kind === "tarot" && d.position && (
-                  <span className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-terracotta">
+                  <span className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre-light">
                     {d.position}
                   </span>
                 )}
@@ -234,10 +234,10 @@ export default function CardStation() {
                 </div>
                 {d.kind === "tarot" && (
                   <div className="card-caption mt-3 max-w-44 text-center">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-forest/70">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-ochre-light/70">
                       {d.reversed ? "Ngược" : "Xuôi"}
                     </p>
-                    <p className="mt-1 text-[13px] leading-snug text-ink/85">
+                    <p className="mt-1 font-serif text-[14px] italic leading-snug text-cream/85">
                       {d.reversed ? d.card.reversed : d.card.upright}
                     </p>
                   </div>
@@ -246,7 +246,7 @@ export default function CardStation() {
             ))}
           </ul>
         ) : (
-          <div className={`relative ${cardSize}`} aria-hidden="true">
+          <div className={`aha-deck relative ${cardSize}`} aria-hidden="true">
             {[2, 1, 0].map((layer) => (
               <div
                 key={layer}
@@ -271,18 +271,18 @@ export default function CardStation() {
             type="button"
             onClick={draw}
             disabled={phase === "shuffle"}
-            className="rounded-full bg-terracotta px-7 py-2.5 font-serif text-lg font-medium italic text-cream shadow-sm transition-colors hover:bg-forest-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta/60 disabled:opacity-70"
+            className="aha-summon rounded-full border border-ochre-light/70 bg-ochre-light/10 px-7 py-2.5 font-serif text-lg font-medium italic text-ochre-light transition-colors hover:bg-ochre-light hover:text-[#141b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ochre-light/70 disabled:opacity-70"
           >
-            {phase === "shuffle" ? "Đang xào bài…" : phase === "reveal" ? "Bốc lại" : "Bốc bài"}
+            {phase === "shuffle" ? "Các vì sao đang xào bài…" : phase === "reveal" ? "Hỏi thêm lần nữa" : "Bốc bài"}
           </button>
-          <p className="text-[12px] text-forest/60">
+          <p className="text-[12px] text-cream/45">
             {isTarot ? "Modern Witch Tarot" : "Bài tây"} · {deckSize} lá
           </p>
         </div>
       </div>
 
       <p className="sr-only" aria-live="polite">
-        {phase === "reveal" ? `Bạn rút được: ${hand.map(describe).join("; ")}.` : ""}
+        {phase === "reveal" ? `Bài đã trả lời: ${hand.map(describe).join("; ")}.` : ""}
       </p>
     </section>
   );

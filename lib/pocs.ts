@@ -61,10 +61,10 @@ export const POC_STAGE_ORDER: PocStage[] = ["poc", "mvp", "live"];
 
 /**
  * Whether work is still happening, told only when it is not — "ongoing" is
- * the default and says nothing, so it gets no label at all.
+ * the default and says nothing, so it gets no label at all. "pending" stays
+ * unlabelled too: a paused project is a story told in person, not a tag.
  */
 export const POC_STATUS_NOTE: Partial<Record<PocStatus, string>> = {
-  pending: "tạm dừng",
   deprecated: "đã ngừng",
   private: "nội bộ",
 };

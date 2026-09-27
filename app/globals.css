@@ -567,7 +567,7 @@ a {
   animation: sign-sway 5.5s ease-in-out infinite;
 }
 
-/* --- Trạm Chế Tạo: the rail ---------------------------------------------
+/* --- Trạm chế tạo: the rail ---------------------------------------------
    /products is a vertical time rail, one station per project. Stations
    arrive as they are scrolled to, driven by the native view() timeline (no
    JS); browsers without scroll-driven animations fall back to the on-load
@@ -952,11 +952,71 @@ html[data-warp="arrive"] body::after {
   to { clip-path: circle(0 at 50% 50%); visibility: hidden; }
 }
 
-/* --- Trạm Rút Bài: card back, shuffle, 3D flip ------------------------- */
+/* --- Trạm Aha: night sky ---------------------------------------------- */
+.aha-night {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 78%, rgb(232 184 109 / 0.16), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 85% 0%, rgb(84 70 140 / 0.35), transparent 70%),
+    linear-gradient(180deg, #0f1522 0%, #151c2c 45%, #10161f 100%);
+  color: var(--color-cream);
+}
+
+/* Soft edge where the cream site meets the night. */
+.aha-night::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 48px;
+  background: linear-gradient(180deg, rgb(251 245 233 / 0.12), transparent);
+  pointer-events: none;
+}
+
+.aha-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: #fff6de;
+  box-shadow: 0 0 6px rgb(255 240 200 / 0.8);
+  animation: aha-twinkle 3s ease-in-out infinite;
+}
+
+@keyframes aha-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.aha-moon {
+  filter: drop-shadow(0 0 18px rgb(232 184 109 / 0.55));
+  animation: aha-float 9s ease-in-out infinite;
+}
+
+@keyframes aha-float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.aha-title {
+  text-shadow: 0 0 24px rgb(232 184 109 / 0.35);
+}
+
+.aha-deck {
+  filter: drop-shadow(0 0 22px rgb(232 184 109 / 0.3));
+  animation: aha-breathe 4s ease-in-out infinite;
+}
+
+@keyframes aha-breathe {
+  0%, 100% { filter: drop-shadow(0 0 14px rgb(232 184 109 / 0.2)); }
+  50% { filter: drop-shadow(0 0 30px rgb(232 184 109 / 0.45)); }
+}
+
+.aha-summon {
+  box-shadow: 0 0 18px rgb(232 184 109 / 0.25);
+}
+
+/* --- Trạm Aha: card back, shuffle, 3D flip ------------------------- */
 .card-back-pattern {
   background-image:
-    repeating-linear-gradient(45deg, rgb(232 184 109 / 0.14) 0 2px, transparent 2px 10px),
-    repeating-linear-gradient(-45deg, rgb(232 184 109 / 0.14) 0 2px, transparent 2px 10px);
+    repeating-linear-gradient(45deg, rgb(232 184 109 / 0.08) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(-45deg, rgb(232 184 109 / 0.08) 0 1px, transparent 1px 9px);
 }
 
 @keyframes card-shuffle {
@@ -1112,6 +1172,9 @@ html[data-warp="arrive"] body::after {
     transition: none;
   }
 
+  .aha-star,
+  .aha-moon,
+  .aha-deck,
   .animate-card-shuffle,
   .animate-card-flip,
   .card-3d:has(.animate-card-flip),

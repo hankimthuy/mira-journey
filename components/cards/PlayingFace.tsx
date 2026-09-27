@@ -21,7 +21,7 @@ export default function PlayingFace({ card }: { card: PlayingCard }) {
   const face = card.rank === "J" || card.rank === "Q" || card.rank === "K";
   return (
     <div
-      className={`card-face relative h-full w-full rounded-xl border border-forest/25 bg-paper shadow-md ${
+      className={`card-face relative h-full w-full rounded-xl border border-ochre-light/60 bg-paper shadow-[0_0_24px_rgb(232_184_109/0.25)] ${
         card.red ? "text-terracotta" : "text-ink"
       }`}
     >
