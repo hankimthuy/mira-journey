@@ -116,10 +116,9 @@ export default function AboutPage() {
             những gì vừa đi qua, rồi lại tiếp tục hành trình.
           </p>
 
-          <h2>Bản đồ các trạm</h2>
+          <h2>Những trạm trên hành trình</h2>
           <p className="text-base leading-relaxed">
-            Cỗ máy không chạy trên một đường thẳng, nên nơi này cũng không chỉ
-            có một lối đi. Mỗi trạm giữ lại một kiểu khoảnh khắc khác nhau.
+            Mỗi trạm giữ lại một kiểu khoảnh khắc khác nhau.
           </p>
           {/* Same rail language as the homepage: a dashed track, a dot per
               station, the words hanging beside it. */}

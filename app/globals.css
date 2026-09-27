@@ -655,7 +655,7 @@ a {
    the way while the warp runs. */
 .lever-arm {
   transform-box: view-box;
-  transform-origin: 12px 17.5px;
+  transform-origin: 12px 17px;
   transform: rotate(28deg);
   transition: transform 320ms cubic-bezier(0.3, 1.6, 0.5, 1);
 }

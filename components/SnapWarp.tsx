@@ -183,11 +183,12 @@ export function SnapIcon({ snapping }: { snapping: boolean }) {
         strokeLinecap="round"
       >
         <g className="lever-arm">
-          <path d="M12 17.5V6.5" />
-          <circle cx="12" cy="4.6" r="2.4" fill="currentColor" stroke="none" />
+          <path d="M12 17V7" strokeWidth="3.4" />
+          <circle cx="12" cy="4.8" r="3.3" fill="currentColor" stroke="none" />
+          <circle cx="11" cy="3.9" r="0.9" fill="var(--color-cream)" stroke="none" opacity="0.7" />
         </g>
-        <rect x="4.5" y="17" width="15" height="4" rx="2" />
-        <circle cx="12" cy="17.5" r="1.5" fill="var(--color-ochre)" stroke="none" />
+        <rect x="3.5" y="16.2" width="17" height="5.6" rx="2.8" fill="var(--color-cream)" strokeWidth="2.2" />
+        <circle cx="12" cy="17" r="2" fill="var(--color-ochre)" stroke="currentColor" strokeWidth="1.2" />
       </svg>
       <span className="snap-rays">
         {Array.from({ length: 8 }, (_, i) => (

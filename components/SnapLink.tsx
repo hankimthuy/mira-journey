@@ -21,11 +21,11 @@ export default function SnapLink() {
           <SnapIcon snapping={warp.snapping} />
         </span>
         <span>
-          <span className="block font-serif text-lg font-semibold italic text-forest-deep transition-colors group-hover:text-terracotta">
-            Gạt cần
+          <span className="block font-serif text-base font-semibold italic leading-snug text-forest-deep transition-colors group-hover:text-terracotta">
+            Dịch chuyển ngẫu nhiên
           </span>
           <span className="block text-xs leading-snug text-ink/65">
-            tới đâu cũng được — cỗ máy chọn giúp bạn một bài.
+            Tới đâu cũng được, để cỗ máy chọn giúp bạn một bài.
           </span>
         </span>
       </a>

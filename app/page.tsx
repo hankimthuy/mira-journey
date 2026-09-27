@@ -181,10 +181,10 @@ export default async function HomePage() {
           below the posts, each card a small picture of what is inside. */}
       <section>
         <h2 className="font-serif italic text-2xl text-forest-deep mb-1.5">
-          Rẽ khỏi đường ray
+          Ghé thêm vài trạm
         </h2>
         <p className="text-sm text-ink/70 mb-6">
-          Những trạm không nằm trên tuyến chính, nhưng cũng là một phần của hành trình.
+          Một phần của hành trình.
         </p>
         <StationCards places={places} />
       </section>

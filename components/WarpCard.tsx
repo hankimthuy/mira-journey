@@ -21,7 +21,7 @@ export default function WarpCard() {
             </span>
           }
           name="Dịch chuyển ngẫu nhiên"
-          meta="Gạt cần"
+          meta="Tới đâu cũng được"
           description="Chưa biết đọc gì? Để cỗ máy chọn giúp một bài."
         />
       </a>
