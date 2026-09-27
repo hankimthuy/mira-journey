@@ -68,16 +68,35 @@ function Toggle({
   onChange: (v: boolean) => void;
   children: React.ReactNode;
 }) {
+  // A switch, not a checkbox: glowing track, a moon knob that slides over.
   return (
-    <label className="inline-flex cursor-pointer items-center gap-2 text-[13px] text-cream/75">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 accent-[var(--color-ochre-light)]"
-      />
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className="group inline-flex items-center gap-2.5 rounded-full text-[13px] text-cream/75 transition-colors hover:text-cream focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ochre-light/70"
+    >
+      <span
+        aria-hidden="true"
+        className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full border transition-all duration-300 ${
+          checked
+            ? "border-ochre-light/80 bg-ochre-light/25 shadow-[0_0_14px_rgb(232_184_109/0.45)]"
+            : "border-cream/25 bg-cream/5"
+        }`}
+      >
+        <span
+          className={`absolute left-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full transition-all duration-300 ${
+            checked ? "translate-x-5 bg-ochre-light text-[#141b29]" : "translate-x-0 bg-cream/40 text-transparent"
+          }`}
+        >
+          <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="currentColor">
+            <path d="M7.5 1.5a4.5 4.5 0 1 0 3 7.8A3.8 3.8 0 1 1 7.5 1.5Z" />
+          </svg>
+        </span>
+      </span>
       {children}
-    </label>
+    </button>
   );
 }
 
@@ -273,7 +292,7 @@ export default function CardStation() {
             disabled={phase === "shuffle"}
             className="aha-summon rounded-full border border-ochre-light/70 bg-ochre-light/10 px-7 py-2.5 font-serif text-lg font-medium italic text-ochre-light transition-colors hover:bg-ochre-light hover:text-[#141b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ochre-light/70 disabled:opacity-70"
           >
-            {phase === "shuffle" ? "Các vì sao đang xào bài…" : phase === "reveal" ? "Hỏi thêm lần nữa" : "Bốc bài"}
+            {phase === "shuffle" ? "Các vì sao đang xào bài…" : phase === "reveal" ? "Xin một quẻ khác" : "Bốc bài"}
           </button>
           <p className="text-[12px] text-cream/45">
             {isTarot ? "Modern Witch Tarot" : "Bài tây"} · {deckSize} lá

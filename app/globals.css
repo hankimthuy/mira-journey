@@ -953,22 +953,41 @@ html[data-warp="arrive"] body::after {
 }
 
 /* --- Trạm Aha: night sky ---------------------------------------------- */
-.aha-night {
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 78%, rgb(232 184 109 / 0.16), transparent 70%),
-    radial-gradient(ellipse 80% 60% at 85% 0%, rgb(84 70 140 / 0.35), transparent 70%),
-    linear-gradient(180deg, #0f1522 0%, #151c2c 45%, #10161f 100%);
+/* On Trạm Aha the whole page goes dark: the sky lives on <body> so it runs
+   seamlessly behind the header, the station and the footer. */
+body:has(.aha-night) {
+  background: linear-gradient(180deg, #0f1522 0%, #151c2c 45%, #0d121b 100%);
   color: var(--color-cream);
 }
 
-/* Soft edge where the cream site meets the night. */
-.aha-night::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 48px;
-  background: linear-gradient(180deg, rgb(251 245 233 / 0.12), transparent);
-  pointer-events: none;
+body:has(.aha-night) .site-footer {
+  border-color: rgb(232 184 109 / 0.12);
+  margin-top: 0;
+}
+
+body:has(.aha-night) .site-footer > div {
+  color: rgb(251 245 233 / 0.5);
+}
+
+body:has(.aha-night) .site-footer-link {
+  color: var(--color-ochre-light);
+}
+
+body:has(.aha-night) .site-footer-link:hover {
+  color: var(--color-cream);
+}
+
+body:has(.aha-night) .snap-trigger {
+  color: var(--color-ochre-light);
+  background: rgb(232 184 109 / 0.1);
+  box-shadow: inset 0 0 0 1px rgb(232 184 109 / 0.35);
+}
+
+.aha-night {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 78%, rgb(232 184 109 / 0.16), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 85% 0%, rgb(84 70 140 / 0.35), transparent 70%);
+  color: var(--color-cream);
 }
 
 .aha-star {
