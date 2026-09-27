@@ -16,14 +16,6 @@ export const metadata: Metadata = {
   },
 };
 
-/** The travel log's compartments — packed later, shown as coming soon for now. */
-const SUITCASES = [
-  { label: "Bài viết", note: "Những trang ghi chép dọc đường" },
-  { label: "Ý tưởng", note: "Những điều chợt nảy ra khi đang đi" },
-  { label: "Con người", note: "Những người đã gặp, đã cùng đi một đoạn" },
-  { label: "Kỉ niệm", note: "Những khoảnh khắc muốn giữ lại" },
-];
-
 function SuitcaseIcon() {
   return (
     <svg
@@ -97,32 +89,22 @@ export default async function ExplorePage() {
       </h2>
 
       {trips.length === 0 ? (
-        <>
-          <p className="mb-5 text-[15px] text-forest/70">
-            Hành lý đang được sắp xếp — chuyến đầu tiên sẽ sớm lên đường.
-          </p>
-          <ul className="divide-y divide-forest/10 border-y border-forest/10">
-            {SUITCASES.map((suitcase) => (
-              <li
-                key={suitcase.label}
-                className="flex items-start gap-3.5 py-4 opacity-90 sm:items-center sm:gap-4"
-              >
-                <SuitcaseIcon />
-                <div className="min-w-0 flex-1">
-                  {/* On phones the luggage tag sits beside the name so the note keeps the full width. */}
-                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                    <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
-                      {suitcase.label}
-                    </h3>
-                    <LuggageTag className="sm:hidden" />
-                  </div>
-                  <p className="text-[14px] leading-snug text-ink/65">{suitcase.note}</p>
-                </div>
-                <LuggageTag className="hidden sm:inline-block" />
-              </li>
-            ))}
-          </ul>
-        </>
+        <div className="flex items-start gap-3.5 border-y border-forest/10 py-4 opacity-90 sm:items-center sm:gap-4">
+          <SuitcaseIcon />
+          <div className="min-w-0 flex-1">
+            {/* On phones the luggage tag sits beside the title so the note keeps the full width. */}
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+              <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
+                Hành lý đang được sắp xếp
+              </h3>
+              <LuggageTag className="sm:hidden" />
+            </div>
+            <p className="mt-1 text-[14px] leading-snug text-ink/65 sm:mt-0">
+              Bài viết, ý tưởng, con người và kỉ niệm dọc đường — chuyến đầu tiên sẽ sớm lên đường.
+            </p>
+          </div>
+          <LuggageTag className="hidden sm:inline-block" />
+        </div>
       ) : (
         <div className="relative">
           <div
