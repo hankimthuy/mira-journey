@@ -92,7 +92,7 @@ export default function Luggage() {
           <dt className="text-ink/50">Trạng thái</dt>
           <dd className="flex items-center gap-2 font-semibold text-terracotta">
             <span className="station-dot size-2 rounded-full bg-terracotta" aria-hidden="true" />
-            Đang xếp đồ
+            Coming soon
           </dd>
         </dl>
 
