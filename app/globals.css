@@ -75,14 +75,27 @@ a {
   font-weight: 600;
   color: var(--color-forest-deep);
   scroll-margin-top: 96px;
+  /* Headings inherit the body's 1.8 reading line-height otherwise, which
+     leaves a wrapped heading looking like separate lines on phones. */
+  line-height: 1.3;
 }
 
 .prose-post :where(h2) {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 .prose-post :where(h3) {
-  font-size: 19px;
+  font-size: 18px;
+}
+
+@media (min-width: 640px) {
+  .prose-post :where(h2) {
+    font-size: 24px;
+  }
+
+  .prose-post :where(h3) {
+    font-size: 19px;
+  }
 }
 
 .prose-post :where(a) {
