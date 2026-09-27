@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { POC_STAGE, POC_STAGE_ORDER, type Poc } from "@/lib/pocs";
 import type { Place } from "@/lib/places";
 import { EXPLORE_PATH, exploreStation } from "@/lib/categories";
 import PassportStamp, { stampStyle } from "@/components/PassportStamp";
@@ -7,45 +6,69 @@ import CardBack from "@/components/cards/CardBack";
 import DeskItem, { DESK_LINK } from "@/components/DeskItem";
 import WarpCard from "@/components/WarpCard";
 
-/** A toothed wheel: eight teeth round a ring, a hole in the middle. */
-function Gear({ className = "", reverse = false }: { className?: string; reverse?: boolean }) {
+/** A clay pot with its soil, centred on `cx`. */
+function Pot({ cx }: { cx: number }) {
   return (
-    <svg
-      viewBox="0 0 48 48"
-      className={`animate-gear-spin ${className}`}
-      style={reverse ? { animationDirection: "reverse" } : undefined}
-    >
-      <g fill="currentColor">
-        {Array.from({ length: 8 }, (_, i) => (
-          <rect key={i} x="20" y="2" width="8" height="10" rx="1.5" transform={`rotate(${i * 45} 24 24)`} />
-        ))}
+    <g>
+      <path d={`M${cx - 12} 58 L${cx + 12} 58 L${cx + 9} 78 L${cx - 9} 78 Z`} fill="#9c4a31" />
+      <rect x={cx - 14} y={52} width={28} height={7} rx={2} fill="var(--color-terracotta)" />
+      <ellipse cx={cx} cy={52.5} rx={11} ry={2} fill="var(--color-ink)" opacity={0.55} />
+    </g>
+  );
+}
+
+/**
+ * Trạm chế tạo as three pots: a seed (PoC), a sprout (MVP), a plant in
+ * flower (Live) — a project growing through its stages. Each plant grows a
+ * little on hover, one after another.
+ */
+function GrowingPots() {
+  const leaf = "var(--color-forest)";
+  return (
+    <svg viewBox="0 0 120 80" width={132} height={88} className="overflow-visible">
+      <Pot cx={20} />
+      <Pot cx={60} />
+      <Pot cx={100} />
+      <g className="desk-plant" style={{ "--delay": "0ms" } as React.CSSProperties}>
+        <ellipse cx={20} cy={48.5} rx={4.5} ry={3} fill="var(--color-ochre)" transform="rotate(-20 20 48.5)" />
       </g>
-      <circle cx="24" cy="24" r="14" fill="currentColor" />
-      <circle cx="24" cy="24" r="5" fill="var(--color-cream)" />
+      <g className="desk-plant" style={{ "--delay": "120ms" } as React.CSSProperties}>
+        <path d="M60 52V34" stroke={leaf} strokeWidth={2.4} strokeLinecap="round" />
+        <path d="M60 43C53 42 50 36 51 32C57 33 60 37 60 43Z" fill={leaf} />
+        <path d="M60 39C67 38 70 32 69 28C63 29 60 33 60 39Z" fill={leaf} />
+      </g>
+      <g className="desk-plant" style={{ "--delay": "240ms" } as React.CSSProperties}>
+        <path d="M100 52V18" stroke={leaf} strokeWidth={2.4} strokeLinecap="round" />
+        <path d="M100 44C93 43 90 37 91 33C97 34 100 38 100 44Z" fill={leaf} />
+        <path d="M100 34C107 33 110 27 109 23C103 24 100 28 100 34Z" fill={leaf} />
+        {Array.from({ length: 5 }, (_, i) => (
+          <circle
+            key={i}
+            cx={100 + 5 * Math.sin((i * 2 * Math.PI) / 5)}
+            cy={14 - 5 * Math.cos((i * 2 * Math.PI) / 5)}
+            r={4.6}
+            fill="var(--color-ochre-light)"
+          />
+        ))}
+        <circle cx={100} cy={14} r={3.4} fill="var(--color-terracotta)" />
+      </g>
     </svg>
   );
 }
 
 /**
  * The stations off the post rail as small objects on a desk: a passport page
- * of stamps, a pair of cards under the moon, the workshop's gears, the snap
+ * of stamps, a pair of cards under the moon, the workshop's pots, the snap
  * dial. No frames — each object lifts off the page on hover and does its
  * own little thing.
  */
-export default function StationCards({ places, pocs }: { places: Place[]; pocs: Poc[] }) {
+export default function StationCards({ places }: { places: Place[] }) {
   const stamped = places.filter((p) => !p.isHome);
   // Newest dated stamps first; undated ones only fill in if needed.
   const shownStamps = [
     ...stamped.filter((p) => p.visitedOn).reverse(),
     ...stamped.filter((p) => !p.visitedOn),
   ].slice(0, 2);
-  const stageMeta = POC_STAGE_ORDER.map((stage) => ({
-    stage,
-    count: pocs.filter((p) => p.stage === stage).length,
-  }))
-    .filter((s) => s.count > 0)
-    .map((s) => `${s.count} ${POC_STAGE[s.stage].label}`)
-    .join(" · ");
 
   return (
     <ul className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
@@ -54,19 +77,19 @@ export default function StationCards({ places, pocs }: { places: Place[]; pocs: 
           <DeskItem
             tilt={-4}
             object={
-              <span className="flex items-center rounded-md border border-forest/15 bg-cream px-2.5 py-2 shadow-[0_6px_14px_-8px_rgb(36_56_42/0.5)]">
+              <span className="flex items-center">
                 {shownStamps.length > 0 ? (
                   shownStamps.map((place, i) => (
                     <span
                       key={place.slug}
-                      className="desk-stamp -mx-1 inline-block"
+                      className="desk-stamp -mx-2 inline-block"
                       style={{ "--delay": `${i * 110}ms` } as React.CSSProperties}
                     >
                       <span
                         className="inline-block"
                         style={{ transform: `rotate(${stampStyle(place.slug).tilt}deg)` }}
                       >
-                        <PassportStamp place={place} size={56} />
+                        <PassportStamp place={place} size={68} />
                       </span>
                     </span>
                   ))
@@ -109,15 +132,12 @@ export default function StationCards({ places, pocs }: { places: Place[]; pocs: 
       <li className="animate-reveal-settle" style={{ animationDelay: "0.1s" }}>
         <Link href="/products" className={DESK_LINK}>
           <DeskItem
-            tilt={-2}
+            tilt={0}
             object={
-              <span className="relative flex h-[76px] w-[96px] items-end">
-                <Gear className="h-[68px] w-[68px] text-forest" />
-                <Gear reverse className="absolute right-0 top-0 h-[40px] w-[40px] text-ochre" />
-              </span>
+              <GrowingPots />
             }
             name="Trạm chế tạo"
-            meta={stageMeta || "Xưởng"}
+            meta={<span className="normal-case tracking-wide">PoC → MVP → Live</span>}
             description="Những câu hỏi không trả lời được bằng chữ, mang vào xưởng."
           />
         </Link>

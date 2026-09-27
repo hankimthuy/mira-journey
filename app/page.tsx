@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/posts";
-import { getAllPocs } from "@/lib/pocs";
 import { getAllPlaces } from "@/lib/places";
 import { categories, getCategoryBySlug, isExplorePost } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
@@ -11,9 +10,8 @@ import StationCards from "@/components/StationCards";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [posts, pocs, places] = await Promise.all([
+  const [posts, places] = await Promise.all([
     getAllPosts(),
-    getAllPocs(),
     getAllPlaces(),
   ]);
   // The travel series has its own station below, not a spot in the post
@@ -188,7 +186,7 @@ export default async function HomePage() {
         <p className="text-sm text-ink/70 mb-6">
           Những trạm không nằm trên tuyến chính, nhưng cũng là một phần của hành trình.
         </p>
-        <StationCards places={places} pocs={pocs} />
+        <StationCards places={places} />
       </section>
     </div>
   );

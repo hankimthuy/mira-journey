@@ -1109,6 +1109,24 @@ body:has(.aha-night) .snap-trigger {
   animation-delay: var(--delay, 0ms);
 }
 
+/* Trạm chế tạo: seed, sprout, flower each grow a little, one after another. */
+.desk-plant {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+@keyframes desk-grow {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.12, 1.22); }
+  70% { transform: scale(0.97, 0.94); }
+}
+
+.group:hover .desk-plant,
+.group:active .desk-plant {
+  animation: desk-grow 620ms ease both;
+  animation-delay: var(--delay, 0ms);
+}
+
 /* Trạm Aha: the front card flips up off the pair. */
 .desk-card-back,
 .desk-card-front {
@@ -1189,7 +1207,9 @@ body:has(.aha-night) .snap-trigger {
   }
 
   .group:hover .desk-stamp,
-  .group:active .desk-stamp {
+  .group:active .desk-stamp,
+  .group:hover .desk-plant,
+  .group:active .desk-plant {
     animation: none;
   }
 
