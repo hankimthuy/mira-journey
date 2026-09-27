@@ -35,7 +35,7 @@ export default async function ExplorePage() {
     <div className="mx-auto max-w-5xl px-5 py-12">
       <section className="animate-reveal-focus mb-10 max-w-2xl">
         <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-ochre">
-          Một series riêng
+          Series đặc biệt
         </p>
         <h1 className="mb-3 font-serif text-3xl font-semibold italic leading-[1.15] text-forest-deep sm:text-[38px]">
           {exploreStation.name}
