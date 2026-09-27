@@ -5,6 +5,7 @@ import { EXPLORE_PATH, exploreStation, isExplorePost } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import { getAllPlaces } from "@/lib/places";
 import Passport from "@/components/Passport";
+import Luggage from "@/components/Luggage";
 
 export const revalidate = 60;
 
@@ -15,35 +16,6 @@ export const metadata: Metadata = {
     canonical: EXPLORE_PATH,
   },
 };
-
-function SuitcaseIcon() {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      className="h-8 w-8 shrink-0 text-terracotta"
-      fill="none"
-      aria-hidden="true"
-    >
-      <g stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 9V6.5A1.5 1.5 0 0 1 13.5 5h5A1.5 1.5 0 0 1 20 6.5V9" />
-        <rect x="5" y="9" width="22" height="17" rx="2.5" />
-        <path d="M11 9v17M21 9v17" />
-      </g>
-      <circle cx="9" cy="28" r="1.2" fill="currentColor" />
-      <circle cx="23" cy="28" r="1.2" fill="currentColor" />
-    </svg>
-  );
-}
-
-function LuggageTag({ className }: { className: string }) {
-  return (
-    <span
-      className={`${className} shrink-0 whitespace-nowrap rounded-full border border-dashed border-ochre px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-ochre sm:px-2.5 sm:py-1 sm:text-[11px]`}
-    >
-      Đang xếp đồ
-    </span>
-  );
-}
 
 function groupByYear(posts: PostMeta[]) {
   const groups = new Map<string, PostMeta[]>();
@@ -89,22 +61,7 @@ export default async function ExplorePage() {
       </h2>
 
       {trips.length === 0 ? (
-        <div className="flex items-start gap-3.5 border-y border-forest/10 py-4 opacity-90 sm:items-center sm:gap-4">
-          <SuitcaseIcon />
-          <div className="min-w-0 flex-1">
-            {/* On phones the luggage tag sits beside the title so the note keeps the full width. */}
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-              <h3 className="font-serif text-lg font-semibold italic text-forest-deep">
-                Hành lý đang được sắp xếp
-              </h3>
-              <LuggageTag className="sm:hidden" />
-            </div>
-            <p className="mt-1 text-[14px] leading-snug text-ink/65 sm:mt-0">
-              Bài viết, ý tưởng, con người và kỉ niệm dọc đường — chuyến đầu tiên sẽ sớm lên đường.
-            </p>
-          </div>
-          <LuggageTag className="hidden sm:inline-block" />
-        </div>
+        <Luggage />
       ) : (
         <div className="relative">
           <div

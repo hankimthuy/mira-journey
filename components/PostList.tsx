@@ -23,18 +23,6 @@ function normalize(text: string) {
     .toLowerCase();
 }
 
-function cardClass(active: boolean) {
-  // Padding lives on the inner content span (not here) from sm: up, so the
-  // ticket-stub can sit flush against the card's own border — same
-  // structure as the homepage category cards. Below sm:, this pill still
-  // carries its own padding since it has no stub.
-  return `shrink-0 whitespace-nowrap rounded-xl border px-3.5 py-1.5 text-left text-[13px] transition-all duration-150 active:scale-[0.96] sm:flex sm:items-stretch sm:overflow-hidden sm:whitespace-normal sm:rounded-[3px] sm:px-0 sm:py-0 sm:text-[15px] sm:text-forest-deep ${
-    active
-      ? "animate-card-pop border-forest-deep bg-forest-deep text-cream sm:border-terracotta sm:bg-paper sm:shadow-sm"
-      : "border-paper bg-paper text-forest-deep sm:border-forest/15 sm:bg-cream sm:hover:border-terracotta/50 sm:hover:shadow-sm sm:hover:-translate-y-0.5"
-  }`;
-}
-
 export default function PostList({
   posts,
   activeCategory = "all",
@@ -81,6 +69,17 @@ export default function PostList({
       return true;
     });
   }, [posts, lang, query]);
+
+  const stations = [
+    { key: "all", href: "/blog", kicker: "Ga đầu", name: "Tất cả", count: totalCount },
+    ...categories.map((c, i) => ({
+      key: c.slug,
+      href: `/category/${c.slug}`,
+      kicker: `Trạm ${i + 1}`,
+      name: c.name,
+      count: categoryCounts?.[c.slug],
+    })),
+  ];
 
   const activeLangLabel = LANG_FILTERS.find((f) => f.key === lang)?.label ?? "Tất cả";
 
@@ -164,75 +163,55 @@ export default function PostList({
         </div>
       </div>
 
-      <div className="relative mb-8 min-w-0">
-        <div className="-mx-5 flex gap-2.5 overflow-x-auto px-5 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
-          <Link
-            href="/blog"
-            ref={activeCategory === "all" ? activeChipRef : undefined}
-            className={`${cardClass(activeCategory === "all")} ticket-accent-0 group`}
-          >
-            <span className="hidden shrink-0 sm:flex" aria-hidden="true">
-              <span className="ticket-stub" />
-              <span className="ticket-divider">
-                <span className="ticket-notch ticket-notch-top" />
-                <span className="ticket-notch ticket-notch-bottom" />
-              </span>
-            </span>
-            <span className="min-w-0 sm:px-3.5 sm:py-2.5">
-              <p className="flex items-center gap-1.5 font-semibold sm:font-serif sm:italic">
-                Theo dòng thời gian
-                <span
-                  className="hidden text-terracotta opacity-0 -translate-x-1 transition-all sm:inline-block group-hover:opacity-100 group-hover:translate-x-0"
-                  aria-hidden="true"
-                >
-                  →
-                </span>
-              </p>
-              {typeof totalCount === "number" && (
-                <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
-                  {totalCount} bài viết
-                </p>
-              )}
-            </span>
-          </Link>
-          {categories.map((c, i) => {
-            const active = activeCategory === c.slug;
-            return (
-              <Link
-                key={c.slug}
-                href={`/category/${c.slug}`}
-                ref={active ? activeChipRef : undefined}
-                className={`${cardClass(active)} ticket-accent-${(i + 1) % 3} group`}
-              >
-                <span className="hidden shrink-0 sm:flex" aria-hidden="true">
-                  <span className="ticket-stub" />
-                  <span className="ticket-divider">
-                    <span className="ticket-notch ticket-notch-top" />
-                    <span className="ticket-notch ticket-notch-bottom" />
-                  </span>
-                </span>
-                <span className="min-w-0 sm:px-3.5 sm:py-2.5">
-                  <p className="flex items-center gap-1.5 font-semibold sm:font-serif sm:italic">
-                    {c.name}
+      {/* The categories as stations on one rail — the same route as the
+          homepage, with the station you're on lit up. Scrolls sideways on
+          phones; spreads across the width from sm: up. */}
+      <nav aria-label="Các trạm dừng" className="relative mb-10 min-w-0">
+        <div className="-mx-5 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
+          <ol className="relative flex w-max gap-7 sm:grid sm:w-full sm:grid-cols-6 sm:gap-4">
+            <span
+              className="time-rail-line absolute left-0 right-0 top-[6px] h-[2px]"
+              aria-hidden="true"
+            />
+            {stations.map((station) => {
+              const active = activeCategory === station.key;
+              return (
+                <li key={station.key} className="min-w-[6.5rem] sm:min-w-0">
+                  <Link
+                    href={station.href}
+                    ref={active ? activeChipRef : undefined}
+                    aria-current={active ? "page" : undefined}
+                    className="group relative block pt-7 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-terracotta/60"
+                  >
                     <span
-                      className="hidden text-terracotta opacity-0 -translate-x-1 transition-all sm:inline-block group-hover:opacity-100 group-hover:translate-x-0"
+                      className={`absolute left-0 top-0 size-3.5 rounded-full border-2 transition-colors ${
+                        active
+                          ? "station-dot border-terracotta bg-terracotta"
+                          : "border-forest-deep bg-cream group-hover:border-terracotta group-hover:bg-terracotta"
+                      }`}
                       aria-hidden="true"
-                    >
-                      →
+                    />
+                    <span className="block whitespace-nowrap text-[11px] font-semibold uppercase tracking-widest text-ochre">
+                      {station.kicker}
+                      {typeof station.count === "number" && (
+                        <span className="text-ink/45"> · {station.count}</span>
+                      )}
                     </span>
-                  </p>
-                  {categoryCounts && (
-                    <p className="mt-0.5 hidden text-[11px] text-ink/50 sm:block">
-                      {categoryCounts[c.slug] ?? 0} bài viết
-                    </p>
-                  )}
-                </span>
-              </Link>
-            );
-          })}
+                    <span
+                      className={`mt-1 block font-serif text-[17px] font-semibold italic leading-snug transition-colors ${
+                        active ? "text-terracotta" : "text-forest-deep group-hover:text-terracotta"
+                      }`}
+                    >
+                      {station.name}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         </div>
         <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-cream to-transparent sm:hidden" />
-      </div>
+      </nav>
 
       {filtered.length === 0 ? (
         <p className="text-forest/70">
