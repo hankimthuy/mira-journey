@@ -5,7 +5,7 @@ import { categories } from "@/lib/categories";
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
-    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, và cách mình nhìn việc học như một hành trình không tuyến tính.",
+    "Vì sao mình dựng lên cỗ máy thời gian nhỏ này, cách mình nhìn việc học như một hành trình không tuyến tính, và vì sao có một Trạm Chế Tạo.",
 };
 
 export default function AboutPage() {
@@ -58,6 +58,34 @@ export default function AboutPage() {
             Vì vậy, nơi này sẽ không đi theo một lịch đăng bài cố định nào cả. Đây
             đơn giản là nơi mình chủ động phanh cỗ máy lại, bước xuống, ghi chép lại
             những gì vừa đi qua, rồi lại tiếp tục hành trình.
+          </p>
+
+          <h2>Còn Trạm Chế Tạo thì sao?</h2>
+          <p className="text-base leading-relaxed">
+            Viết giúp mình giữ lại những điều đã học. Nhưng có những câu hỏi
+            không trả lời được bằng chữ. Chúng chỉ có lời đáp khi mình bắt tay
+            làm ra một thứ gì đó chạy được.
+          </p>
+          <p className="text-base leading-relaxed">
+            Trạm Chế Tạo là nơi những câu hỏi ấy được mang vào xưởng. Mỗi dự án
+            bắt đầu từ một sự khó chịu có thật, của chính mình, rồi đi qua ba
+            chặng: <strong>PoC</strong>, làm được không?{" "}
+            <strong>MVP</strong>, có ai cần không? <strong>Live</strong>, đã có
+            người dùng thật.
+          </p>
+          <p className="text-base leading-relaxed">
+            Không phải dự án nào cũng đi hết ba chặng, và điều đó ổn. Một PoC
+            dừng lại vẫn trả lời được câu hỏi của nó. Thứ mình muốn giữ ở đây là
+            cả hành trình, kể cả những lần tạm dừng, để mỗi ý tưởng sau đi xa
+            hơn ý tưởng trước một chút.
+          </p>
+          <p className="text-base leading-relaxed">
+            <Link
+              href="/products"
+              className="font-bold text-terracotta no-underline hover:underline"
+            >
+              Ghé xưởng →
+            </Link>
           </p>
           <p className="!mb-0 text-sm italic text-ink/55">
             Cỗ máy đã khởi động. Hẹn gặp bạn ở những chặng đường hữu&nbsp;duyên.

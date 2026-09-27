@@ -162,7 +162,7 @@ export default async function HomePage() {
               href="/products"
               className="shrink-0 text-sm font-bold text-terracotta hover:underline"
             >
-              Ghé trạm →
+              Ghé xưởng →
             </Link>
           </div>
           {/* Just the names, one line that wraps — a teaser for /products,
