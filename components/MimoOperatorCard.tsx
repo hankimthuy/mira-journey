@@ -2,8 +2,8 @@ import { AUTHOR_FULL_NAME, PORTFOLIO_URL } from "@/lib/seo";
 
 const CARD_ID = "mimo-operator-card";
 
-/** Mira's photo in /public. Until one is added, the frame shows a star. */
-const MIRA_PHOTO: string | null = null;
+/** Mira's photo in /public. Set to null and the frame shows a star instead. */
+const MIRA_PHOTO: string | null = "/mira.jpg";
 
 // Security-print guilloche like the passport, plus faint dial rings.
 const COVER: React.CSSProperties = {
@@ -154,7 +154,7 @@ export default function MimoOperatorCard() {
                 {m.photo}
                 {m.name === "Mira" && (
                   <span
-                    className="absolute -bottom-3 -right-4 grid size-11 rotate-[-14deg] place-items-center rounded-full border-2 border-terracotta/80 bg-forest-deep/70 text-center text-[6.5px] font-bold uppercase leading-tight tracking-[0.12em] text-terracotta"
+                    className="absolute -bottom-5 -right-7 grid size-12 rotate-[-14deg] place-items-center rounded-full border-2 border-terracotta/80 bg-forest-deep/80 text-center text-[6px] font-bold uppercase leading-tight tracking-[0.08em] text-terracotta"
                     aria-hidden="true"
                   >
                     Operator
