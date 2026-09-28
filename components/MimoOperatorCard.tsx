@@ -214,11 +214,13 @@ export function HeroMimoTrigger() {
       >
         {/* tail pointing down at Mimo */}
         <span className="absolute -bottom-[5px] left-1/2 size-2.5 -translate-x-1/2 rotate-45 border-b border-r border-forest/15 bg-cream" />
-        <span className="block font-serif text-[13px] font-semibold italic leading-tight text-forest-deep sm:text-[15px]">
+        <span className="flex items-center gap-2 font-serif text-[13px] font-semibold italic leading-tight text-forest-deep sm:text-[15px]">
           Chào, mình là Mimo!
-        </span>
-        <span className="block text-[10px] font-semibold uppercase tracking-[0.15em] text-terracotta sm:text-[11px]">
-          chạm để làm quen
+          {/* tap hint: a small dot sending out a ripple */}
+          <span className="relative flex size-2.5 shrink-0">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-terracotta/60 motion-reduce:animate-none" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-terracotta" />
+          </span>
         </span>
       </span>
     </button>
