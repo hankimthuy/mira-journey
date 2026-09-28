@@ -127,8 +127,8 @@ const STEPS: Step[] = [
     lang: "Tiếng Nhật",
     meaning: (
       <>
-        Nghĩa là tương lai. Nghe hơi ngược đời cho một cỗ máy chuyên nhìn về quá khứ, nhưng
-        nhìn lại cho kỹ cũng là cách để thấy đường đi phía trước rõ hơn.
+        Nghĩa là tương lai. Nhìn quá khứ để thấy rõ hơn đường đi nước bước ở phía trước, nối
+        dài cả những tầm nhìn hay trải nghiệm sâu sắc.
       </>
     ),
   },
@@ -147,7 +147,7 @@ const STEPS: Step[] = [
   {
     letters: "mimo",
     lit: [0, 1, 2, 3],
-    word: "mimo",
+    word: "Mimo",
     meaning: <>Người bạn đồng hành nhỏ síu.</>,
   },
 ];
