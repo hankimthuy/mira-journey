@@ -2,8 +2,8 @@ import { AUTHOR_FULL_NAME, PORTFOLIO_URL } from "@/lib/seo";
 
 const CARD_ID = "mimo-operator-card";
 
-/** Mira's photo in /public. Set to null and the frame shows a star instead. */
-const MIRA_PHOTO: string | null = "/mira.jpg";
+/** The crew portrait in /public: Mira with Mimo beside her. */
+const CREW_PHOTO = "/mira.jpg";
 
 // Security-print guilloche like the passport, plus faint dial rings.
 const COVER: React.CSSProperties = {
@@ -13,38 +13,18 @@ const COVER: React.CSSProperties = {
 
 const LABEL = "text-[10px] font-semibold uppercase tracking-[0.25em]";
 
-type CrewMember = {
-  name: string;
-  role: string;
-  duties: string[];
-  tilt: string;
-  photo: React.ReactNode;
-};
+type CrewMember = { name: string; role: string; duties: string[] };
 
 const CREW: CrewMember[] = [
-  {
-    name: "Mimo",
-    role: "The driver",
-    duties: ["Giữ tay lái.", "Nhắc Mira nhìn đường.", "Đôi khi tự tiện ghé một trạm."],
-    tilt: "-rotate-2",
-    photo: (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src="/mimo.gif" alt="Mimo" className="size-full object-contain" />
-    ),
-  },
   {
     name: "Mira",
     role: "The operator",
     duties: ["Chọn nơi muốn dừng.", "Ghi lại những gì đáng nhớ.", "Thỉnh thoảng quay đầu nhìn lại."],
-    tilt: "rotate-2",
-    photo: MIRA_PHOTO ? (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={MIRA_PHOTO} alt={`Mira, ${AUTHOR_FULL_NAME}`} className="size-full object-cover" />
-    ) : (
-      <span className="grid size-full place-items-center text-4xl text-ochre-light" aria-label="Mira">
-        ✦
-      </span>
-    ),
+  },
+  {
+    name: "Mimo",
+    role: "The driver",
+    duties: ["Giữ tay lái.", "Nhắc Mira nhìn đường.", "Đôi khi tự tiện ghé một trạm."],
   },
 ];
 
@@ -142,27 +122,29 @@ export default function MimoOperatorCard() {
 
         {/* Crew of the machine */}
         <p className={`mt-5 text-center ${LABEL} text-cream/45`}>Crew of the machine</p>
-        <ul className="mt-4 grid grid-cols-2 gap-4">
+        {/* One archival print of the whole crew, pinned slightly askew. */}
+        <div className="relative mx-auto mt-4 w-full max-w-[17rem] -rotate-1 rounded-[3px] border border-cream/25 bg-cream p-1.5 pb-2 shadow-[0_10px_22px_rgb(0_0_0/0.3)]">
+          {/* photo corners, like an archival album */}
+          <span className="absolute -left-1.5 -top-1.5 size-4 border-l-2 border-t-2 border-ochre-light/80" aria-hidden="true" />
+          <span className="absolute -bottom-1.5 -right-1.5 size-4 border-b-2 border-r-2 border-ochre-light/80" aria-hidden="true" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={CREW_PHOTO}
+            alt={`Mira (${AUTHOR_FULL_NAME}) tựa cằm mỉm cười, Mimo ngồi bên cạnh cầm tấm bản đồ`}
+            className="block aspect-square w-full"
+          />
+          <span
+            className="absolute -bottom-4 -right-5 grid size-14 rotate-[-14deg] place-items-center rounded-full border-2 border-terracotta/80 bg-forest-deep/85 text-center text-[7px] font-bold uppercase leading-tight tracking-[0.08em] text-terracotta"
+            aria-hidden="true"
+          >
+            Operator
+            <br />· Mira ·
+          </span>
+        </div>
+        <ul className="mt-6 grid grid-cols-2 gap-4">
           {CREW.map((m) => (
             <li key={m.name} className="flex flex-col items-center text-center">
-              <div
-                className={`relative size-24 ${m.tilt} rounded-[3px] border border-cream/25 bg-black/25 p-1 shadow-[0_6px_14px_rgb(0_0_0/0.25)]`}
-              >
-                {/* photo corners, like an archival album */}
-                <span className="absolute -left-1 -top-1 size-3 border-l-2 border-t-2 border-ochre-light/70" aria-hidden="true" />
-                <span className="absolute -bottom-1 -right-1 size-3 border-b-2 border-r-2 border-ochre-light/70" aria-hidden="true" />
-                {m.photo}
-                {m.name === "Mira" && (
-                  <span
-                    className="absolute -bottom-5 -right-7 grid size-12 rotate-[-14deg] place-items-center rounded-full border-2 border-terracotta/80 bg-forest-deep/80 text-center text-[6px] font-bold uppercase leading-tight tracking-[0.08em] text-terracotta"
-                    aria-hidden="true"
-                  >
-                    Operator
-                    <br />· Mira ·
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 font-serif text-lg font-semibold italic text-ochre-light">{m.name}</p>
+              <p className="font-serif text-lg font-semibold italic text-ochre-light">{m.name}</p>
               <p className={`${LABEL} text-cream/55`}>{m.role}</p>
               <ul className="mt-2 space-y-0.5 text-[12.5px] leading-snug text-cream/85">
                 {m.duties.map((d) => (
