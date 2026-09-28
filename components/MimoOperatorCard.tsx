@@ -1,6 +1,6 @@
 import { AUTHOR_FULL_NAME, PORTFOLIO_URL } from "@/lib/seo";
 
-const CARD_ID = "mimo-operator-card";
+export const OPERATOR_CARD_ID = "mimo-operator-card";
 
 /** The crew portrait in /public: Mira with Mimo beside her. */
 const CREW_PHOTO = "/mira.jpg";
@@ -175,7 +175,7 @@ export default function MimoOperatorCard() {
     <>
       <button
         type="button"
-        popoverTarget={CARD_ID}
+        popoverTarget={OPERATOR_CARD_ID}
         className="group mx-auto flex w-full max-w-[180px] cursor-pointer flex-col items-center rounded-2xl p-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -189,8 +189,50 @@ export default function MimoOperatorCard() {
         </span>
       </button>
 
+      <OperatorCard />
+    </>
+  );
+}
+
+/**
+ * Mimo in the homepage hero: the gif already shows Mimo at the controls, so
+ * this lays a button over Mimo with a small speech bubble by the head.
+ * Place it inside `TimeMachineGif`; positions are % of the picture.
+ */
+export function HeroMimoTrigger() {
+  return (
+    <button
+      type="button"
+      popoverTarget={OPERATOR_CARD_ID}
+      aria-label="Làm quen với Mimo, người lái cỗ máy"
+      className="group absolute cursor-pointer rounded-[40%] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
+      style={{ left: "45%", top: "22%", width: "23%", height: "56%" }}
+    >
+      <span
+        className="absolute bottom-[calc(100%+4px)] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-xl border border-forest/15 bg-cream px-2.5 py-1 text-center shadow-[0_4px_12px_rgb(36_56_42/0.15)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 motion-reduce:transition-none sm:px-3 sm:py-1.5"
+        aria-hidden="true"
+      >
+        {/* tail pointing down at Mimo */}
+        <span className="absolute -bottom-[5px] left-1/2 size-2.5 -translate-x-1/2 rotate-45 border-b border-r border-forest/15 bg-cream" />
+        <span className="block font-serif text-[13px] font-semibold italic leading-tight text-forest-deep sm:text-[15px]">
+          Chào, mình là Mimo!
+        </span>
+        <span className="block text-[10px] font-semibold uppercase tracking-[0.15em] text-terracotta sm:text-[11px]">
+          chạm để làm quen
+        </span>
+      </span>
+    </button>
+  );
+}
+
+/**
+ * The card itself, as a native popover. Any button with
+ * `popoverTarget={OPERATOR_CARD_ID}` on the same page opens it.
+ */
+export function OperatorCard() {
+  return (
       <section
-        id={CARD_ID}
+        id={OPERATOR_CARD_ID}
         popover="auto"
         aria-label="Thẻ vận hành của Cỗ Máy Thời Gian"
         className="fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-[30rem] overflow-y-auto rounded-[14px] border border-ochre-light/25 bg-forest-deep px-5 pt-5 pb-6 text-cream shadow-[0_24px_48px_rgb(36_56_42/0.35)] backdrop:bg-forest-deep/45 backdrop:backdrop-blur-[2px] sm:px-7"
@@ -200,7 +242,7 @@ export default function MimoOperatorCard() {
           <span>Thẻ vận hành · Operator</span>
           <button
             type="button"
-            popoverTarget={CARD_ID}
+            popoverTarget={OPERATOR_CARD_ID}
             popoverTargetAction="hide"
             aria-label="Đóng thẻ"
             className="-mr-2 rounded-full px-2 py-1 text-base leading-none text-cream/60 hover:text-ochre-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-ochre-light/60"
@@ -352,6 +394,5 @@ export default function MimoOperatorCard() {
           MIRARI / 未来 / MIRA ✦ / NEXT STOP UNKNOWN
         </p>
       </section>
-    </>
   );
 }

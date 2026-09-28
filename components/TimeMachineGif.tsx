@@ -17,7 +17,14 @@ const STARS: Star[] = [
   { bottom: "18%", right: "16%", size: 12, color: "var(--color-ochre)", radius: "45% 55% 60% 40% / 60% 40% 55% 45%", delay: "0.3s" },
 ];
 
-export default function TimeMachineGif({ className }: { className?: string }) {
+/** `children` sit on top of the picture, positioned in % of its box. */
+export default function TimeMachineGif({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div className={`relative ${className ?? ""}`} style={{ aspectRatio: "16 / 9" }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -44,6 +51,8 @@ export default function TimeMachineGif({ className }: { className?: string }) {
           }}
         />
       ))}
+
+      {children}
     </div>
   );
 }
