@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { EXPLORE_PATH } from "@/lib/categories";
 import { AUTHOR_FULL_NAME } from "@/lib/seo";
-import { isAbroad, type Place } from "@/lib/places";
+import type { Place } from "@/lib/places";
 import PassportStamp, { stampStyle } from "./PassportStamp";
 
 const STAMPS_PER_PAGE = 6;
@@ -47,7 +47,6 @@ function mrz(stamps: number) {
 export default function Passport({ places }: { places: Place[] }) {
   const home = places.find((p) => p.isHome);
   const stamps = places.filter((p) => !p.isHome);
-  const abroad = stamps.filter(isAbroad).length;
   const pages = chunk(stamps, STAMPS_PER_PAGE);
   const [mrz1, mrz2] = mrz(stamps.length);
 
@@ -85,10 +84,6 @@ export default function Passport({ places }: { places: Place[] }) {
               ) : (
                 "Việt Nam"
               )}
-            </dd>
-            <dt className="text-cream/55">Con dấu</dt>
-            <dd className="text-cream tabular-nums">
-              {stamps.length} nơi · {stamps.length - abroad} trong nước · {abroad} nước ngoài
             </dd>
           </dl>
         </div>

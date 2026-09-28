@@ -2,11 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { categories } from "@/lib/categories";
 import SnapLink from "@/components/SnapLink";
+import MimoOperatorCard from "@/components/MimoOperatorCard";
 
 export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
-    "Vì sao mình làm ra cỗ máy thời gian nhỏ này, vì sao đường đi không cần thẳng, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
+    "Vì sao mình làm ra cỗ máy thời gian nhỏ này (do Mimo cầm lái), vì sao đường đi không cần thẳng, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
 };
 
 type Station = { name: string; href: string; lead: string; body: string[] };
@@ -63,12 +64,7 @@ export default function AboutPage() {
             Trạm xuất phát
           </h1>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/machine-2.png"
-          alt="Minh họa cỗ máy thời gian"
-          className="w-full max-w-[180px] mx-auto"
-        />
+        <MimoOperatorCard />
       </section>
 
       <div className="mb-12 font-serif [&>p]:mb-4">
