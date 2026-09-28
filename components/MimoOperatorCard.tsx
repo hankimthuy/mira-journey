@@ -86,15 +86,17 @@ const DIALOGUE = [
 const HANDLE = "mirarii";
 
 type Step = {
+  /** Letters shown on the step; defaults to the handle. */
+  letters?: string;
   lit: number[];
   word: string;
-  lang: string;
+  lang?: string;
   meaning: React.ReactNode;
   star?: boolean;
 };
 
 // Each step lights up the letters of "mirarii" that spell a word hiding in
-// it, climbing from the first word to the whole name.
+// it, climbing from the first word to the whole name, with Mimo on top.
 const STEPS: Step[] = [
   {
     lit: [0, 1, 2, 3],
@@ -102,50 +104,56 @@ const STEPS: Step[] = [
     lang: "Tây Ban Nha",
     meaning: (
       <>
-        Câu người ta buột miệng khi muốn bảo &ldquo;Nhìn&nbsp;kìa!&rdquo;. Cũng là câu Mira hay
-        nói nhất, mỗi lần cỗ máy dừng ở một trạm mới.
+        Câu thốt lên kiểu &ldquo;Nhìn&nbsp;kìa!&rdquo;. Cũng là câu cửa miệng mỗi khi cỗ máy
+        cập bến một trạm dừng mới.
       </>
     ),
   },
   {
     lit: [0, 1, 2, 3, 4, 5],
     word: "mirari",
-    lang: "Latin",
+    lang: "Tiếng Latin",
     meaning: (
       <>
-        Nghĩa là ngạc nhiên, trầm trồ. Họ hàng xa của <em>miracle</em> (điều kỳ
-        diệu) và <em>mirror</em> (cái gương): một bên làm mình &ldquo;ồ&rdquo; lên, một bên
-        làm mình nhìn lại chính mình.
+        Nghĩa là ngạc nhiên, trầm trồ. Họ hàng gần với <em>miracle</em> (điều kỳ diệu) và{" "}
+        <em>mirror</em> (tấm gương): một bên làm mình &ldquo;ồ&rdquo; lên ngạc nhiên, một bên
+        để soi chiếu lại chính mình.
       </>
     ),
   },
   {
     lit: [0, 1, 2, 3, 5],
-    word: "mirai · 未来",
-    lang: "Nhật",
+    word: "mirai (未来)",
+    lang: "Tiếng Nhật",
     meaning: (
       <>
-        Nghĩa là tương lai. Nghe hơi ngược đời cho một cỗ máy chuyên quay về quá
-        khứ, nhưng biết đâu nhìn lại cho kỹ cũng là cách để thấy đường phía trước rõ hơn.
+        Nghĩa là tương lai. Nghe hơi ngược đời cho một cỗ máy chuyên nhìn về quá khứ, nhưng
+        nhìn lại cho kỹ cũng là cách để thấy đường đi phía trước rõ hơn.
       </>
     ),
   },
   {
     lit: [0, 1, 2, 3, 4, 5, 6],
-    word: "Mira",
-    lang: "một ngôi sao",
+    word: "mira",
+    lang: "Một ngôi sao",
     meaning: (
       <>
-        Tên một ngôi sao hơi thất thường: có tháng sáng rực, có tháng mờ tịt, nhưng chưa bao
-        giờ rời bầu trời. Nghe cũng giống cái đầu đèn của Mimo.
+        Lấy cảm hứng từ một ngôi sao có ánh sáng lúc tỏ lúc mờ, không cố định nhưng chưa từng
+        bỏ quên bầu trời.
       </>
     ),
     star: true,
   },
+  {
+    letters: "mimo",
+    lit: [0, 1, 2, 3],
+    word: "mimo",
+    meaning: <>Người bạn đồng hành nhỏ síu.</>,
+  },
 ];
 
 // How far each step sits in from the left, so the rows climb like stairs.
-const STEP_INDENT = ["0rem", "1.5rem", "3rem", "4.5rem"];
+const STEP_INDENT = ["0rem", "1.25rem", "2.5rem", "3.75rem", "5rem"];
 
 const LOG: [string, string][] = [
   ["Status", "Đang vận hành"],
@@ -275,7 +283,7 @@ export default function MimoOperatorCard() {
               style={{ marginLeft: STEP_INDENT[i] }}
             >
               <p className="font-mono text-[17px] tracking-[0.3em]" aria-label={s.word}>
-                {[...HANDLE].map((ch, j) => (
+                {[...(s.letters ?? HANDLE)].map((ch, j) => (
                   <span
                     key={j}
                     className={s.lit.includes(j) ? "text-ochre-light" : "text-cream/15"}
@@ -295,7 +303,9 @@ export default function MimoOperatorCard() {
               </p>
               <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
                 <span className="font-serif text-base font-semibold italic text-ochre-light">{s.word}</span>
-                <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
+                {s.lang && (
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
+                )}
               </p>
               <p className="text-pretty text-[13px] leading-relaxed text-cream/85">{s.meaning}</p>
             </li>
