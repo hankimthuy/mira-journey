@@ -12,34 +12,34 @@ export type Drawn =
 
 export type SpreadPosition = { name: string; hint: string };
 
-export type SpreadId = "timeline" | "advice" | "mind-body-spirit";
+export type SpreadId = "diary" | "train" | "inner";
 
 export const SPREADS: { id: SpreadId; label: string; positions: SpreadPosition[] }[] = [
   {
-    id: "advice",
-    label: "Lời khuyên",
+    id: "diary",
+    label: "Trang nhật ký",
     positions: [
-      { name: "Điều đang diễn ra", hint: "Bức tranh của bạn lúc này" },
-      { name: "Điều cần lưu ý", hint: "Góc bạn có thể chưa nhìn tới" },
-      { name: "Bước nhỏ tiếp theo", hint: "Một việc vừa sức để thử" },
+      { name: "Hôm nay mình thấy", hint: "Bức tranh của bạn lúc này" },
+      { name: "Điều khẽ lên tiếng", hint: "Góc bạn có thể chưa để ý" },
+      { name: "Điều nhỏ mang theo", hint: "Một ý để bỏ túi cho ngày hôm nay" },
     ],
   },
   {
-    id: "timeline",
-    label: "Dòng thời gian",
+    id: "train",
+    label: "Chuyến tàu ba ga",
     positions: [
-      { name: "Điều đã qua", hint: "Điều bạn mang theo từ trước" },
-      { name: "Điều đang diễn ra", hint: "Năng lượng của hiện tại" },
-      { name: "Điều có thể đến", hint: "Hướng đi nếu giữ nhịp này, không phải định mệnh" },
+      { name: "Ga đã qua", hint: "Điều bạn mang theo từ trước" },
+      { name: "Ga đang dừng", hint: "Năng lượng của hiện tại" },
+      { name: "Ga phía trước", hint: "Hướng tàu đang chạy, không phải định mệnh" },
     ],
   },
   {
-    id: "mind-body-spirit",
-    label: "Tâm · Thân · Trí",
+    id: "inner",
+    label: "Nội lực bên trong",
     positions: [
-      { name: "Tâm trí", hint: "Suy nghĩ đang chiếm chỗ" },
-      { name: "Cơ thể", hint: "Điều cơ thể muốn nhắc" },
-      { name: "Tinh thần", hint: "Điều nuôi dưỡng bên trong" },
+      { name: "Gốc rễ", hint: "Điều giữ bạn đứng vững" },
+      { name: "Mạch ngầm", hint: "Điều đang chảy bên dưới" },
+      { name: "Ngọn lửa", hint: "Điều đang thắp sáng bạn" },
     ],
   },
 ];
@@ -59,12 +59,12 @@ function keyword(d: Extract<Drawn, { kind: "tarot" }>): string {
 
 function weave(spread: SpreadId, [a, b, c]: string[]): string {
   switch (spread) {
-    case "timeline":
-      return `Từ ${a}, bạn đang ở giữa ${b}; nếu giữ nhịp này, mọi thứ có thể hướng về ${c}.`;
-    case "mind-body-spirit":
-      return `Tâm trí đang nói về ${a}, cơ thể về ${b}, còn tinh thần về ${c}.`;
+    case "train":
+      return `Tàu rời ga ${a}, đang dừng ở ga ${b}; nếu giữ nhịp này, ga phía trước có thể là ${c}.`;
+    case "inner":
+      return `Gốc rễ của bạn là ${a}, mạch ngầm bên dưới là ${b}, còn ngọn lửa đang cháy là ${c}.`;
     default:
-      return `Bạn đang ở giữa ${a}; điều cần để ý là ${b}; một bước nhỏ có thể là ${c}.`;
+      return `Hôm nay bạn đang thấy ${a}; có điều khẽ lên tiếng là ${b}; và một điều nhỏ để mang theo: ${c}.`;
   }
 }
 

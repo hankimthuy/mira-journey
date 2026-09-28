@@ -136,7 +136,7 @@ export default function CardStation() {
   const [mode, setMode] = useState<Mode>("tarot-1");
   const [count, setCount] = useState(3);
   const [jokers, setJokers] = useState(false);
-  const [spread, setSpread] = useState<SpreadId>("advice");
+  const [spread, setSpread] = useState<SpreadId>("diary");
   // Off by default: reversed cards confuse people new to tarot.
   const [allowReversed, setAllowReversed] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
@@ -326,26 +326,28 @@ export default function CardStation() {
         )}
 
         {summary && (
+          // Mimo reads the spread back as a whole, in a speech bubble.
           <div
             key={`summary-${drawId}`}
-            className="card-caption w-full max-w-xl rounded-2xl border border-ochre-light/25 bg-[#141b29]/70 px-5 py-4"
+            className="card-caption flex w-full max-w-xl items-end gap-3"
             style={{ "--flip-delay": `${hand.length * FLIP_STAGGER_MS}ms` } as React.CSSProperties}
           >
-            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre-light/80">
-              Nhìn chung
-            </p>
-            {summary.lines.map((line) => (
-              <p key={line} className="mb-1.5 text-[14px] leading-relaxed text-cream/85">
-                {line}
-              </p>
-            ))}
-            <p className="mt-2 font-serif text-[14px] italic text-ochre-light/90">Tự hỏi mình: {summary.reflect}</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/mimo.gif" alt="Mimo" className="w-14 shrink-0 drop-shadow-lg sm:w-16" />
+            <div className="relative flex-1 rounded-2xl rounded-bl-sm border border-ochre-light/25 bg-[#141b29]/70 px-5 py-4">
+              {summary.lines.map((line) => (
+                <p key={line} className="mb-1.5 text-[14px] leading-relaxed text-cream/85">
+                  {line}
+                </p>
+              ))}
+              <p className="mt-2 font-serif text-[14px] italic text-ochre-light/90">Tự hỏi mình: {summary.reflect}</p>
+            </div>
           </div>
         )}
 
         {phase === "reveal" && (
-          <p className="max-w-md text-center text-[12px] leading-relaxed text-cream/50">
-            Lá bài là tấm gương để ngẫm, không phải lời phán. Nếu thông điệp chưa chạm tới bạn, cứ để nó đó.
+          <p className="max-w-md text-center text-[11px] leading-relaxed text-cream/40">
+            Nếu thông điệp chưa chạm tới bạn, cứ để nó đó.
           </p>
         )}
 
