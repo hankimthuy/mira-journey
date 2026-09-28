@@ -1,4 +1,4 @@
-import { AUTHOR_NAME, PORTFOLIO_URL, SITE_NAME } from "@/lib/seo";
+import { AUTHOR_FULL_NAME, PORTFOLIO_URL, SITE_NAME } from "@/lib/seo";
 
 export default function Footer() {
   return (
@@ -10,10 +10,10 @@ export default function Footer() {
           <a
             href={PORTFOLIO_URL}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="me noopener"
             className="site-footer-link font-semibold text-forest-deep underline decoration-ochre-light/60 underline-offset-4 hover:text-terracotta"
           >
-            {AUTHOR_NAME}
+            {AUTHOR_FULL_NAME}
           </a>
         </p>
       </div>

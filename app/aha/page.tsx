@@ -4,6 +4,9 @@ import CardStation from "@/components/CardStation";
 export const metadata: Metadata = {
   title: "Trạm Aha",
   description: "Rút một lá tarot hay bài tây, nghe thử trực giác nói gì.",
+  alternates: {
+    canonical: "/aha",
+  },
 };
 
 // Fixed star field: positions come from a tiny seeded generator, so the

@@ -11,6 +11,8 @@ import {
   SITE_DESCRIPTION,
   SITE_KEYWORDS,
   AUTHOR_NAME,
+  AUTHOR_PERSON,
+  PORTFOLIO_URL,
 } from "@/lib/seo";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -64,6 +66,29 @@ export const metadata: Metadata = {
   },
 };
 
+// Site-wide: the blog, plus its author as the same `Person` node the portfolio
+// publishes (shared `@id`), so Google ties journey.hankimthuy.com and
+// hankimthuy.com to one person.
+const SITE_JSON_LD = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: SITE_NAME,
+    alternateName: SITE_TITLE,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    inLanguage: "vi-VN",
+    author: { "@id": AUTHOR_PERSON["@id"] },
+    publisher: { "@id": AUTHOR_PERSON["@id"] },
+  },
+  {
+    "@context": "https://schema.org",
+    ...AUTHOR_PERSON,
+    mainEntityOfPage: PORTFOLIO_URL,
+  },
+];
+
 // After a "búng tay" random jump, play the portal closing from the very first
 // paint (a hydrated component would flash the new page first). The flag is
 // set in components/SnapWarp.tsx just before navigating.
@@ -84,6 +109,10 @@ export default function RootLayout({
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: WARP_ARRIVE_SCRIPT }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-cream text-ink">
         <Header />
