@@ -83,46 +83,27 @@ const DIALOGUE = [
   },
 ];
 
-type Stop = { word: string; lang: string; body: React.ReactNode; star?: boolean };
+const HANDLE = "mirarii";
 
-// The name read slowly, one sound at a time, drawn as stops on a star map.
-const STOPS: Stop[] = [
+type Step = { lit: number[]; word: string; lang: string; meaning: string; star?: boolean };
+
+// Each step lights up the letters of "mirarii" that spell a word hiding in
+// it, climbing from the first word to the whole name.
+const STEPS: Step[] = [
+  { lit: [0, 1, 2, 3], word: "¡Mira!", lang: "Tây Ban Nha", meaning: "Nhìn kìa!" },
+  { lit: [0, 1, 2, 3, 4, 5], word: "mirari", lang: "Latin", meaning: "Ngạc nhiên, ngưỡng mộ." },
+  { lit: [0, 1, 2, 3, 5], word: "mirai · 未来", lang: "Nhật", meaning: "Tương lai." },
   {
-    word: "¡Mira!",
-    lang: "Tây Ban Nha",
-    body: <>&ldquo;Nhìn kìa!&rdquo; — câu cửa miệng mỗi lần ghé một trạm mới.</>,
-  },
-  {
-    word: "mirari",
-    lang: "Latin",
-    body: (
-      <>
-        Một từ gợi về sự ngạc nhiên, ngưỡng mộ. Tình cờ lại gặp <em>miracle</em>, gặp{" "}
-        <em>mirror</em> — một thứ khiến mình bất ngờ, một thứ khiến mình nhìn lại.
-      </>
-    ),
-  },
-  {
-    word: "mirai · 未来",
-    lang: "Nhật",
-    body: (
-      <>
-        Tương lai. Nếu đã có một cỗ máy thời gian, thì biết đâu mỗi lần quay lại cũng là để
-        thấy phía trước rõ hơn một chút.
-      </>
-    ),
-  },
-  {
-    word: "Mira ✦",
+    lit: [0, 1, 2, 3, 4, 5, 6],
+    word: "Mira",
     lang: "một ngôi sao",
-    body: (
-      <>
-        Một ngôi sao biến quang. Có những lúc sáng lên, có những lúc mờ đi. Nhưng vẫn ở đó.
-      </>
-    ),
+    meaning: "Lúc sáng, lúc mờ, vẫn ở đó.",
     star: true,
   },
 ];
+
+// How far each step sits in from the left, so the rows climb like stairs.
+const STEP_INDENT = ["0rem", "1.5rem", "3rem", "4.5rem"];
 
 const LOG: [string, string][] = [
   ["Status", "Đang vận hành"],
@@ -233,7 +214,7 @@ export default function MimoOperatorCard() {
           })}
         </div>
 
-        {/* The name, as a small star map */}
+        {/* The name, climbing a word at a time */}
         <div className="mt-7 text-center">
           <p className="font-serif text-4xl font-semibold italic text-ochre-light">Mira</p>
           <p className="mt-1 font-mono text-xs tracking-wider text-cream/55">mira.mirarii</p>
@@ -241,30 +222,40 @@ export default function MimoOperatorCard() {
             Bạn có từng thắc mắc tại sao lại là Mira?
           </p>
         </div>
-        <p className="mt-4 text-[13px] leading-relaxed text-cream/70">
-          Đọc chậm cái tên này một chút, tự nhiên thấy nó có vài thứ hay ho.
-        </p>
 
-        <ol className="relative mt-4 space-y-4">
-          <span
-            className="absolute bottom-3 left-[6px] top-3 border-l-2 border-dotted border-ochre-light/35"
-            aria-hidden="true"
-          />
-          {STOPS.map((s) => (
-            <li key={s.word} className="relative pl-7">
-              <span
-                className={`absolute left-0 top-[5px] grid size-3.5 place-items-center text-[13px] leading-none text-ochre-light ${
-                  s.star ? "animate-twinkle-soft motion-reduce:animate-none" : ""
-                }`}
-                aria-hidden="true"
-              >
-                ✦
-              </span>
-              <p className="flex flex-wrap items-baseline gap-x-2">
-                <span className="font-serif text-lg font-semibold italic text-ochre-light">{s.word}</span>
+        {/* Visually the first step sits at the bottom and the name climbs up;
+            the DOM keeps reading order for screen readers. */}
+        <ol className="mt-6 flex flex-col-reverse">
+          {STEPS.map((s, i) => (
+            <li
+              key={s.word}
+              className="border-b border-l border-ochre-light/30 pb-2 pl-3 pt-3"
+              style={{ marginLeft: STEP_INDENT[i] }}
+            >
+              <p className="font-mono text-[17px] tracking-[0.3em]" aria-label={s.word}>
+                {[...HANDLE].map((ch, j) => (
+                  <span
+                    key={j}
+                    className={s.lit.includes(j) ? "text-ochre-light" : "text-cream/15"}
+                    aria-hidden="true"
+                  >
+                    {ch}
+                  </span>
+                ))}
+                {s.star && (
+                  <span
+                    className="ml-1 inline-block text-ochre-light animate-twinkle-soft motion-reduce:animate-none"
+                    aria-hidden="true"
+                  >
+                    ✦
+                  </span>
+                )}
+              </p>
+              <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
+                <span className="font-serif text-base font-semibold italic text-ochre-light">{s.word}</span>
                 <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
               </p>
-              <p className="text-[13px] leading-relaxed text-cream/85">{s.body}</p>
+              <p className="text-balance text-[13px] leading-snug text-cream/85">{s.meaning}</p>
             </li>
           ))}
         </ol>
@@ -298,7 +289,7 @@ export default function MimoOperatorCard() {
         </a>
 
         <p
-          className="mt-5 truncate font-mono text-[10px] tracking-[0.18em] text-cream/35"
+          className="mt-5 truncate font-mono text-[10px] tracking-[0.08em] text-cream/35 sm:tracking-[0.18em]"
           aria-hidden="true"
         >
           MIRARI / 未来 / MIRA ✦ / NEXT STOP UNKNOWN
