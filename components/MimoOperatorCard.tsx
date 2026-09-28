@@ -28,6 +28,18 @@ const CREW: CrewMember[] = [
   },
 ];
 
+// The two of them introduce themselves, back and forth.
+const DIALOGUE = [
+  {
+    speaker: "Mira",
+    text: "Chào, mình là Mira. Mình không biết chuyến này sẽ đi đến đâu, chỉ biết có những nơi mình muốn dừng lại.",
+  },
+  {
+    speaker: "Mimo",
+    text: "Còn mình là Mimo. Mình đưa Mira đi, để cô ấy có thời gian nhìn lại những nơi đã đi qua.",
+  },
+];
+
 type Stop = { word: string; lang: string; body: React.ReactNode; star?: boolean };
 
 // The name read slowly, one sound at a time, drawn as stops on a star map.
@@ -155,15 +167,24 @@ export default function MimoOperatorCard() {
           ))}
         </ul>
 
-        <p className="mt-6 border-y border-dashed border-cream/15 py-4 text-center font-serif text-[15px] italic leading-relaxed text-cream/90">
-          Mira — người vận hành một cỗ máy không phải để đi đâu đó, mà để nhìn lại những nơi
-          mình đã đi qua.
-        </p>
-
-        <p className="mt-4 text-[13px] leading-relaxed text-cream/75">
-          <span className="text-cream/45">Mimo:</span> &ldquo;Chào, mình là Mimo. Mình giữ tay
-          lái, còn ghé trạm nào là việc của Mira.&rdquo;
-        </p>
+        <div className="mt-6 space-y-3 border-y border-dashed border-cream/15 py-5">
+          {DIALOGUE.map((line, i) => {
+            const right = i % 2 === 1;
+            return (
+              <figure
+                key={line.speaker}
+                className={`max-w-[85%] border border-cream/15 bg-black/15 px-4 py-2.5 ${
+                  right ? "ml-auto rounded-[16px_4px_16px_16px] text-right" : "rounded-[4px_16px_16px_16px]"
+                }`}
+              >
+                <figcaption className={`${LABEL} text-ochre-light/90`}>{line.speaker}</figcaption>
+                <blockquote className="mt-1 font-serif text-[15px] italic leading-relaxed text-cream/90">
+                  &ldquo;{line.text}&rdquo;
+                </blockquote>
+              </figure>
+            );
+          })}
+        </div>
 
         {/* The name, as a small star map */}
         <div className="mt-7 text-center">
