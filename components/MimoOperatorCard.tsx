@@ -100,7 +100,12 @@ const STEPS: Step[] = [
     lit: [0, 1, 2, 3],
     word: "¡Mira!",
     lang: "Tây Ban Nha",
-    meaning: <>&ldquo;Nhìn kìa!&rdquo; — câu cửa miệng mỗi lần ghé một trạm mới.</>,
+    meaning: (
+      <>
+        Câu người ta buột miệng khi muốn bảo &ldquo;Nhìn&nbsp;kìa!&rdquo;. Cũng là câu Mira hay
+        nói nhất, mỗi lần cỗ máy dừng ở một trạm mới.
+      </>
+    ),
   },
   {
     lit: [0, 1, 2, 3, 4, 5],
@@ -108,8 +113,9 @@ const STEPS: Step[] = [
     lang: "Latin",
     meaning: (
       <>
-        Một từ gợi về sự ngạc nhiên, ngưỡng mộ. Tình cờ lại gặp <em>miracle</em>, gặp{" "}
-        <em>mirror</em> — một thứ khiến mình bất ngờ, một thứ khiến mình nhìn lại.
+        Nghĩa là ngạc nhiên, trầm trồ. Họ hàng xa của <em>miracle</em> (điều kỳ
+        diệu) và <em>mirror</em> (cái gương): một bên làm mình &ldquo;ồ&rdquo; lên, một bên
+        làm mình nhìn lại chính mình.
       </>
     ),
   },
@@ -119,8 +125,8 @@ const STEPS: Step[] = [
     lang: "Nhật",
     meaning: (
       <>
-        Tương lai. Nếu đã có một cỗ máy thời gian, thì biết đâu mỗi lần quay lại cũng là để
-        thấy phía trước rõ hơn một chút.
+        Nghĩa là tương lai. Nghe hơi ngược đời cho một cỗ máy chuyên quay về quá
+        khứ, nhưng biết đâu nhìn lại cho kỹ cũng là cách để thấy đường phía trước rõ hơn.
       </>
     ),
   },
@@ -129,7 +135,10 @@ const STEPS: Step[] = [
     word: "Mira",
     lang: "một ngôi sao",
     meaning: (
-      <>Một ngôi sao biến quang. Có những lúc sáng lên, có những lúc mờ đi. Nhưng vẫn ở đó.</>
+      <>
+        Tên một ngôi sao hơi thất thường: có tháng sáng rực, có tháng mờ tịt, nhưng chưa bao
+        giờ rời bầu trời. Nghe cũng giống cái đầu đèn của Mimo.
+      </>
     ),
     star: true,
   },
