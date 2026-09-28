@@ -90,6 +90,8 @@ type Step = {
   letters?: string;
   lit: number[];
   word: string;
+  /** Skip the word line when the letters already say it. */
+  hideWord?: boolean;
   lang?: string;
   meaning: React.ReactNode;
   star?: boolean;
@@ -147,7 +149,8 @@ const STEPS: Step[] = [
   {
     letters: "mimo",
     lit: [0, 1, 2, 3],
-    word: "Mimo",
+    word: "mimo",
+    hideWord: true,
     meaning: <>Người bạn đồng hành nhỏ síu.</>,
   },
 ];
@@ -301,12 +304,14 @@ export default function MimoOperatorCard() {
                   </span>
                 )}
               </p>
-              <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
-                <span className="font-serif text-base font-semibold italic text-ochre-light">{s.word}</span>
-                {s.lang && (
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
-                )}
-              </p>
+              {!s.hideWord && (
+                <p className="mt-1 flex flex-wrap items-baseline gap-x-2">
+                  <span className="font-serif text-base font-semibold italic text-ochre-light">{s.word}</span>
+                  {s.lang && (
+                    <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
+                  )}
+                </p>
+              )}
               <p className="text-pretty text-[13px] leading-relaxed text-cream/85">{s.meaning}</p>
             </li>
           ))}
