@@ -208,7 +208,7 @@ export default function MimoOperatorCard() {
               </span>
               <div>
                 <p className="font-serif text-lg font-semibold italic leading-tight text-ochre-light">{m.name}</p>
-                <p className={`${LABEL} text-cream/55`}>{m.role}</p>
+                <p className="whitespace-nowrap font-serif text-[13px] italic text-cream/65">{m.role}</p>
               </div>
             </li>
           ))}
