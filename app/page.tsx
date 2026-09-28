@@ -7,6 +7,7 @@ import TimeMachineGif from "@/components/TimeMachineGif";
 import TimeRail from "@/components/TimeRail";
 import StationCards from "@/components/StationCards";
 import WarpCard from "@/components/WarpCard";
+import { HeroMimoTrigger, OperatorCard } from "@/components/MimoOperatorCard";
 
 export const revalidate = 60;
 
@@ -65,7 +66,10 @@ export default async function HomePage() {
               strokeLinecap="round"
             />
           </svg>
-          <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none" />
+          <TimeMachineGif className="w-full max-w-xs mx-auto md:max-w-none">
+            <HeroMimoTrigger />
+          </TimeMachineGif>
+          <OperatorCard />
           <p className="mt-2 text-right font-serif italic text-sm text-[#465B52]">
             — Hàn Kim Thủy
           </p>
