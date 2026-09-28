@@ -85,19 +85,52 @@ const DIALOGUE = [
 
 const HANDLE = "mirarii";
 
-type Step = { lit: number[]; word: string; lang: string; meaning: string; star?: boolean };
+type Step = {
+  lit: number[];
+  word: string;
+  lang: string;
+  meaning: React.ReactNode;
+  star?: boolean;
+};
 
 // Each step lights up the letters of "mirarii" that spell a word hiding in
 // it, climbing from the first word to the whole name.
 const STEPS: Step[] = [
-  { lit: [0, 1, 2, 3], word: "¡Mira!", lang: "Tây Ban Nha", meaning: "Nhìn kìa!" },
-  { lit: [0, 1, 2, 3, 4, 5], word: "mirari", lang: "Latin", meaning: "Ngạc nhiên, ngưỡng mộ." },
-  { lit: [0, 1, 2, 3, 5], word: "mirai · 未来", lang: "Nhật", meaning: "Tương lai." },
+  {
+    lit: [0, 1, 2, 3],
+    word: "¡Mira!",
+    lang: "Tây Ban Nha",
+    meaning: <>&ldquo;Nhìn kìa!&rdquo; — câu cửa miệng mỗi lần ghé một trạm mới.</>,
+  },
+  {
+    lit: [0, 1, 2, 3, 4, 5],
+    word: "mirari",
+    lang: "Latin",
+    meaning: (
+      <>
+        Một từ gợi về sự ngạc nhiên, ngưỡng mộ. Tình cờ lại gặp <em>miracle</em>, gặp{" "}
+        <em>mirror</em> — một thứ khiến mình bất ngờ, một thứ khiến mình nhìn lại.
+      </>
+    ),
+  },
+  {
+    lit: [0, 1, 2, 3, 5],
+    word: "mirai · 未来",
+    lang: "Nhật",
+    meaning: (
+      <>
+        Tương lai. Nếu đã có một cỗ máy thời gian, thì biết đâu mỗi lần quay lại cũng là để
+        thấy phía trước rõ hơn một chút.
+      </>
+    ),
+  },
   {
     lit: [0, 1, 2, 3, 4, 5, 6],
     word: "Mira",
     lang: "một ngôi sao",
-    meaning: "Lúc sáng, lúc mờ, vẫn ở đó.",
+    meaning: (
+      <>Một ngôi sao biến quang. Có những lúc sáng lên, có những lúc mờ đi. Nhưng vẫn ở đó.</>
+    ),
     star: true,
   },
 ];
@@ -255,7 +288,7 @@ export default function MimoOperatorCard() {
                 <span className="font-serif text-base font-semibold italic text-ochre-light">{s.word}</span>
                 <span className="text-[10px] uppercase tracking-[0.18em] text-cream/45">{s.lang}</span>
               </p>
-              <p className="text-balance text-[13px] leading-snug text-cream/85">{s.meaning}</p>
+              <p className="text-pretty text-[13px] leading-relaxed text-cream/85">{s.meaning}</p>
             </li>
           ))}
         </ol>
