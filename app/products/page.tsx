@@ -9,6 +9,9 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Xưởng chế tác của tôi",
   description: "Nơi những ý tưởng thành sản phẩm.",
+  alternates: {
+    canonical: "/products",
+  },
 };
 
 export default async function ProductsPage() {

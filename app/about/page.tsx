@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Trạm xuất phát",
   description:
     "Vì sao mình làm ra cỗ máy thời gian nhỏ này (do Mimo cầm lái), vì sao đường đi không cần thẳng, và bản đồ các trạm: Trạm dừng, Trạm chế tạo, Trạm khám phá, Trạm Aha.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 type Station = { name: string; href: string; lead: string; body: string[] };

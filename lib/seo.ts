@@ -13,7 +13,7 @@ export const AUTHOR_FULL_NAME = "Hàn Kim Thủy";
 
 export const SITE_NAME = "Cỗ Máy Thời Gian";
 
-export const SITE_TITLE = `${SITE_NAME} — ${AUTHOR_NAME}`;
+export const SITE_TITLE = `${SITE_NAME} — ${AUTHOR_FULL_NAME} (${AUTHOR_NAME})`;
 
 export const SITE_DESCRIPTION =
   "Cỗ Máy Thời Gian — blog cá nhân của Han Kim Thuy (Hàn Kim Thủy) về sản phẩm, tâm lý học, hệ thống và đời sống.";
@@ -29,9 +29,17 @@ export const SITE_KEYWORDS = [
   "UX Software Engineer",
 ];
 
+/**
+ * The portfolio's JSON-LD `Person` node id. Using the same `@id` on both sites
+ * tells search engines the blog's author and the portfolio's subject are one
+ * entity, so a search for her name can surface both domains.
+ */
+export const PERSON_ID = `${PORTFOLIO_URL}/#person`;
+
 /** JSON-LD `Person` shared between this blog and the portfolio, keeps the entity consistent for search engines. */
 export const AUTHOR_PERSON = {
   "@type": "Person" as const,
+  "@id": PERSON_ID,
   name: AUTHOR_NAME,
   alternateName: [AUTHOR_FULL_NAME, "thuyhankim", "hankimthuy"],
   url: PORTFOLIO_URL,
