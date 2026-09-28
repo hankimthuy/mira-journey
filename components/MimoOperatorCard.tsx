@@ -13,19 +13,32 @@ const COVER: React.CSSProperties = {
 
 const LABEL = "text-[10px] font-semibold uppercase tracking-[0.25em]";
 
-type CrewMember = { name: string; role: string; duties: string[] };
+// The operator picks the heading: a compass, like the one in the portrait.
+const CompassIcon = (
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+    <circle cx="16" cy="16" r="13" />
+    <circle cx="16" cy="16" r="9.5" strokeDasharray="1.5 2" strokeWidth="1" />
+    <path d="M16 5.5 L18.5 16 L16 26.5 L13.5 16 Z" fill="currentColor" stroke="none" opacity="0.9" />
+    <path d="M5.5 16 L16 14 L26.5 16 L16 18 Z" fill="currentColor" stroke="none" opacity="0.4" />
+    <circle cx="16" cy="16" r="1.6" fill="var(--color-forest-deep)" stroke="none" />
+  </svg>
+);
+
+// The driver holds the wheel.
+const WheelIcon = (
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+    <circle cx="16" cy="16" r="13" />
+    <circle cx="16" cy="16" r="10" strokeWidth="1" opacity="0.5" />
+    <circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none" opacity="0.9" />
+    <path d="M13 16 H3.5 M19 16 H28.5 M16 19 V28.5" strokeWidth="2.2" strokeLinecap="round" />
+  </svg>
+);
+
+type CrewMember = { name: string; role: string; icon: React.ReactNode };
 
 const CREW: CrewMember[] = [
-  {
-    name: "Mira",
-    role: "The operator",
-    duties: ["Chọn nơi muốn dừng.", "Ghi lại những gì đáng nhớ.", "Thỉnh thoảng quay đầu nhìn lại."],
-  },
-  {
-    name: "Mimo",
-    role: "The driver",
-    duties: ["Giữ tay lái.", "Nhắc Mira nhìn đường.", "Đôi khi tự tiện ghé một trạm."],
-  },
+  { name: "Mira", role: "The operator", icon: CompassIcon },
+  { name: "Mimo", role: "The driver", icon: WheelIcon },
 ];
 
 // The two of them introduce themselves, back and forth.
@@ -155,14 +168,17 @@ export default function MimoOperatorCard() {
         </div>
         <ul className="mt-6 grid grid-cols-2 gap-4">
           {CREW.map((m) => (
-            <li key={m.name} className="flex flex-col items-center text-center">
-              <p className="font-serif text-lg font-semibold italic text-ochre-light">{m.name}</p>
-              <p className={`${LABEL} text-cream/55`}>{m.role}</p>
-              <ul className="mt-2 space-y-0.5 text-[12.5px] leading-snug text-cream/85">
-                {m.duties.map((d) => (
-                  <li key={d}>{d}</li>
-                ))}
-              </ul>
+            <li key={m.name} className="flex items-center justify-center gap-3">
+              <span
+                className="grid shrink-0 place-items-center rounded-full border border-ochre-light/40 bg-black/20 text-ochre-light"
+                style={{ width: 44, height: 44 }}
+              >
+                {m.icon}
+              </span>
+              <div>
+                <p className="font-serif text-lg font-semibold italic leading-tight text-ochre-light">{m.name}</p>
+                <p className={`${LABEL} text-cream/55`}>{m.role}</p>
+              </div>
             </li>
           ))}
         </ul>
