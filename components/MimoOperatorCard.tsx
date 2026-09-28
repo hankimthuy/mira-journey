@@ -18,8 +18,12 @@ const CompassIcon = (
   <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
     <circle cx="16" cy="16" r="13" />
     <circle cx="16" cy="16" r="9.5" strokeDasharray="1.5 2" strokeWidth="1" />
-    <path d="M16 5.5 L18.5 16 L16 26.5 L13.5 16 Z" fill="currentColor" stroke="none" opacity="0.9" />
-    <path d="M5.5 16 L16 14 L26.5 16 L16 18 Z" fill="currentColor" stroke="none" opacity="0.4" />
+    <path d="M5.5 16 L16 14.5 L26.5 16 L16 17.5 Z" fill="currentColor" stroke="none" opacity="0.3" />
+    {/* the needle hunts for a heading */}
+    <g className="animate-compass-seek">
+      <path d="M16 5.5 L18.5 16 L13.5 16 Z" fill="var(--color-terracotta)" stroke="none" />
+      <path d="M16 26.5 L18.5 16 L13.5 16 Z" fill="currentColor" stroke="none" opacity="0.9" />
+    </g>
     <circle cx="16" cy="16" r="1.6" fill="var(--color-forest-deep)" stroke="none" />
   </svg>
 );
@@ -27,12 +31,38 @@ const CompassIcon = (
 // The driver holds the wheel.
 const WheelIcon = (
   <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-    <circle cx="16" cy="16" r="13" />
-    <circle cx="16" cy="16" r="10" strokeWidth="1" opacity="0.5" />
-    <circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none" opacity="0.9" />
-    <path d="M13 16 H3.5 M19 16 H28.5 M16 19 V28.5" strokeWidth="2.2" strokeLinecap="round" />
+    {/* the wheel steers left and right */}
+    <g className="animate-wheel-steer">
+      <circle cx="16" cy="16" r="13" />
+      <circle cx="16" cy="16" r="10" strokeWidth="1" opacity="0.5" />
+      <circle cx="16" cy="16" r="3.2" fill="currentColor" stroke="none" opacity="0.9" />
+      <path d="M13 16 H3.5 M19 16 H28.5 M16 19 V28.5" strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="16" cy="3" r="1.4" fill="var(--color-terracotta)" stroke="none" />
+    </g>
   </svg>
 );
+
+// Motion for the two role icons, kept next to them. Rotation pivots on the
+// centre of each icon's 32×32 view box.
+const ICON_MOTION = `
+@keyframes compass-seek {
+  0%, 100% { transform: rotate(-28deg); }
+  35% { transform: rotate(22deg); }
+  55% { transform: rotate(8deg); }
+  75% { transform: rotate(14deg); }
+}
+@keyframes wheel-steer {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-35deg); }
+  60% { transform: rotate(30deg); }
+}
+.animate-compass-seek, .animate-wheel-steer { transform-box: view-box; transform-origin: 50% 50%; }
+.animate-compass-seek { animation: compass-seek 3.2s ease-in-out infinite; }
+.animate-wheel-steer { animation: wheel-steer 2.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-compass-seek, .animate-wheel-steer { animation: none; }
+}
+`;
 
 type CrewMember = { name: string; role: string; icon: React.ReactNode };
 
@@ -166,6 +196,7 @@ export default function MimoOperatorCard() {
             <br />· Mira ·
           </span>
         </div>
+        <style>{ICON_MOTION}</style>
         <ul className="mt-6 grid grid-cols-2 gap-4">
           {CREW.map((m) => (
             <li key={m.name} className="flex items-center justify-center gap-3">
