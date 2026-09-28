@@ -38,7 +38,7 @@ export const SPREADS: { id: SpreadId; label: string; positions: SpreadPosition[]
     label: "Nội lực bên trong",
     positions: [
       { name: "Gốc rễ", hint: "Điều giữ bạn đứng vững" },
-      { name: "Mạch ngầm", hint: "Điều đang chảy bên dưới" },
+      { name: "Dòng chảy bên trong", hint: "Điều bạn chưa gọi tên được" },
       { name: "Ngọn lửa", hint: "Điều đang thắp sáng bạn" },
     ],
   },
@@ -62,7 +62,7 @@ function weave(spread: SpreadId, [a, b, c]: string[]): string {
     case "train":
       return `Tàu rời ga ${a}, đang dừng ở ga ${b}; nếu giữ nhịp này, ga phía trước có thể là ${c}.`;
     case "inner":
-      return `Gốc rễ của bạn là ${a}, mạch ngầm bên dưới là ${b}, còn ngọn lửa đang cháy là ${c}.`;
+      return `Gốc rễ của bạn là ${a}, dòng chảy bên trong là ${b}, còn ngọn lửa đang cháy là ${c}.`;
     default:
       return `Hôm nay bạn đang thấy ${a}; có điều khẽ lên tiếng là ${b}; và một điều nhỏ để mang theo: ${c}.`;
   }
