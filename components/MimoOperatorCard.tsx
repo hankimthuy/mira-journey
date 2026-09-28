@@ -75,7 +75,7 @@ const CREW: CrewMember[] = [
 const DIALOGUE = [
   {
     speaker: "Mira",
-    text: "Chào, mình là Mira. Mình không biết chuyến này sẽ đi đến đâu, chỉ biết có những nơi mình muốn dừng lại.",
+    text: "Chào, mình là Mira. Mình không biết chuyến này sẽ đi đến đâu, chỉ biết có những nơi mình muốn ngắm nhìn lâu hơn một chút.",
   },
   {
     speaker: "Mimo",
