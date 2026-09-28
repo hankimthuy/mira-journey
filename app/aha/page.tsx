@@ -78,9 +78,17 @@ export default function AhaPage() {
         <CardStation />
 
         <p className="mt-14 border-t border-ochre-light/15 pt-6 text-[13px] leading-relaxed text-cream/45">
-          Bộ tarot theo cấu trúc 78 lá của{" "}
-          <em className="font-serif">The Modern Witch Tarot</em> (Lisa Sterle). Mặt bài ở đây do
-          blog tự vẽ, không dùng tranh gốc của bộ bài. Mọi lần rút đều ngẫu nhiên và không được lưu lại.
+          Bộ tarot theo cấu trúc 78 lá Rider–Waite–Smith. Tranh mặt bài do blog tự dựng; chân dung các
+          cô gái dùng bộ{" "}
+          <a
+            href="https://www.dicebear.com/styles/lorelei/"
+            className="underline decoration-ochre-light/40 underline-offset-2 hover:text-ochre-light"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Lorelei
+          </a>{" "}
+          của Lisa Wischofsky (CC0). Mọi lần rút đều ngẫu nhiên và không được lưu lại.
         </p>
       </div>
     </div>

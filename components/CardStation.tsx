@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { TAROT_DECK, type TarotCard } from "@/lib/tarot";
-import { playingDeck, type PlayingCard } from "@/lib/playingCards";
+import { TAROT_DECK } from "@/lib/tarot";
+import { playingDeck } from "@/lib/playingCards";
 import { coinFlip, drawWithoutReplacement } from "@/lib/draw";
 import TarotFace from "@/components/cards/TarotFace";
 import PlayingFace from "@/components/cards/PlayingFace";
 import CardBack from "@/components/cards/CardBack";
+import { SPREADS, summarize, type Drawn, type SpreadId } from "@/lib/readingSummary";
 
 // Trạm Aha: pick a style for the day, shuffle, flip. Nothing is saved —
 // each draw is its own moment. Randomness only runs in the click handler, so
@@ -15,18 +16,13 @@ import CardBack from "@/components/cards/CardBack";
 type Mode = "tarot-1" | "tarot-3" | "playing-1" | "playing-n";
 type Phase = "idle" | "shuffle" | "reveal";
 
-type Drawn =
-  | { kind: "tarot"; card: TarotCard; reversed: boolean; position?: string }
-  | { kind: "playing"; card: PlayingCard };
-
 const MODES: { mode: Mode; label: string; hint: string }[] = [
   { mode: "tarot-1", label: "1 lá tarot", hint: "Một lời thì thầm cho hôm nay" },
-  { mode: "tarot-3", label: "Trải 3 lá", hint: "Điều đã qua, điều đang đến, điều còn chờ" },
+  { mode: "tarot-3", label: "Trải 3 lá", hint: "Ba lá, mỗi lá trả lời một góc của câu hỏi" },
   { mode: "playing-1", label: "1 lá bài tây", hint: "Một lá, để trực giác tự chọn" },
   { mode: "playing-n", label: "Nhiều lá bài tây", hint: "Vài lá, không lá nào trùng lá nào" },
 ];
 
-const SPREAD = ["Quá khứ", "Hiện tại", "Tương lai"];
 const SHUFFLE_MS = 900;
 const FLIP_STAGGER_MS = 220;
 
@@ -101,16 +97,48 @@ function Toggle({
 }
 
 function describe(d: Drawn): string {
-  if (d.kind === "playing") return d.card.name;
-  const pos = d.position ? `${d.position}: ` : "";
-  return `${pos}${d.card.name} (${d.card.nameVi})${d.reversed ? ", ngược" : ""}`;
+  if (d.kind === "playing") return `${d.card.name}, ${d.card.keywords}`;
+  const pos = d.position ? `${d.position.name}: ` : "";
+  const keywords = d.reversed ? d.card.reversed : d.card.upright;
+  return `${pos}${d.card.name} (${d.card.nameVi})${d.reversed ? ", ngược" : ""}, ${keywords}`;
+}
+
+// Three layers, so nobody is left alone with a bare verdict: keywords up
+// front, a gentle reading behind "Đọc thêm", then a question to sit with.
+function Caption({ d, wide }: { d: Drawn; wide: boolean }) {
+  const tarot = d.kind === "tarot";
+  const reversed = tarot && d.reversed;
+  const keywords = tarot ? (reversed ? d.card.reversed : d.card.upright) : d.card.keywords;
+  const message = tarot && reversed ? d.card.blocked : d.card.message;
+  return (
+    <div className={`card-caption mt-3 text-center ${wide ? "w-72 max-w-full" : "w-40 sm:w-44"}`}>
+      {reversed && (
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-ochre-light/70">
+          Ngược · năng lượng hướng vào trong
+        </p>
+      )}
+      <p className="font-serif text-[14px] italic leading-snug text-cream/90">{keywords}</p>
+      <details className="group mt-2 text-left">
+        <summary className="mx-auto w-fit cursor-pointer list-none rounded-full border border-ochre-light/30 px-3 py-0.5 text-[12px] font-semibold text-ochre-light/85 transition-colors hover:border-ochre-light hover:text-ochre-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ochre-light/70 [&::-webkit-details-marker]:hidden">
+          <span className="group-open:hidden">Đọc thêm</span>
+          <span className="hidden group-open:inline">Thu gọn</span>
+        </summary>
+        <p className="mt-2 text-[13px] leading-relaxed text-cream/80">{message}</p>
+        <p className="mt-2 font-serif text-[13px] italic leading-snug text-ochre-light/90">
+          Tự hỏi mình: {d.card.reflect}
+        </p>
+      </details>
+    </div>
+  );
 }
 
 export default function CardStation() {
   const [mode, setMode] = useState<Mode>("tarot-1");
   const [count, setCount] = useState(3);
   const [jokers, setJokers] = useState(false);
-  const [allowReversed, setAllowReversed] = useState(true);
+  const [spread, setSpread] = useState<SpreadId>("advice");
+  // Off by default: reversed cards confuse people new to tarot.
+  const [allowReversed, setAllowReversed] = useState(false);
   const [phase, setPhase] = useState<Phase>("idle");
   const [hand, setHand] = useState<Drawn[]>([]);
   const [drawId, setDrawId] = useState(0);
@@ -134,14 +162,21 @@ export default function CardStation() {
     reset();
   }
 
+  function pickSpread(next: SpreadId) {
+    if (next === spread) return;
+    setSpread(next);
+    reset();
+  }
+
   function deal(): Drawn[] {
     if (isTarot) {
       const n = mode === "tarot-3" ? 3 : 1;
+      const positions = SPREADS.find((s) => s.id === spread)?.positions ?? [];
       return drawWithoutReplacement(TAROT_DECK, n).map((card, i) => ({
         kind: "tarot",
         card,
         reversed: allowReversed && coinFlip(),
-        position: n === 3 ? SPREAD[i] : undefined,
+        position: n === 3 ? positions[i] : undefined,
       }));
     }
     const n = mode === "playing-n" ? count : 1;
@@ -169,6 +204,7 @@ export default function CardStation() {
 
   const deckSize = isTarot ? TAROT_DECK.length : playingDeck(jokers).length;
   const cardSize = isTarot ? "w-36 aspect-[7/12] sm:w-44" : "w-28 aspect-[5/7] sm:w-36";
+  const summary = phase === "reveal" ? summarize(hand, spread) : null;
 
   return (
     <section aria-label="Bàn rút bài">
@@ -180,13 +216,23 @@ export default function CardStation() {
             </Pill>
           ))}
         </div>
+        {mode === "tarot-3" && (
+          <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Chọn kiểu trải">
+            <span className="mr-1 text-[12px] uppercase tracking-[0.2em] text-cream/50">Kiểu trải</span>
+            {SPREADS.map((s) => (
+              <Pill key={s.id} active={spread === s.id} onClick={() => pickSpread(s.id)}>
+                {s.label}
+              </Pill>
+            ))}
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
           <p className="font-serif text-[15px] italic text-ochre-light">
             {MODES.find((m) => m.mode === mode)?.hint}
           </p>
           {isTarot && (
             <Toggle checked={allowReversed} onChange={setAllowReversed}>
-              Cho phép lá ngược
+              Cho phép lá ngược (cho người quen xem)
             </Toggle>
           )}
           {!isTarot && (
@@ -233,9 +279,12 @@ export default function CardStation() {
                 style={{ "--flip-delay": `${i * FLIP_STAGGER_MS}ms` } as React.CSSProperties}
               >
                 {d.kind === "tarot" && d.position && (
-                  <span className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre-light">
-                    {d.position}
-                  </span>
+                  <div className="mb-2 w-40 text-center sm:w-44">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre-light">
+                      {d.position.name}
+                    </p>
+                    <p className="mt-0.5 text-[11px] leading-snug text-cream/55">{d.position.hint}</p>
+                  </div>
                 )}
                 <div className={`card-3d ${cardSize}`}>
                   <div className="card-inner animate-card-flip">
@@ -251,16 +300,7 @@ export default function CardStation() {
                     </div>
                   </div>
                 </div>
-                {d.kind === "tarot" && (
-                  <div className="card-caption mt-3 max-w-44 text-center">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-ochre-light/70">
-                      {d.reversed ? "Ngược" : "Xuôi"}
-                    </p>
-                    <p className="mt-1 font-serif text-[14px] italic leading-snug text-cream/85">
-                      {d.reversed ? d.card.reversed : d.card.upright}
-                    </p>
-                  </div>
-                )}
+                <Caption d={d} wide={hand.length === 1} />
               </li>
             ))}
           </ul>
@@ -285,6 +325,30 @@ export default function CardStation() {
           </div>
         )}
 
+        {summary && (
+          <div
+            key={`summary-${drawId}`}
+            className="card-caption w-full max-w-xl rounded-2xl border border-ochre-light/25 bg-[#141b29]/70 px-5 py-4"
+            style={{ "--flip-delay": `${hand.length * FLIP_STAGGER_MS}ms` } as React.CSSProperties}
+          >
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-ochre-light/80">
+              Nhìn chung
+            </p>
+            {summary.lines.map((line) => (
+              <p key={line} className="mb-1.5 text-[14px] leading-relaxed text-cream/85">
+                {line}
+              </p>
+            ))}
+            <p className="mt-2 font-serif text-[14px] italic text-ochre-light/90">Tự hỏi mình: {summary.reflect}</p>
+          </div>
+        )}
+
+        {phase === "reveal" && (
+          <p className="max-w-md text-center text-[12px] leading-relaxed text-cream/50">
+            Lá bài là tấm gương để ngẫm, không phải lời phán. Nếu thông điệp chưa chạm tới bạn, cứ để nó đó.
+          </p>
+        )}
+
         <div className="flex flex-col items-center gap-2">
           <button
             type="button"
@@ -295,7 +359,7 @@ export default function CardStation() {
             {phase === "shuffle" ? "Đang lắng nghe…" : phase === "reveal" ? "Lắng nghe lần nữa" : "Bốc bài"}
           </button>
           <p className="text-[12px] text-cream/45">
-            {isTarot ? "Modern Witch Tarot" : "Bài tây"} · {deckSize} lá
+            {isTarot ? "Tarot" : "Bài tây"} · {deckSize} lá
           </p>
         </div>
       </div>

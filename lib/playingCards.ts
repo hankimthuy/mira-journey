@@ -1,3 +1,5 @@
+import { playingReading, type PlayingReading } from "@/lib/playingReadings";
+
 export type PlayingSuit = "spades" | "hearts" | "diamonds" | "clubs";
 
 export type PlayingCard = {
@@ -7,7 +9,7 @@ export type PlayingCard = {
   symbol: string;
   red: boolean;
   name: string; // Vietnamese, for screen readers and captions
-};
+} & PlayingReading;
 
 export const PLAYING_SUITS: { suit: PlayingSuit; symbol: string; red: boolean; vi: string }[] = [
   { suit: "spades", symbol: "♠", red: false, vi: "Bích" },
@@ -27,12 +29,13 @@ const STANDARD: PlayingCard[] = PLAYING_SUITS.flatMap(({ suit, symbol, red, vi }
     symbol,
     red,
     name: `${RANK_VI[rank] ?? rank} ${vi}`,
+    ...playingReading(`${rank}-${suit}`, rank, suit),
   }))
 );
 
 const JOKERS: PlayingCard[] = [
-  { id: "joker-red", rank: "Joker", suit: null, symbol: "★", red: true, name: "Joker đỏ" },
-  { id: "joker-black", rank: "Joker", suit: null, symbol: "★", red: false, name: "Joker đen" },
+  { id: "joker-red", rank: "Joker", suit: null, symbol: "★", red: true, name: "Joker đỏ", ...playingReading("joker-red", "Joker", null) },
+  { id: "joker-black", rank: "Joker", suit: null, symbol: "★", red: false, name: "Joker đen", ...playingReading("joker-black", "Joker", null) },
 ];
 
 export function playingDeck(withJokers: boolean): PlayingCard[] {
