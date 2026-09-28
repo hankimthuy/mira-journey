@@ -184,9 +184,11 @@ export default function MimoOperatorCard() {
           alt="Mimo, người lái cỗ máy thời gian"
           className="w-32 drop-shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:-rotate-3 motion-reduce:transition-none"
         />
-        <span className="mt-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-forest/60 group-hover:text-terracotta">
-          Người lái · chạm để làm quen
+        {/* Same greeting as the homepage hero; each line stays whole. */}
+        <span className="mt-1 whitespace-nowrap font-serif text-[15px] font-semibold italic text-forest-deep group-hover:text-terracotta">
+          Chào, mình là Mimo!
         </span>
+        <span className="whitespace-nowrap text-xs text-ink/60">chạm để làm quen</span>
       </button>
 
       <OperatorCard />
@@ -221,6 +223,9 @@ export function HeroMimoTrigger() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-terracotta/60 motion-reduce:animate-none" />
             <span className="relative inline-flex size-2.5 rounded-full bg-terracotta" />
           </span>
+        </span>
+        <span className="mt-0.5 block text-[11px] leading-tight text-ink/60 sm:text-xs">
+          chạm để làm quen
         </span>
       </span>
     </button>
