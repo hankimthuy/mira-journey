@@ -232,7 +232,7 @@ export default function CardStation() {
           </p>
           {isTarot && (
             <Toggle checked={allowReversed} onChange={setAllowReversed}>
-              Cho phép lá ngược (cho người quen xem)
+              Có thể rút lá ngược (nếu bạn đã quen đọc Tarot)
             </Toggle>
           )}
           {!isTarot && (
