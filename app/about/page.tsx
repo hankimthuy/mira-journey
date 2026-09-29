@@ -67,7 +67,12 @@ export default function AboutPage() {
             Trạm xuất phát
           </h1>
         </div>
-        <MimoOperatorCard />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/machine-2.png"
+          alt="Minh họa cỗ máy thời gian"
+          className="w-full max-w-[180px] mx-auto"
+        />
       </section>
 
       <div className="mb-12 font-serif [&>p]:mb-4">
@@ -155,6 +160,10 @@ export default function AboutPage() {
         </div>
 
         <div className="animate-fade-in-up border-l border-forest/18 pl-6">
+          {/* Mimo waits at the top of the sidebar, small, beside the reading. */}
+          <div className="mb-6 border-b border-dashed border-forest/20 pb-5">
+            <MimoOperatorCard />
+          </div>
           <p className="text-xs font-semibold uppercase tracking-widest text-forest/70 mb-4">
             Những chủ đề mình quan tâm
           </p>

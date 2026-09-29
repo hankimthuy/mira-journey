@@ -167,8 +167,9 @@ const LOG: [string, string][] = [
 ];
 
 /**
- * Mimo in the About header. Tapping it opens the operator card as a native
- * popover — a bit of Time Machine lore, so the page itself stays short.
+ * Mimo in the Trạm xuất phát sidebar: a small wave and a greeting. Tapping
+ * it opens the operator card as a native popover — a bit of Time Machine
+ * lore, so the page itself stays short.
  */
 export default function MimoOperatorCard() {
   return (
@@ -176,19 +177,21 @@ export default function MimoOperatorCard() {
       <button
         type="button"
         popoverTarget={OPERATOR_CARD_ID}
-        className="group mx-auto flex w-full max-w-[180px] cursor-pointer flex-col items-center rounded-2xl p-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
+        className="group -mx-2 flex w-[calc(100%+1rem)] cursor-pointer items-center gap-3 rounded-xl px-2 py-1 text-left transition-colors hover:bg-paper/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terracotta/60"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/mimo.gif"
           alt="Mimo, người lái cỗ máy thời gian"
-          className="w-32 drop-shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:-rotate-3 motion-reduce:transition-none"
+          className="w-14 shrink-0 drop-shadow-md transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-0.5 group-hover:-rotate-3 motion-reduce:transition-none"
         />
-        {/* Same greeting as the homepage hero; each line stays whole. */}
-        <span className="mt-1 whitespace-nowrap font-serif text-[15px] font-semibold italic text-forest-deep group-hover:text-terracotta">
-          Chào, mình là Mimo!
+        {/* Same greeting as the homepage hero. */}
+        <span>
+          <span className="block font-serif text-[15px] font-semibold italic leading-tight text-forest-deep group-hover:text-terracotta">
+            Chào, mình là Mimo!
+          </span>
+          <span className="mt-0.5 block text-xs text-ink/60">chạm để làm quen</span>
         </span>
-        <span className="whitespace-nowrap text-xs text-ink/60">chạm để làm quen</span>
       </button>
 
       <OperatorCard />
