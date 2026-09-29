@@ -17,7 +17,7 @@ export type SpreadId = "diary" | "train" | "inner";
 export const SPREADS: { id: SpreadId; label: string; positions: SpreadPosition[] }[] = [
   {
     id: "diary",
-    label: "Trang nhật ký",
+    label: "What's going on?",
     positions: [
       { name: "Hôm nay mình thấy", hint: "Bức tranh của bạn lúc này" },
       { name: "Điều khẽ lên tiếng", hint: "Góc bạn có thể chưa để ý" },
