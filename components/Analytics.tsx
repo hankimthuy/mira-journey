@@ -22,6 +22,26 @@ const ENDPOINT = process.env.NEXT_PUBLIC_ANALYTICS_URL;
  */
 const TYPE = "text/plain;charset=UTF-8";
 
+/**
+ * Reports a button click (e.g. "warp", the random-jump button). A beacon
+ * rather than fetch: the click is usually followed straight away by a
+ * navigation, which would cancel an ordinary request. Beacons carry cookies,
+ * so the admin's "don't track me" cookie still reaches the collector.
+ */
+export function trackEvent(event: string) {
+  if (!ENDPOINT) return;
+  try {
+    navigator.sendBeacon?.(
+      ENDPOINT,
+      new Blob([JSON.stringify({ event, path: window.location.pathname })], {
+        type: TYPE,
+      })
+    );
+  } catch {
+    // A failed beacon must never surface to the reader.
+  }
+}
+
 export default function Analytics() {
   const pathname = usePathname();
   const eventId = useRef<string | null>(null);
