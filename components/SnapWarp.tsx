@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { usePathname } from "next/navigation";
+import { trackEvent } from "@/components/Analytics";
 
 // "Búng tay" random jump to any station on the journey (see app/random): snap burst on the button → a portal opens from the
 // click point → the date dial spins and lands on the destination's real date
@@ -86,6 +87,7 @@ export function useSnapWarp() {
   async function start(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
     if (phase !== "idle") return;
+    trackEvent("warp");
     if (prefersReducedMotion()) {
       window.location.assign(fallbackHref);
       return;
