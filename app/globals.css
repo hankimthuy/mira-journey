@@ -1257,3 +1257,56 @@ body:has(.aha-night) .snap-trigger {
     animation: none;
   }
 }
+
+/* Mimo's operator card (a native popover): the dim fades in and the card
+   rises out of it, a little askew, then settles. Closing plays it back,
+   faster. Browsers without @starting-style just open it instantly. */
+.operator-popover,
+.operator-popover::backdrop {
+  opacity: 0;
+  transition:
+    opacity 220ms ease,
+    overlay 220ms allow-discrete,
+    display 220ms allow-discrete;
+}
+
+.operator-popover .operator-card {
+  opacity: 0;
+  transform: translateY(28px) scale(0.94) rotate(-1.5deg);
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+}
+
+.operator-popover:popover-open,
+.operator-popover:popover-open::backdrop {
+  opacity: 1;
+  transition-duration: 320ms;
+  transition-timing-function: ease-out;
+}
+
+.operator-popover:popover-open .operator-card {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 260ms ease-out 60ms,
+    transform 520ms cubic-bezier(0.34, 1.4, 0.64, 1) 60ms;
+}
+
+@starting-style {
+  .operator-popover:popover-open,
+  .operator-popover:popover-open::backdrop {
+    opacity: 0;
+  }
+  .operator-popover:popover-open .operator-card {
+    opacity: 0;
+    transform: translateY(28px) scale(0.94) rotate(-1.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .operator-popover .operator-card,
+  .operator-popover:popover-open .operator-card {
+    transform: none;
+  }
+}
