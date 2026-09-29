@@ -242,7 +242,7 @@ export function OperatorCard() {
       id={OPERATOR_CARD_ID}
       popover="auto"
       aria-label="Thẻ vận hành của Cỗ Máy Thời Gian"
-      className="fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-y-auto overscroll-contain border-0 bg-transparent p-4 text-cream backdrop:bg-forest-deep/45 backdrop:backdrop-blur-[2px] sm:p-8"
+      className="operator-popover fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-y-auto overscroll-contain border-0 bg-transparent p-4 text-cream backdrop:bg-forest-deep/45 backdrop:backdrop-blur-[2px] sm:p-8"
     >
       <div className="relative flex min-h-full items-center justify-center">
         {/* Tapping the dimmed space around the card closes it. It lives in
@@ -256,7 +256,7 @@ export function OperatorCard() {
           className="absolute -inset-4 cursor-default sm:-inset-8"
         />
         <div
-          className="relative w-full max-w-[30rem] rounded-[14px] border border-ochre-light/25 bg-forest-deep px-5 pt-5 pb-6 shadow-[0_24px_48px_rgb(36_56_42/0.35)] sm:px-7 lg:max-w-[60rem] lg:px-10 lg:pb-8"
+          className="operator-card relative w-full max-w-[30rem] rounded-[14px] border border-ochre-light/25 bg-forest-deep px-5 pt-5 pb-6 shadow-[0_24px_48px_rgb(36_56_42/0.35)] sm:px-7 lg:max-w-[60rem] lg:px-10 lg:pb-8"
           style={COVER}
         >
           <div className={`flex items-center justify-between ${LABEL} text-ochre-light/90`}>
