@@ -78,6 +78,18 @@ function stripTags(html: string): string {
   return html.replace(/<[^>]+>/g, "");
 }
 
+// remark-html escapes "&", quotes, etc. in heading text; the TOC renders it
+// as plain text, so turn the entities back into characters.
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_m, hex: string) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_m, dec: string) => String.fromCodePoint(Number(dec)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+}
+
 function addHeadingIds(html: string): { html: string; headings: Heading[] } {
   const headings: Heading[] = [];
   const usedIds = new Set<string>();
@@ -85,7 +97,7 @@ function addHeadingIds(html: string): { html: string; headings: Heading[] } {
   const withIds = html.replace(
     /<h([23])>([\s\S]*?)<\/h\1>/g,
     (_match, level: string, inner: string) => {
-      const text = stripTags(inner).trim();
+      const text = decodeEntities(stripTags(inner)).trim();
       const base = slugifyHeading(text) || `section-${headings.length + 1}`;
       let id = base;
       let counter = 2;

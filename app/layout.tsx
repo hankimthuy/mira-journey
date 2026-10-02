@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
+import BackToTop from "@/components/BackToTop";
 import {
   SITE_URL,
   SITE_NAME,
@@ -118,6 +119,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1 w-full">{children}</main>
         <Footer />
+        <BackToTop />
         <Analytics />
       </body>
     </html>

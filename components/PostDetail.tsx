@@ -56,7 +56,7 @@ export default function PostDetail({
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_180px] gap-8 md:gap-16 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_200px] lg:grid-cols-[1fr_220px] gap-8 md:gap-12 items-start">
         <div
           className="prose-post max-w-[720px] text-ink [&_h2]:mt-8 sm:[&_h2]:mt-10 [&_h3]:mt-7 sm:[&_h3]:mt-8 [&>*]:mb-5 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6"
           style={{ fontSize: READING_FONT_SIZE, lineHeight: READING_LINE_HEIGHT }}
