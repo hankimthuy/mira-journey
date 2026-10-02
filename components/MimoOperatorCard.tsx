@@ -1,3 +1,4 @@
+import BackToTop from "@/components/BackToTop";
 import { AUTHOR_FULL_NAME, PORTFOLIO_URL } from "@/lib/seo";
 
 export const OPERATOR_CARD_ID = "mimo-operator-card";
@@ -432,6 +433,8 @@ export function OperatorCard() {
           </p>
         </div>
       </div>
+      {/* The popover sits above the page's own button, so it gets its own. */}
+      <BackToTop containerId={OPERATOR_CARD_ID} />
     </section>
   );
 }

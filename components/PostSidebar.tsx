@@ -1,7 +1,6 @@
 import type { Post, PostMeta } from "@/lib/posts";
-import TableOfContents from "@/components/TableOfContents";
+import TableOfContents, { MobileTableOfContents } from "@/components/TableOfContents";
 import RelatedPosts from "@/components/RelatedPosts";
-import BackToTop from "@/components/BackToTop";
 
 export default function PostSidebar({
   post,
@@ -12,11 +11,11 @@ export default function PostSidebar({
 }) {
   return (
     <>
-      <aside className="hidden md:flex md:flex-col md:gap-10 md:sticky md:top-12 md:self-start w-[180px]">
+      <aside className="hidden md:flex md:flex-col md:gap-10 md:sticky md:top-24 md:self-start w-full">
         <TableOfContents headings={post.headings} />
         <RelatedPosts posts={relatedPosts} />
       </aside>
-      <BackToTop />
+      <MobileTableOfContents headings={post.headings} />
     </>
   );
 }
